@@ -1,7 +1,7 @@
 # INFO
 
 ## GIT
-
+HELLO
 #### Flow:
 * Start by pulling main branch and then creating a feature branch to work on.
   * git pull origin main, git checkout -b <feature/new-feature>
