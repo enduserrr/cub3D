@@ -3,7 +3,10 @@
 ## GIT
 
 #### Flow:
-* Make changes, push to specified branch, create Pull Request, review changes, Merge to main branch, pull down main to get the latest version, copy to sub branch if necessary.
+* Start by pulling main branch and then creating a feature branch to work on.
+  * git pull origin main, git checkout -b <feature/new-feature>
+* Push to feature branch, create Pull Request, review, Merge to main, delete feature branch, pull main to get the latest version.
+  * git push origin <feature/new-feature>, Pull Request (Github), check & resolve conflicts, Merge to main branch (Github), delete feature branch after successfull merge (Github), git pull origin main, create a new feature branch to work on.
 
 ### Some commands:
 * git branch -r (list all remote branches).
