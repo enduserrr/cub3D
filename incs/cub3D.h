@@ -17,4 +17,28 @@
 #include "libft/incs/libft.h"
 #include "minilibx/mlx.h"
 
+# define TXTR_COUNT 10
+
+/* general info for creating the map */
+typedef struct s_data
+{
+    int *txtr_buffer[TXTR_COUNT];
+}   t_data;
+
+/* for flood_fill */
+typedef struct s_point
+{
+    int x;
+    int y;
+}   t_point;
+
+/* Used for setting cardinal direction */
+typedef enum e_compass
+{
+    NORTH = 0,
+    SOUTH = 1,
+    WEST = 2,
+    EAST = 3
+} t_compass;
+
 #endif
