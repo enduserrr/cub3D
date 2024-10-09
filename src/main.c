@@ -65,10 +65,10 @@ void    exit_cycle()
 */
 int	main()
 {
-	
+	window();		//creating mlxwindow 
 	/*
 	t_data	game;
-
+	
 	game = (t_data){0};
     if (ac != 2)
         return (err("error: invalid argument count"), 1);

@@ -4,12 +4,13 @@ OBJ_DIR	=	.obj
 LIBFT	=	incs/libft/libft.a
 MLX		=	incs/MLX42/build/libmlx42.a
 
-SRCS	=	$(addprefix $(SRC_DIR)/, main.c floodfill.c err.c)
+SRCS	=	$(addprefix $(SRC_DIR)/, main.c floodfill.c err.c create_window.c)
 OBJ		=	$(subst $(SRC_DIR), $(OBJ_DIR), $(SRCS:.c=.o))
 
 INCS	=	-I incs -I incs/libft/incs -I incs/MLX42/include/MLX42
 
 CC		=	cc
+LIBS	=	-ldl -lglfw -pthread -lm
 FLAGS	=   -Wall -Wextra -Werror
 RM		=	rm -f
 
@@ -39,7 +40,7 @@ all: build $(NAME)
 $(NAME):	$(OBJ)
 			@make -C incs/libft -s
 			@$(MAKE) -C incs/MLX42 build
-			@$(CC) $(OBJ) $(LIBFT) $(MLX) -o $(NAME)
+			@$(CC) $(OBJ) $(LIBFT) $(MLX) -o $(NAME) $(INCS) $(LIBS)
 			@echo "$(WHITE_B)GAME BUILT SUCCESSFULLY!$(RESET)"
 
 build:
