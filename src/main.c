@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "incs/cub3D.h"
-
+#include "../incs/cub3D.h"
+/*
 int validate_file(char *name)
 {
     int fd;
@@ -61,8 +61,12 @@ void	read_map(char **argv, t_data *game)
 void    exit_cycle()
 {}
 
-int	main(int ac, char **av)
+
+*/
+int	main()
 {
+	
+	/*
 	t_data	game;
 
 	game = (t_data){0};
@@ -73,5 +77,5 @@ int	main(int ac, char **av)
 	read_map(av, &game);
 	// window(&game);
 	// free_array(game.map);
-	exit_cycle();
+	exit_cycle();*/
 }

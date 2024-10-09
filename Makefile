@@ -1,11 +1,14 @@
 NAME	=	cub3D
-SRC_DIR	=	cub3D
+SRC_DIR	=	src
 OBJ_DIR	=	.obj
 LIBFT	=	incs/libft/libft.a
-MLX		=
-SRCS	=	$(addprefix $(SRC_DIR)//,) \
+MLX		=	incs/MLX42/build/libmlx42.a
+
+SRCS	=	$(addprefix $(SRC_DIR)/, main.c floodfill.c err.c)
 OBJ		=	$(subst $(SRC_DIR), $(OBJ_DIR), $(SRCS:.c=.o))
-INCS	=	incs/parse.h -I incs/libft/incs -I incs/MLX42/include -I
+
+INCS	=	-I incs -I incs/libft/incs -I incs/MLX42/include/MLX42
+
 CC		=	cc
 FLAGS	=   -Wall -Wextra -Werror
 RM		=	rm -f
@@ -29,18 +32,21 @@ RESET 	= \033[0m
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
 				@mkdir -p $(dir $@)
 				@$(CC) $(FLAGS) $(INCS) -c $< -o $@
-				@echo "[$(GREEN_T)OK$(RESET)]$(GREY_T): $< $@$(RESET)"
+				@echo "[$(GREEN_T)OK$(RESET)]$(GREY_T): $< -> $@$(RESET)"
 
-all:	$(NAME)
+all: build $(NAME)
 
 $(NAME):	$(OBJ)
 			@make -C incs/libft -s
-			@cmake -B build incs/MLX42
-			@cmake --build build -j4
+			@$(MAKE) -C incs/MLX42 build
 			@$(CC) $(OBJ) $(LIBFT) $(MLX) -o $(NAME)
-			@echo "$(WHITE_B)GAME BUILT SUCCESFULLY!$(RESET)"
+			@echo "$(WHITE_B)GAME BUILT SUCCESSFULLY!$(RESET)"
+
+build:
+			@cd incs/MLX42 && cmake -B build && cmake --build build -j4
 
 clean:
+			@cd incs/MLX42/build && make clean
 			@$(RM) $(OBJ)
 			@$(RM) -r $(OBJ_DIR)
 			@make clean -C incs/libft -s

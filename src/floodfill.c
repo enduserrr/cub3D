@@ -18,6 +18,7 @@
 //     int y;
 // }   t_point;
 
+/*
 void    fill(char **tab, t_point size, t_point i, char c)
 {
     if (i.y < 0 || i.y >= size.y || i.x < 0 || i.x >= size.x ||
@@ -34,3 +35,5 @@ void    flood_fill(char **tab, t_point size, t_point begin)
 {
     fill(tab, size, begin, tab[begin.y][begin.x]);
 }
+
+*/
