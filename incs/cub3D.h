@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
-# define CUBED_H
+# define CUB3D_H
 
 #include <math.h>
 #include <fcntl.h>
