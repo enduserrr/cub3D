@@ -1,11 +1,11 @@
-NAME	=	minishell
+NAME	=	cub3D
 SRC_DIR	=	cub3D
 OBJ_DIR	=	.obj
 LIBFT	=	incs/libft/libft.a
+MLX		=
 SRCS	=	$(addprefix $(SRC_DIR)//,) \
-			$(addprefix $(SRC_DIR)/parse/,) \
 OBJ		=	$(subst $(SRC_DIR), $(OBJ_DIR), $(SRCS:.c=.o))
-INCS	=	incs/parse.h -I incs/libft/incs -I
+INCS	=	incs/parse.h -I incs/libft/incs -I incs/MLX42/include -I
 CC		=	cc
 FLAGS	=   -Wall -Wextra -Werror
 RM		=	rm -f
@@ -28,14 +28,16 @@ RESET 	= \033[0m
 
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
 				@mkdir -p $(dir $@)
-				@$(CC) $(RL) $(FLAGS) $(INCS) -c $< -o $@
+				@$(CC) $(FLAGS) $(INCS) -c $< -o $@
 				@echo "[$(GREEN_T)OK$(RESET)]$(GREY_T): $< $@$(RESET)"
 
 all:	$(NAME)
 
 $(NAME):	$(OBJ)
 			@make -C incs/libft -s
-			@$(CC) $(OBJ) $(LIBFT) -o $(NAME)
+			@cmake -B build incs/MLX42
+			@cmake --build build -j4
+			@$(CC) $(OBJ) $(LIBFT) $(MLX) -o $(NAME)
 			@echo "$(WHITE_B)GAME BUILT SUCCESFULLY!$(RESET)"
 
 clean:

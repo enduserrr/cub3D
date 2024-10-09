@@ -16,7 +16,7 @@
 #include <math.h>
 #include <fcntl.h>
 #include "libft/incs/libft.h"
-#include "minilibx/mlx.h"
+// #include "mlx.h"
 
 # define W      "\033[0;37m"
 # define WB     "\033[1;97m"
@@ -26,12 +26,10 @@
 # define GC     "\033[3;90m"
 # define RES    "\033[0m"
 
-# define        TXTR_COUNT 10
-
 /* general info for creating the map */
 typedef struct s_data
 {
-    int *txtr_buffer[TXTR_COUNT];
+    char    **map;
 }   t_data;
 
 /* for flood_fill */
