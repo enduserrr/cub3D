@@ -16,7 +16,7 @@
 #include <math.h>
 #include <fcntl.h>
 #include "libft/incs/libft.h"
-// #include "mlx.h"
+#include "MLX42/include/MLX42/MLX42.h"
 
 # define W      "\033[0;37m"
 # define WB     "\033[1;97m"
@@ -25,6 +25,12 @@
 # define RB     "\033[1;91m"
 # define GC     "\033[3;90m"
 # define RES    "\033[0m"
+
+
+//for window
+# define WIN_WIDTH  1200
+# define WIN_HEIGHT 1200
+# define WIN_NAME   "cub3D"
 
 /* general info for creating the map */
 typedef struct s_data
@@ -47,5 +53,9 @@ typedef enum e_compass
     WEST = 2,
     EAST = 3
 } t_compass;
+
+//functions 
+int window();
+
 
 #endif
