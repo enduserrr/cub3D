@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../incs/cub3D.h"
-/*
+
 int validate_file(char *name)
 {
     int fd;
@@ -25,57 +25,64 @@ int validate_file(char *name)
     return (fd);
 }
 
+
 char	**check_map(char *line, t_data *game)
 {
+	char		**map;
+	char		**map2;
+	t_map_info	*map_items;
+
+	map_items = malloc(sizeof(t_map_info));
+	if (!map_items)
+		error_exit("Error\nMalloc error");
+	map = ft_split(line, '\n');
+	map2 = ft_split(line, '\n');
+	free(line);
+	basic_check(map, map_items);
+	map_items->temp_map = map2;
+	flood_fill(map_items, map2);
+	free_array(map2);
+	free(map_items);
+	return (map);
 }
 
-void	read_map(char **argv, t_data *game)
+void	read_map(char **av, t_data *game)
 {
-	int		fd1;
+	int		fd;
 	char	*temp_line;
 	char	*line;
 	int		i;
 
 	i = 0;
-	fd1 = open(argv[1], O_RDONLY);
-	if (fd1 == -1)
-		error_exit("Error\nOpen error");
-	temp_line = get_next_line(fd1);
+	if (fd = validate_file(av[1]) < 0)
+		return (err("map error"), exit(0));
+	temp_line = get_next_line(fd);
 	if (!temp_line)
-		error_exit("Error\nMap error");
+		return (err("map error"), exit(0));
 	line = ft_strjoin("", temp_line);
-	while (temp_line != NULL)
+	while (temp_line)
 	{
 		if (i == 0)
 			free(temp_line);
-		temp_line = get_next_line(fd1);
-		if (temp_line != NULL)
+		temp_line = get_next_line(fd);
+		if (temp_line)
 			line = ft_strjoin_mod(line, line, temp_line);
 		free(temp_line);
 		i++;
 	}
-	// game->map = check_map(line, game);
-	close(fd1);
+	game->map = check_map(line, game);
+	close(fd);
 }
 
-void    exit_cycle()
-{}
-
-
-*/
-int	main()
+int	main(int ac, char **av)
 {
-	window();		//creating mlxwindow 
-	/*
-	t_data	game;
-	
-	game = (t_data){0};
-    if (ac != 2)
+	static t_data	game;
+	int				out;
+
+	if (ac != 2)
         return (err("error: invalid argument count"), 1);
-    if (validate_file(av[1]) < 0)
-        exit(1);
 	read_map(av, &game);
-	// window(&game);
-	// free_array(game.map);
-	exit_cycle();*/
+	window();
+	exit_cycle(&game);
+	error_exit("exit");
 }
