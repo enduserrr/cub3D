@@ -1,25 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_window.c                                    :+:      :+:    :+:   */
+/*   exit_cycle.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleppala <eleppala@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: asalo <asalo@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/09 12:03:36 by eleppala          #+#    #+#             */
-/*   Updated: 2024/10/09 12:03:38 by eleppala         ###   ########.fr       */
+/*   Created: 2024/10/15 10:59:24 by asalo             #+#    #+#             */
+/*   Updated: 2024/10/15 10:59:43 by asalo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/cub3D.h"
 
-int window()
+void	exit_cycle(t_data *game)
 {
-    mlx_t *mlx;
-
-    if (!(mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, WIN_NAME, true)))       // true: resize on
-	{
-		return(err("mlx failure"), 1);
-	}
-    mlx_loop(mlx);
-    return (0);
+	if (game->map_info->temp_map)
+		fre_arr(game->map_info->temp_map);
 }
