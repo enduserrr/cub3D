@@ -34,7 +34,10 @@ char	**check_map(char *line, t_data *game)
 
 	map_items = malloc(sizeof(t_map_info));
 	if (!map_items)
-		error_exit("Error\nMalloc error");
+	{
+		err("malloc error");
+		exit(0);
+	}
 	map = ft_split(line, '\n');
 	map2 = ft_split(line, '\n');
 	free(line);

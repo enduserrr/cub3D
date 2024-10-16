@@ -32,12 +32,6 @@
 # define WIN_HEIGHT 1200
 # define WIN_NAME   "cub3D"
 
-/* general info for creating the map */
-typedef struct s_data
-{
-    char    **map;
-}   t_data;
-
 /* for flood_fill */
 typedef struct s_point
 {
@@ -45,7 +39,7 @@ typedef struct s_point
     int y;
 }   t_point;
 
-/* Used for setting cardinal direction */
+/* Used for setting players starting cardinal direction */
 typedef enum e_compass
 {
     NORTH = 0,
@@ -54,7 +48,28 @@ typedef enum e_compass
     EAST = 3
 } t_compass;
 
-//functions 
+typedef struct s_data
+{
+    char		**map;
+	mlx_t		*mlx;
+	int			plr_pos_x;
+	int			plr_pos_y;
+    int			moves_count;
+    t_map_info  *map_info;
+}				t_data;
+
+typedef struct s_map_info
+{
+	char        **temp_map;
+	int		    start;
+	int		    start_position_x;
+	int         start_position_y;
+    t_compass   start_direction;
+	int			exit;
+}				t_map_info;
+
+
+//functions
 int window();
 
 
