@@ -28,8 +28,8 @@
 
 
 //for window
-# define WIN_WIDTH  1200
-# define WIN_HEIGHT 1200
+# define WIN_WIDTH  2000
+# define WIN_HEIGHT 2000
 # define WIN_NAME   "cub3D"
 
 /* general info for creating the map */
@@ -54,8 +54,29 @@ typedef enum e_compass
     EAST = 3
 } t_compass;
 
+typedef struct s_player
+{
+    mlx_image_t *icon;
+    float       ppx;    //player position x
+    float       ppy;    //player position y
+    float       pa;    //player angle
+
+
+} t_player;
+
+typedef struct window
+{
+    mlx_t           *mlx;
+    mlx_image_t     *icon;
+    mlx_image_t     *floor;
+    mlx_image_t     *rays;
+    t_player        *player;
+    char            **map;
+} t_window;
+
+
 //functions 
-int window();
+int gameplay();
 
 
 #endif

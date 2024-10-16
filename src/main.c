@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../incs/cub3D.h"
-
+/*
 int validate_file(char *name)
 {
     int fd;
@@ -72,17 +72,19 @@ void	read_map(char **av, t_data *game)
 	}
 	game->map = check_map(line, game);
 	close(fd);
-}
+}*/
 
-int	main(int ac, char **av)
+int	main() //int ac, char **av
 {
+	/*
 	static t_data	game;
 	int				out;
 
 	if (ac != 2)
         return (err("error: invalid argument count"), 1);
-	read_map(av, &game);
-	window();
-	exit_cycle(&game);
-	error_exit("exit");
+	read_map(av, &game);*/
+	gameplay();
+	//exit_cycle(&game);
+	//error_exit("exit");
+	return(0);
 }
