@@ -27,10 +27,12 @@
 # define RES    "\033[0m"
 
 
-//for window
-# define WIN_WIDTH  2000
-# define WIN_HEIGHT 2000
+//for gameplay.c
+# define WIN_WIDTH  1280
+# define WIN_HEIGHT 720
 # define WIN_NAME   "cub3D"
+# define TILE       64
+# define PI 3.14159265359
 
 /* general info for creating the map */
 typedef struct s_data
@@ -56,27 +58,44 @@ typedef enum e_compass
 
 typedef struct s_player
 {
-    mlx_image_t *icon;
     float       ppx;    //player position x
     float       ppy;    //player position y
     float       pa;    //player angle
 
-
 } t_player;
 
-typedef struct window
+typedef struct s_game
 {
     mlx_t           *mlx;
-    mlx_image_t     *icon;
-    mlx_image_t     *floor;
-    mlx_image_t     *rays;
+    mlx_image_t     *screen;
     t_player        *player;
     char            **map;
-} t_window;
+
+} t_game;
 
 
 //functions 
 int gameplay();
+void screen(t_game *window);
 
+
+//raycasting.c
+void raycast(t_game *window);
+bool wall(t_game *window, float x, float y);
+
+//draw.c
+void pixel_safe(t_game *win, int x, float y, unsigned int color);
+void draw_tile(t_game *window, int size, int x, int y);
+void draw_map(t_game *window);
+
+//player.c
+void init_player(t_player *player);
+void draw_player(t_game *game);
+void wasd(t_game *game);
+void rotate(t_game *game);
+
+//test_map.c  ---  only for debugging and before parsing is finished. Delete later 
+void test_map(t_game *window);
+void free_test_map(t_game *game);
 
 #endif
