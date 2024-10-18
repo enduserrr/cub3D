@@ -22,8 +22,10 @@ void draw_player(t_game *game)
 
 void init_player(t_player *player)
 {
-    player->ppx = WIN_WIDTH / 2;
-    player->ppy = WIN_HEIGHT / 2;
+    player->ppx = 130;
+    player->ppy = 300;
+    player->mppx = WIN_WIDTH / 2;
+    player->mppy = WIN_HEIGHT / 2;
     player->pa = PI / 2;
 }
 
@@ -56,7 +58,7 @@ void wasd(t_game *game)
     s_angle = sin(game->player->pa);
     if (mlx_is_key_down(game->mlx, MLX_KEY_W))
 	{
-        if (!wall(game, game->player->ppx + c_angle * (speed *s), game->player->ppy + s_angle * (speed *s)))
+        if (!wall(game, game->player->ppx + c_angle * (speed * s), game->player->ppy + s_angle * (speed * s)))
             move(game, game->player->ppx + c_angle * speed, game->player->ppy + s_angle * speed);
     }
     if (mlx_is_key_down(game->mlx, MLX_KEY_S))

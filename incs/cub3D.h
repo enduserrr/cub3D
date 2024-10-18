@@ -60,17 +60,29 @@ typedef struct s_player
 {
     float       ppx;    //player position x
     float       ppy;    //player position y
-    float       pa;    //player angle
+    float       pa;     //player angle
+    float       mppx;   //player position on map;
+    float       mppy;   //player position on map;
 
 } t_player;
+
+typedef struct s_texture
+{
+    int     width;
+    int     height;
+    int     *pixels;  
+} t_texture;
+
 
 typedef struct s_game
 {
     mlx_t           *mlx;
     mlx_image_t     *screen;
     t_player        *player;
+    t_texture       *textures;
     char            **map;
-
+    int             map_height;
+    int             map_width;
 } t_game;
 
 
