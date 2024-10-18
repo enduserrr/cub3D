@@ -33,26 +33,38 @@
 # define WIN_NAME   "cub3D"
 
 /* general info for creating the map */
-typedef struct s_data
+/*typedef struct s_data
 {
-    char    **map;
-}   t_data;
+    char        **map;
+    t_window    *window;
+}   t_data;*/
+
+typedef struct s_map
+{
+	char			**temp_map;
+    char            start_orientation;
+	size_t          start_position_x;
+	size_t			start_position_y;
+    size_t          size_x;
+    size_t          size_y;
+	int				exit;
+}					t_map;
 
 /* for flood_fill */
-typedef struct s_point
+/*typedef struct s_point
 {
     int x;
     int y;
-}   t_point;
+}   t_point;*/
 
 /* Used for setting cardinal direction */
-typedef enum e_compass
+/*typedef enum e_compass
 {
     NORTH = 0,
     SOUTH = 1,
     WEST = 2,
     EAST = 3
-} t_compass;
+} t_compass;*/
 
 typedef struct s_player
 {
@@ -60,8 +72,6 @@ typedef struct s_player
     float       ppx;    //player position x
     float       ppy;    //player position y
     float       pa;    //player angle
-
-
 } t_player;
 
 typedef struct window
@@ -71,11 +81,12 @@ typedef struct window
     mlx_image_t     *floor;
     mlx_image_t     *rays;
     t_player        *player;
+    t_map           map_info;
     char            **map;
 } t_window;
 
 
-//functions 
+//functions
 int gameplay();
 
 

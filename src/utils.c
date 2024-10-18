@@ -24,12 +24,21 @@ void	free_arr(char **arr)
 	free(arr);
 }
 
-/*returns non zero for white space*/
-
-int	validate_char(char c)
+char	*read_fd(int fd)
 {
-	if (ft_isspace(c) || c == 'N' || c == 'S' || c == 'E' || c == 'W'
-		|| c == '0' || c == '1' || c == '\0')
-		return (1);
-	return (0);
+	int		flag;
+	char	*str;
+	char	*tmp;
+	char	buffer[1085];
+
+	str = NULL;
+	flag = 1;
+	while (flag)
+	{
+		flag = read(fd, buffer, 1084);
+		buffer[flag] = 0;
+		tmp = str;
+		str = ft_strjoin(tmp, buffer);
+	}
+	return (str);
 }
