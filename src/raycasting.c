@@ -26,13 +26,14 @@ bool wall(t_game *game, float x, float y)
 
 void draw_result(t_game *game, float ray_y, float height, int i)
 {
-    int wall;
-    int sky;
-    int floor;
+    float wall;
+    float sky;
+    float floor;
 
     wall = ray_y + height;
     sky = ray_y + height;
     floor = ray_y + height;
+    
     while(sky > 0)
     {
         pixel_safe(game, i, sky, 0x87CEEBFF);
@@ -43,10 +44,11 @@ void draw_result(t_game *game, float ray_y, float height, int i)
         pixel_safe(game, i, ray_y, 0xB22222FF);
         ray_y ++;
     }
+    
     while(floor < WIN_HEIGHT)
     {
         pixel_safe(game, i, floor, 0x008000FF);
-        floor ++;  
+        floor ++;
     }
 }
 
@@ -55,7 +57,7 @@ float ray_length(t_game *game, float ray_x, float ray_y)
     float dx; 
     float dy;
     float angle;
-    int ray_length;
+    float ray_length;
     
     dx = ray_x - game->player->ppx;
     dy = ray_y - game->player->ppy; 
@@ -76,10 +78,10 @@ void horizontal_rays(t_game *game, float ray_x, float ray_y, float a, int i)
     height = 0;
     while(!wall(game, ray_x, ray_y))
     {
-        //mlx_put_pixel(win->screen, x, y, 0xFF16FF);
+        //mlx_put_pixel(game->screen, ray_x, ray_y, 0xFF16FF);
         ray_x += cos_angle;
         ray_y += sin_angle;
-        (void)i;
+        //(void)i;
     }
     length = ray_length(game, ray_x, ray_y);
     height = (TILE / length) * (WIN_WIDTH / 2);

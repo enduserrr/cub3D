@@ -16,7 +16,7 @@ void screen(t_game *game)
 {
     if (game->screen)
         mlx_delete_image(game->mlx, game->screen);
-    if (!(game->screen = mlx_new_image(game->mlx, 1280, 720)))
+    if (!(game->screen = mlx_new_image(game->mlx, WIN_WIDTH, WIN_HEIGHT)))
 	{
 		mlx_close_window(game->mlx);
 		exit(1);
@@ -29,8 +29,8 @@ void screen(t_game *game)
     raycast(game);
 
     //for debugging or minimap.. 
-    //draw_map(window);
-    //draw_player(window);
+    //draw_map(game);
+    //draw_player(game);
 }
 
 void keys(void  *param)
@@ -51,6 +51,7 @@ void init_game(t_game *game, t_player *player)
 		exit(1);
     init_player(player);
     game->player = player;
+    //load_textures(game);
     test_map(game);
 }
 
@@ -62,7 +63,7 @@ int gameplay()
     game = (t_game){0};
     player = (t_player){0};
     init_game(&game, &player);
-    //screen(&game);
+    screen(&game);
     mlx_loop_hook(game.mlx, keys, &game);
 	mlx_loop(game.mlx);
 	mlx_terminate(game.mlx);
