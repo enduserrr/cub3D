@@ -11,80 +11,83 @@
 /* ************************************************************************** */
 
 #include "../incs/cub3D.h"
-/*
-int validate_file(char *name)
+
+static char	*read_fd(int fd)
+{
+    int     bytes_read;
+    char    *new;
+    char    *tmp;
+    char    buffer[1024];
+
+    new = NULL;
+    while ((bytes_read = read(fd, buffer, 1023)) > 0)
+    {
+        buffer[bytes_read] = '\0';
+        tmp = new;
+        new = ft_strjoin_mod(tmp, buffer);
+        if (!new)
+		{
+			free(tmp);
+            return (NULL);
+		}
+        free(tmp);
+    }
+    if (bytes_read == -1)
+	{
+		free(new);
+        return (NULL);
+	}
+	close(fd);
+	printf("From read:\n%s\n", new);
+    return (new);
+}
+
+static int	get_map(char **av, t_map *map_info)
+{
+	char	*temp_line;
+	int		fd;
+
+	if ((fd = open(av[1], O_RDONLY)) < 0)
+		return (write_err("dang"), 1);
+	if ((temp_line = read_fd(fd)) == NULL)
+		return (write_err("read error"), 1);
+	map_info->temp_map = ft_split(temp_line, '\n');
+	free(temp_line);
+	if (map_info->temp_map == NULL)
+		return (write_err("map error 0"), 1);
+	basic_check(map_info);
+	return (0);
+}
+
+static int validate_file(char *name)
 {
     int fd;
 
     if (!name || ft_strlen(name) < 4 ||
         ft_strcmp(name + (ft_strlen(name) - 4), ".cub"))
-        return (err("invalid map"), -1);
+        return (write_err("invalid map"), -1);
     fd = open(name, O_RDONLY);
     if (fd < 0)
-        return (err("unable to open the map file"), -1);
+	{
+		close(fd);
+		return (write_err("unable to open the map file"), -1);
+	}
+	close(fd);
     return (fd);
 }
-
-
-char	**check_map(char *line, t_data *game)
+/* Map file size limiter */
+int	main(int ac, char **av)
 {
-	char		**map;
-	char		**map2;
-	t_map_info	*map_items;
-
-	map_items = malloc(sizeof(t_map_info));
-	if (!map_items)
-		error_exit("Error\nMalloc error");
-	map = ft_split(line, '\n');
-	map2 = ft_split(line, '\n');
-	free(line);
-	basic_check(map, map_items);
-	map_items->temp_map = map2;
-	flood_fill(map_items, map2);
-	free_array(map2);
-	free(map_items);
-	return (map);
-}
-
-void	read_map(char **av, t_data *game)
-{
-	int		fd;
-	char	*temp_line;
-	char	*line;
-	int		i;
-
-	i = 0;
-	if (fd = validate_file(av[1]) < 0)
-		return (err("map error"), exit(0));
-	temp_line = get_next_line(fd);
-	if (!temp_line)
-		return (err("map error"), exit(0));
-	line = ft_strjoin("", temp_line);
-	while (temp_line)
-	{
-		if (i == 0)
-			free(temp_line);
-		temp_line = get_next_line(fd);
-		if (temp_line)
-			line = ft_strjoin_mod(line, line, temp_line);
-		free(temp_line);
-		i++;
-	}
-	game->map = check_map(line, game);
-	close(fd);
-}*/
-
-int	main() //int ac, char **av
-{
-	/*
-	static t_data	game;
-	int				out;
+	static t_map	map_info;
+	int				fd;
 
 	if (ac != 2)
-        return (err("error: invalid argument count"), 1);
-	read_map(av, &game);*/
-	gameplay();
-	//exit_cycle(&game);
-	//error_exit("exit");
+        return (exit_error("error: invalid argument count", 1), 1);
+	fd = validate_file(av[1]);
+	if (fd < 0)
+		exit(1);
+	if (get_map(av, &map_info))
+		exit(1); /*Add a exit protocol later*/
+	// gameplay();
 	return(0);
 }

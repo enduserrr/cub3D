@@ -4,7 +4,7 @@ OBJ_DIR	=	.obj
 LIBFT	=	incs/libft/libft.a
 MLX		=	incs/MLX42/build/libmlx42.a
 
-SRCS	=	$(addprefix $(SRC_DIR)/, main.c floodfill.c err.c gameplay.c test_map.c player.c draw.c raycasting.c)
+SRCS	=	$(addprefix $(SRC_DIR)/, main.c validate.c map_utils.c err.c gameplay.c test_map.c player.c draw.c raycasting.c)
 OBJ		=	$(subst $(SRC_DIR), $(OBJ_DIR), $(SRCS:.c=.o))
 
 INCS	=	-I incs -I incs/libft/incs -I incs/MLX42/include/MLX42

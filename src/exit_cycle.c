@@ -12,8 +12,3 @@
 
 #include "../incs/cub3D.h"
 
-void	exit_cycle(t_data *game)
-{
-	if (game->map_info->temp_map)
-		fre_arr(game->map_info->temp_map);
-}
