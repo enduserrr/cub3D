@@ -39,6 +39,21 @@ char *ft_strjoin_mod(char const *s1, char const *s2)
     return (new);
 }
 
+void	put_arr(char **arr)
+{
+	int	k;
+
+	k = 0;
+	while (arr[k])
+	{
+		while (*arr[k])
+			write(1, arr[k]++, 1);
+		write(1, "\n", 1);
+		k++;
+	}
+	return ;
+}
+
 int is_player(char c)
 {
 	if (c == 'N' || c == 'E' || c == 'S' || c == 'W')

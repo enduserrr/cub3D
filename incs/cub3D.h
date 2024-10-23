@@ -44,13 +44,13 @@ typedef struct s_map
 	size_t			start_position_y;
     size_t          size_x;
     size_t          size_y;
-	int				exit;
-    // int             ceiling_color;
-    // int             floor_color;
-    // int             txtr_north;
-    // int             txtr_south;
-    // int             txtr_east;
-    // int             txtr_west;
+    // char            *visual_info[6];
+    char            *NO;
+    char            *SO;
+    char            *WE;
+    char            *EA;
+    char            *F;
+    char            *C;
 }					t_map;
 
 typedef struct s_player
@@ -110,12 +110,16 @@ void free_test_map(t_game *game);
 
 /* Map Utils */
 char    *ft_strjoin_mod(char const *s1, char const *s2);
-int    	basic_check(t_map *map_info);
+int    	validate_map(t_map *map_info);
 int     is_player(char c);
 int     is_valid(char c);
 void	free_arr(char **arr);
 void	exit_error(char *s, int state);
 void    write_err(char *s);
+int	    validations(t_map *map_info);
+void	visual_info(t_map *map_info);
+void	put_arr(char **arr);
+
 // char	*read_fd(int fd);
 // void    write_err(char *s);
 
