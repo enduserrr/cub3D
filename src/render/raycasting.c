@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incs/cub3D.h"
+#include "../../incs/cub3D.h"
 
 bool wall(t_game *game, float x, float y)
 {
@@ -19,7 +19,7 @@ bool wall(t_game *game, float x, float y)
 
     map_x = x / 64;
     map_y = y / 64;
-    if (game->map[map_y][map_x] == '1')   
+    if (game->map[map_y][map_x] == '1')
         return true;
     return false;
 }
@@ -33,7 +33,7 @@ void draw_result(t_game *game, float ray_y, float height, int i)
     wall = ray_y + height;
     sky = ray_y + height;
     floor = ray_y + height;
-    
+
     while(sky > 0)
     {
         pixel_safe(game, i, sky, 0x87CEEBFF);
@@ -44,7 +44,7 @@ void draw_result(t_game *game, float ray_y, float height, int i)
         pixel_safe(game, i, ray_y, 0xB22222FF);
         ray_y ++;
     }
-    
+
     while(floor < WIN_HEIGHT)
     {
         pixel_safe(game, i, floor, 0x008000FF);
@@ -54,13 +54,13 @@ void draw_result(t_game *game, float ray_y, float height, int i)
 
 float ray_length(t_game *game, float ray_x, float ray_y)
 {
-    float dx; 
+    float dx;
     float dy;
     float angle;
     float ray_length;
-    
+
     dx = ray_x - game->player->ppx;
-    dy = ray_y - game->player->ppy; 
+    dy = ray_y - game->player->ppy;
     ray_length = sqrt(dx * dx + dy * dy);
     angle = atan2(dy, dx) - game->player->pa;
     float length = ray_length * cos(angle);
@@ -94,13 +94,13 @@ void raycast(t_game *game)
 {
     float ray_x = game->player->ppx;
     float ray_y = game->player->ppy;
-    
+
     float a = game->player->pa - PI / 6;
     float i = 0;
     float fraction = PI / 3 / WIN_WIDTH;
 
     while (i < WIN_WIDTH)
-    {    
+    {
         horizontal_rays(game, ray_x, ray_y, a, i);
         a += fraction;
         i ++;

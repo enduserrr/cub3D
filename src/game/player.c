@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incs/cub3D.h"
+#include "../../incs/cub3D.h"
 
 void draw_player(t_game *game)
 {
@@ -50,7 +50,7 @@ void move(t_game *game, float x, float y)
 void wasd(t_game *game)
 {
     int speed = 5;
-    int s = 10; 
+    int s = 10;
     float c_angle;
     float s_angle;
 

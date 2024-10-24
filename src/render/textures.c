@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../incs/cub3D.h"
 //ei toimi viela, siirsin tanne texture liittyvaa asiaa ennen push, jotta jaa toimiva versio.
 
 /*
