@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incs/cub3D.h"
+#include "../../incs/cub3D.h"
 
 /**
  * @brief	Joins two strings; s1 & s2, into NULL terminated new string
@@ -79,27 +79,3 @@ void	free_arr(char **arr)
 		free(arr[i++]);
 	free(arr);
 }
-
-// char	*read_fd(int fd)
-// {
-// 	int		read_value;
-// 	char	*new;
-// 	char	*tmp;
-// 	char	*buffer[4096];
-
-// 	new = NULL;
-// 	read_value = 1;
-// 	while ((read_value = read(fd, buffer, 4095)) > 0)
-// 	{
-// 		buffer[read_value] = '\0';
-// 		tmp = new;
-// 		free(tmp);
-// 	}
-// 	if (read_value == -1)
-// 	{
-// 		if (new != NULL)
-// 			free(new);
-// 		return (NULL);
-// 	}
-// 	return (new);
-// }

@@ -12,16 +12,24 @@
 
 #include "../incs/cub3D.h"
 
-static char	*read_fd(int fd)
+/**
+ * @brief	Read an fd and copy it's contents to new string.
+ *			Handles too large files and read() errors gracefully.
+ */
+static char	*read_fd(int fd, char *new)
 {
     int     bytes_read;
-    char    *new;
     char    *tmp;
-    char    buffer[1024];
+    char    buffer[4096];
+	int		total;
 
     new = NULL;
-    while ((bytes_read = read(fd, buffer, 1023)) > 0)
+	total = 0;
+    while ((bytes_read = read(fd, buffer, 4095)) > 0)
     {
+		total += bytes_read;
+		if (total > 2048)
+			return (NULL);
         buffer[bytes_read] = '\0';
         tmp = new;
         new = ft_strjoin_mod(tmp, buffer);
@@ -32,13 +40,8 @@ static char	*read_fd(int fd)
 		}
         free(tmp);
     }
-    if (bytes_read == -1)
-	{
-		free(new);
-        return (NULL);
-	}
-	close(fd);
-	// printf("From read:\n%s\n", new);
+	if (bytes_read == -1)
+		return (free(new), NULL);
     return (new);
 }
 
@@ -47,15 +50,18 @@ static int	get_map(char **av, t_map *map_info)
 	char	*temp_line;
 	int		fd;
 
+	temp_line = NULL;
 	if ((fd = open(av[1], O_RDONLY)) < 0)
 		return (write_err("dang"), 1);
-	if ((temp_line = read_fd(fd)) == NULL)
+	if ((temp_line = read_fd(fd, temp_line)) == NULL)
+	{
+		close(fd);
 		return (write_err("read error"), 1);
+	}
 	map_info->temp_map = ft_split(temp_line, '\n');
 	free(temp_line);
 	if (map_info->temp_map == NULL)
 		return (write_err("map error 0"), 1);
-	// validations(map_info);
 	return (validations(map_info));
 }
 
@@ -88,7 +94,7 @@ int	main(int ac, char **av)
 	if (fd < 0)
 		exit(1);
 	if (get_map(av, &map_info))
-		exit(1); /*Add a exit protocol later*/
+		exit(1); /*Add an exit protocol later*/
 	s = map_info.temp_map;
 	put_arr(s);
 	printf("\nx:%lu\ny:%lu\n", map_info.size_x, map_info.size_y);

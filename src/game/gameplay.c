@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incs/cub3D.h"
+#include "../../incs/cub3D.h"
 
 void screen(t_game *game)
 {
@@ -21,22 +21,22 @@ void screen(t_game *game)
 		mlx_close_window(game->mlx);
 		exit(1);
 	}
-	if (mlx_image_to_window(game->mlx, game->screen, 0, 0) == -1) 
+	if (mlx_image_to_window(game->mlx, game->screen, 0, 0) == -1)
 	{
 		mlx_close_window(game->mlx);
 		exit(1);
 	}
     raycast(game);
 
-    //for debugging or minimap.. 
+    //for debugging or minimap..
     //draw_map(game);
     //draw_player(game);
 }
 
 void keys(void  *param)
 {
-	t_game *game; 
-    
+	t_game *game;
+
     game = param;
     if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(game->mlx);

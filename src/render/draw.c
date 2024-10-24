@@ -10,12 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incs/cub3D.h"
+#include "../../incs/cub3D.h"
 
 void pixel_safe(t_game *game, int x, float y, unsigned int color)
 {
     if(x >= WIN_WIDTH || y >= WIN_HEIGHT || x < 0 || y < 0)
-        return;    
+        return;
     mlx_put_pixel(game->screen, x, (int)y, color);
 }
 
@@ -43,7 +43,7 @@ void draw_map(t_game *game)
     while (game->map[y])
     {
         while(game->map[y][x])
-        {    
+        {
 
             if (game->map[y][x] == '1')
                 draw_tile(game, TILE, x * TILE, y * TILE);
@@ -62,7 +62,7 @@ void draw_map(t_game *game)
     while (game->map[y])
     {
         while(game->map[y][x])
-        {    
+        {
 
             if (game->map[y][x] == '1')
                 draw_tile(game, TILE, x * TILE, y * TILE);
