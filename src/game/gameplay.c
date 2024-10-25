@@ -6,7 +6,7 @@
 /*   By: eleppala <eleppala@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 12:03:36 by eleppala          #+#    #+#             */
-/*   Updated: 2024/10/09 12:03:38 by eleppala         ###   ########.fr       */
+/*   Updated: 2024/10/25 13:58:20 by asalo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,28 +45,32 @@ void keys(void  *param)
     screen(game);
 }
 
-void init_game(t_game *game, t_player *player)
+void init_game(t_map *map_info, t_game *game, t_player *player)
 {
     if (!(game->mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, WIN_NAME, true)))
 		exit(1);
-    init_player(player);
+    init_player(map_info, player);
     game->player = player;
     //load_textures(game);
-    test_map(game);
+    game->map = map_info->temp_map;
+    // test_map(game);
 }
 
-int gameplay()
+int gameplay(t_map *map_info, t_txtr *txtr)
 {
     t_game game;
     t_player player;
 
     game = (t_game){0};
     player = (t_player){0};
-    init_game(&game, &player);
+    init_game(map_info, &game, &player);
     screen(&game);
     mlx_loop_hook(game.mlx, keys, &game);
 	mlx_loop(game.mlx);
 	mlx_terminate(game.mlx);
-    free_test_map(&game);
+    clean_mem(&game, GAME);
+    clean_mem(txtr, TXTR);
+    // clean_mem(map_info, MAP);
+    // free_test_map(&game);
     return (0);
 }

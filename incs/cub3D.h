@@ -36,6 +36,12 @@
 # define TILE       64
 # define PI 3.14159265359
 
+typedef enum e_type
+{
+    MAP,
+    TXTR,
+    GAME
+}   t_type;
 typedef struct s_map
 {
 	char			**temp_map;
@@ -45,6 +51,12 @@ typedef struct s_map
     size_t          size_x;
     size_t          size_y;
 }					t_map;
+
+typedef struct s_txtr
+{
+    char    **info;
+} t_txtr;
+
 typedef struct s_player
 {
     float       ppx;    //player position x
@@ -54,11 +66,6 @@ typedef struct s_player
     float       mppy;   //player position on map;
 
 } t_player;
-
-typedef struct s_txtr
-{
-    char    **info;
-} t_txtr;
 
 typedef struct s_game
 {
@@ -80,7 +87,8 @@ void screen(t_game *window);
 
 //raycasting.c
 void raycast(t_game *window);
-bool wall(t_game *window, float x, float y);
+bool wall(t_game *game, int int_ray_x, int int_ray_y);
+// bool wall(t_game *game, float x, float y);
 
 //draw.c
 void pixel_safe(t_game *win, int x, float y, unsigned int color);
@@ -88,7 +96,9 @@ void draw_tile(t_game *window, int size, int x, int y);
 void draw_map(t_game *window);
 
 //player.c
-void init_player(t_player *player);
+// void init_player(t_player *player);
+void init_player(t_map *map_info, t_player *player);
+// void init_player(t_player *player);
 void draw_player(t_game *game);
 void wasd(t_game *game);
 void rotate(t_game *game);
@@ -106,7 +116,9 @@ void	put_arr(char **arr);
 
 int     is_player(char c);
 int     is_valid(char c);
-int	    validations(t_map *map_info);
+int	    process_map(t_map *map_info);
 int     get_info(t_map *map_info, t_txtr  *txtrs);
+
+void    clean_mem(void *ptr, t_type type);
 
 #endif
