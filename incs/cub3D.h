@@ -58,16 +58,26 @@ typedef struct s_player
     float       ppx;    //player position x
     float       ppy;    //player position y
     float       pa;     //player angle
-    float       mppx;   //player position on map;
-    float       mppy;   //player position on map;
 
 } t_player;
 
+typedef struct s_ray
+{
+    int   index;
+    float sx;
+    float sy;
+    int   hx;
+    int   hy;
+    int   hs;
+    double length; 
+} t_ray;
+
 typedef struct s_texture
 {
-    int     width;
-    int     height;
-    int     *pixels;
+    mlx_texture_t   *n_txtr;
+    mlx_texture_t   *e_txtr;
+    mlx_texture_t   *s_txtr;
+    mlx_texture_t   *w_txtr;
 } t_texture;
 
 
@@ -78,6 +88,7 @@ typedef struct s_game
     t_player        *player;
     t_texture       *textures;
     t_map           *map_info;
+    t_ray           *ray;
     char            **map;
     int             map_height;
     int             map_width;
@@ -87,6 +98,8 @@ typedef struct s_game
 //functions
 int gameplay();
 void screen(t_game *window);
+void load_textures(t_texture *test);
+unsigned int get_texture_pixel(mlx_image_t *texture, int x, int y);
 
 
 //raycasting.c

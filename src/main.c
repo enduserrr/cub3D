@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../incs/cub3D.h"
-
+/*
 static char	*read_fd(int fd)
 {
     int     bytes_read;
@@ -74,8 +74,9 @@ static int validate_file(char *name)
 	}
 	close(fd);
     return (fd);
-}
+}*/
 /* Map file size limiter */
+/*
 int	main(int ac, char **av)
 {
 	static t_map	map_info;
@@ -87,7 +88,14 @@ int	main(int ac, char **av)
 	if (fd < 0)
 		exit(1);
 	if (get_map(av, &map_info))
-		exit(1); /*Add a exit protocol later*/
+		exit(1); 
 	// gameplay();
+	return(0);
+} */
+
+//eemeli main
+int	main()
+{
+	gameplay();
 	return(0);
 }

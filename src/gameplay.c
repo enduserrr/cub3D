@@ -35,7 +35,7 @@ void screen(t_game *game)
 
 void keys(void  *param)
 {
-	t_game *game; 
+	t_game *game;
     
     game = param;
     if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
@@ -45,24 +45,30 @@ void keys(void  *param)
     screen(game);
 }
 
-void init_game(t_game *game, t_player *player)
+void init_game(t_game *game, t_player *player, t_texture *test, t_ray *r)
 {
     if (!(game->mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, WIN_NAME, true)))
 		exit(1);
     init_player(player);
     game->player = player;
-    //load_textures(game);
+    load_textures(test);
+    game->textures = test;
     test_map(game);
+    game->ray = r;
 }
 
 int gameplay()
 {
     t_game game;
     t_player player;
+    t_texture test;
+    t_ray r;
 
     game = (t_game){0};
     player = (t_player){0};
-    init_game(&game, &player);
+    test = (t_texture){0};
+    r = (t_ray){0};
+    init_game(&game, &player, &test, &r);
     screen(&game);
     mlx_loop_hook(game.mlx, keys, &game);
 	mlx_loop(game.mlx);

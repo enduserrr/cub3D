@@ -24,9 +24,9 @@ void init_player(t_player *player)
 {
     player->ppx = 130;
     player->ppy = 300;
-    player->mppx = WIN_WIDTH / 2;
-    player->mppy = WIN_HEIGHT / 2;
-    player->pa = PI / 2;
+    //player->mppx = WIN_WIDTH / 2;
+   // player->mppy = WIN_HEIGHT / 2;
+    player->pa = PI / 2; // Face up to North (90 degree but in radians)
 }
 
 void rotate(t_game *game)
@@ -39,6 +39,8 @@ void rotate(t_game *game)
         game->player->pa = 0;
     if (game->player->pa < 0)
         game->player->pa = 2 * PI;
+    //double degree = game->player->pa * 180 / PI;
+    //printf("pa: %f\n", degree);
 }
 
 void move(t_game *game, float x, float y)
