@@ -21,7 +21,7 @@
  *			and copy it to t_game.
  */
 
-static int	compare(size_t shorter, size_t longer, char *long_row)
+static int	compare_rows(size_t shorter, size_t longer, char *long_row)
 {
 	size_t	i;
 
@@ -40,28 +40,28 @@ static int	compare(size_t shorter, size_t longer, char *long_row)
 /**
  * @brief	 Determines whether all viable map area is covered with walls (1's).
  */
-static int	wall_check(t_map *map_info)
+static int	wall_coverage(t_map *map_info)
 {
 	size_t	k;
-	size_t	row0;
-	size_t	row1;
-	size_t	row2;
+	size_t	below;
+	size_t	current;
+	size_t	above;
 
 	k = 1;
 	while (k < (map_info->size_y - 1))
 	{
-		row0 = ft_strlen(map_info->temp_map[k - 1]);
-		row1 = ft_strlen(map_info->temp_map[k]);
-		row2 = ft_strlen(map_info->temp_map[k + 1]);
+		below = ft_strlen(map_info->temp_map[k - 1]);
+		current = ft_strlen(map_info->temp_map[k]);
+		above = ft_strlen(map_info->temp_map[k + 1]);
 		if (!map_info->temp_map[k] || !map_info->temp_map[k - 1] || !map_info->temp_map[k + 1])
 			return (1);
-		if (row1 > row0 && compare(row0, row1, map_info->temp_map[k]))
+		if (current > below && compare_rows(below, current, map_info->temp_map[k]))
 			return (1);
-		else if (row1 < row0 && compare(row1, row0, map_info->temp_map[k - 1]))
+		else if (current < below && compare_rows(current, below, map_info->temp_map[k - 1]))
 			return (1);
-		if (row1 > row2 && compare(row2, row1, map_info->temp_map[k]))
+		if (current > above && compare_rows(above, current, map_info->temp_map[k]))
 			return (1);
-		else if (row1 < row2 && compare(row1, row2, map_info->temp_map[k + 1]))
+		else if (current < above && compare_rows(current, above, map_info->temp_map[k + 1]))
 			return (1);
 		k++;
 	}
@@ -72,7 +72,7 @@ static int	wall_check(t_map *map_info)
  * @brief	Ensures both the first and last row consists only of 1's.
  *			Call wall checker.
  */
-static int	only_ones(t_map *map_info)
+static int	first_and_last_row(t_map *map_info)
 {
 	int	i;
 	int	j;
@@ -92,7 +92,7 @@ static int	only_ones(t_map *map_info)
 			return (write_err("invalid last row"), 1);
 		i++;
 	}
-	if (wall_check(map_info))
+	if (wall_coverage(map_info))
 		return (write_err("invalid map walls"), 1);
 	return (0);
 }
@@ -116,6 +116,11 @@ static int validate_chars(char **s, t_map *map_info)
 			if (!is_player(s[k][i]) && s[k][i] != ' ' && s[k][i] != '0' && s[k][i] != '1')
 				return (1);
 			if (is_player(s[k][i]))
+			{
+				map_info->start_orientation = s[k][i];
+				map_info->start_position_x = i;
+				map_info->start_position_y = k;
+			}
 				map_info->start_orientation = s[k][i];
 			if (s[k][i] == ' ')
 				s[k][i] = '1';
@@ -126,7 +131,7 @@ static int validate_chars(char **s, t_map *map_info)
         	map_info->size_x = i;
 		map_info->size_y++;
 	}
-	if (only_ones(map_info))
+	if (first_and_last_row(map_info))
 		return (1);
 	return (0);
 }
@@ -136,28 +141,31 @@ static int validate_chars(char **s, t_map *map_info)
  *			Calls the functions to get and check the data for the map &
  *			the textures
  */
-int	validations(t_map *map_info)
+int	process_map(t_map *map_info)
 {
-	t_txtr  *txtrs;
+	t_txtr  *txtr;
 	int		i;
 
-    txtrs = malloc(sizeof(t_txtr));
-    if (!txtrs)
+    txtr = malloc(sizeof(t_txtr));
+    if (!txtr)
         return (write_err("failed memory allocation"), 1);
-    txtrs->info = malloc(6 * sizeof(char *));
-    if (!txtrs->info)
-        return (free(txtrs), write_err("failed memory allocation"), 1);
+    txtr->info = malloc(6 * sizeof(char *));
+    if (!txtr->info)
+        return (free(txtr), write_err("failed memory allocation"), 1);
     i = -1;
     while (++i < 6)
 	{
-        txtrs->info[i] = NULL;
+        txtr->info[i] = NULL;
 	}
 	/*Replace with proper exit cycle?*/
-	if (get_info(map_info, txtrs))
+	if (get_info(map_info, txtr))
 	{
-		free_arr(txtrs->info);
-        free(txtrs);
+		free_arr(txtr->info);
+        free(txtr);
         return (1);
 	}
-	return (validate_chars(map_info->temp_map, map_info));
+	if (validate_chars(map_info->temp_map, map_info))
+		return (1);
+	// return (0);
+	return (gameplay(map_info, txtr));
 }

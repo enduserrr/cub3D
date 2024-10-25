@@ -62,7 +62,7 @@ static int	get_map(char **av, t_map *map_info)
 	free(temp_line);
 	if (map_info->temp_map == NULL)
 		return (write_err("map error 0"), 1);
-	return (validations(map_info));
+	return (process_map(map_info));
 }
 
 static int validate_file(char *name)
@@ -86,7 +86,7 @@ int	main(int ac, char **av)
 {
 	static t_map	map_info;
 	int				fd;
-	char			**s;
+	// char			**s;
 
 	if (ac != 2)
         return (exit_error("error: invalid argument count", 1), 1);
@@ -95,10 +95,10 @@ int	main(int ac, char **av)
 		exit(1);
 	if (get_map(av, &map_info))
 		exit(1); /*Add an exit protocol later*/
-	s = map_info.temp_map;
-	put_arr(s);
-	printf("\nx:%lu\ny:%lu\n", map_info.size_x, map_info.size_y);
-	printf("P:%c x:%zu y:%zu\n", map_info.start_orientation, map_info.size_x, map_info.size_y);
+	// s = map_info.temp_map;
+	// put_arr(s);
+	// printf("\nx:%lu\ny:%lu\n", map_info.size_x, map_info.size_y);
+	// printf("P:%c x:%zu y:%zu\n", map_info.start_orientation, map_info.size_x, map_info.size_y);
 	// gameplay();
 	return(0);
 }

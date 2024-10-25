@@ -12,7 +12,20 @@
 
 #include "../../incs/cub3D.h"
 
-bool wall(t_game *game, float x, float y)
+bool wall(t_game *game, int int_ray_x, int int_ray_y)
+{
+    int map_x;
+    int map_y;
+
+    map_x = (int_ray_x / 1000) / 64;
+    map_y = (int_ray_y / 1000) / 64;
+    if (game->map[map_y][map_x] == '1')
+        return true;
+    return false;
+}
+
+
+/*bool wall(t_game *game, float x, float y)
 {
     int map_x;
     int map_y;
@@ -22,7 +35,7 @@ bool wall(t_game *game, float x, float y)
     if (game->map[map_y][map_x] == '1')
         return true;
     return false;
-}
+}*/
 
 void draw_result(t_game *game, float ray_y, float height, int i)
 {
@@ -67,8 +80,37 @@ float ray_length(t_game *game, float ray_x, float ray_y)
 
     return (length);
 }
-
 void horizontal_rays(t_game *game, float ray_x, float ray_y, float a, int i)
+{
+    float height;
+    float length;
+    float cos_angle = cos(a);
+    float sin_angle = sin(a);
+
+    height = 0;
+
+    int scaled_cos = (int)(cos_angle * 1000);/*scale up for precision*/
+    int scaled_sin = (int)(sin_angle * 1000);
+    int int_ray_x = (int)(ray_x * 1000);
+    int int_ray_y = (int)(ray_y * 1000);
+
+    while(!wall(game, int_ray_x, int_ray_y))
+    {
+        int_ray_x += scaled_cos;
+        int_ray_y += scaled_sin;
+    }
+    /*back to float*/
+    ray_x = int_ray_x / 1000.0f;
+    ray_y = int_ray_y / 1000.0f;
+
+    length = ray_length(game, ray_x, ray_y);
+    height = (TILE / length) * (WIN_WIDTH / 2);
+    ray_y = (WIN_HEIGHT - height) / 2;
+    draw_result(game, ray_y, height, i);
+}
+
+
+/*void horizontal_rays(t_game *game, float ray_x, float ray_y, float a, int i)
 {
     float height;
     float length;
@@ -105,4 +147,25 @@ void raycast(t_game *game)
         a += fraction;
         i ++;
     }
+}*/
+
+void raycast(t_game *game)
+{
+    float ray_x;
+    float ray_y;
+    float a;
+    int i;
+    float fraction;
+
+    fraction = PI / 3 / WIN_WIDTH;
+    a = game->player->pa - PI / 6;
+    i = -1;
+    while (++i < WIN_WIDTH)
+    {
+        ray_x = game->player->ppx;
+        ray_y = game->player->ppy;
+        horizontal_rays(game, ray_x, ray_y, a, i);
+        a += fraction;
+    }
 }
+
