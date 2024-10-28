@@ -1,7 +1,7 @@
-NO ./assets/textures/temple_textures/temple1.xpm
-SO ./assets/textures/temple_textures/temple1.xpm
-WE ./assets/textures/temple_textures/temple3.xpm
-EA ./assets/textures/temple_textures/temple4.xpm
+NO /home/asalo/Code/enduserrr/cub3D/textures/north.png
+SO /home/asalo/Code/enduserrr/cub3D/textures/south.png
+WE /home/asalo/Code/enduserrr/cub3D/textures/west.png
+EA /home/asalo/Code/enduserrr/cub3D/textures/east.png
 
 F 50,50,50
 C 90,90,90

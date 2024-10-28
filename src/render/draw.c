@@ -35,10 +35,8 @@ void draw_tile(t_game *game, int size, int x, int y)
 
 void draw_map(t_game *game)
 {
-    int x = (int)game->player->ppx / TILE;
-    int y = (int)game->player->ppy / TILE;
-    int i = 0;
-    //int j = 0;
+    int x = 0;
+    int y = 0;
 
     while (game->map[y])
     {
@@ -51,27 +49,6 @@ void draw_map(t_game *game)
         }
         x = 0;
         y ++;
-        i ++;
-        if (i > 4)
-            break ;
     }
 
-    x = (int)game->player->ppx / TILE;
-    y = (int)game->player->ppy / TILE;
-    i = 0;
-    while (game->map[y])
-    {
-        while(game->map[y][x])
-        {
-
-            if (game->map[y][x] == '1')
-                draw_tile(game, TILE, x * TILE, y * TILE);
-            x ++;
-        }
-        x = 0;
-        y --;
-        i ++;
-        if (i > 4)
-            break;
-    }
 }

@@ -143,7 +143,7 @@ static int validate_chars(char **s, t_map *map_info)
  */
 int	process_map(t_map *map_info)
 {
-	t_txtr  *txtr;
+	static t_txtr  *txtr;
 	int		i;
 
     txtr = malloc(sizeof(t_txtr));
@@ -157,7 +157,6 @@ int	process_map(t_map *map_info)
 	{
         txtr->info[i] = NULL;
 	}
-	/*Replace with proper exit cycle?*/
 	if (get_info(map_info, txtr))
 	{
 		free_arr(txtr->info);
@@ -165,7 +164,6 @@ int	process_map(t_map *map_info)
         return (1);
 	}
 	if (validate_chars(map_info->temp_map, map_info))
-		return (1);
-	// return (0);
+		return (free_arr(map_info->temp_map), free_arr(txtr->info), 1);
 	return (gameplay(map_info, txtr));
 }
