@@ -154,5 +154,8 @@ int	process_map(t_map *map_info)
 	}
 	if (validate_chars(map_info->temp_map, map_info))
 		return (free_arr(map_info->temp_map), free_arr(txtr.info), 1);
-	return (gameplay(map_info, &txtr));
+	if (gameplay(map_info, &txtr))
+		return (free_arr(txtr.info), 1);
+	return (0);
+	// return (gameplay(map_info, &txtr));
 }

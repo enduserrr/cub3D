@@ -7,7 +7,7 @@ MLX		=	incs/MLX42/build/libmlx42.a
 SRCS	=	$(addprefix $(SRC_DIR)/game/, gameplay.c player.c) \
 			$(addprefix $(SRC_DIR)/parse/, validate.c map_info.c map_utils.c) \
 			$(addprefix $(SRC_DIR)/render/, draw.c raycasting.c textures.c test_map.c) \
-			$(addprefix $(SRC_DIR)/utils/, err.c utils.c) \
+			$(addprefix $(SRC_DIR)/utils/, err.c) \
 			$(addprefix $(SRC_DIR)/, main.c)
 
 OBJ		=	$(subst $(SRC_DIR), $(OBJ_DIR), $(SRCS:.c=.o))

@@ -61,28 +61,6 @@ typedef struct s_txtr
     mlx_texture_t   *w_txtr;
 } t_txtr;
 
-/*typedef struct s_player
-{
-    float       ppx;    //player position x
-    float       ppy;    //player position y
-    float       pa;     //player angle
-    float       mppx;   //player position on map;
-    float       mppy;   //player position on map;
-
-} t_player;
-
-typedef struct s_game
-{
-    mlx_t           *mlx;
-    mlx_image_t     *screen;
-    t_player        *player;
-    // t_texture       *textures;
-    t_map           *map_info;
-    char            **map;
-    int             map_height;
-    int             map_width;
-} t_game;*/
-
 typedef struct s_player
 {
     float       ppx;    //player position x
@@ -109,55 +87,34 @@ typedef struct s_game
     mlx_image_t     *screen;
     t_player        *player;
     t_txtr          *textures;
-    // t_map           *map_info;
     t_ray           *ray;
     char            **map;
     int             map_height;
     int             map_width;
 } t_game;
 
-/* functions */
-// int gameplay();
-// void screen(t_game *window);
+
 int gameplay(t_map *map_info, t_txtr *txtr);
 void screen(t_game *window);
 void load_textures(t_txtr *test);
 unsigned char *get_texture_pixels(t_game *game);
 
 
-/* raycasting.c */
-// void raycast(t_game *window);
-// bool wall(t_game *game, int int_ray_x, int int_ray_y);
-// bool wall(t_game *game, float x, float y);
+
 void raycast(t_game *window);
 bool wall(t_game *window, float x, float y);
 
-/* draw.c */
-// void pixel_safe(t_game *win, int x, float y, unsigned int color);
-// void draw_tile(t_game *window, int size, int x, int y);
-// void draw_map(t_game *window);
 void pixel_safe(t_game *win, int x, float y, unsigned int color);
 void draw_tile(t_game *window, int size, int x, int y);
 void draw_map(t_game *window);
 
-/* player.c */
-// void init_player(t_player *player);
-// void init_player(t_map *map_info, t_player *player);
-// void init_player(t_player *player);
-// void draw_player(t_game *game);
-// void wasd(t_game *game);
-// void rotate(t_game *game);
 void init_player(t_map *map_info, t_player *player);
 void draw_player(t_game *game);
 void wasd(t_game *game);
 void rotate(t_game *game);
 
-
-//test_map.c  ---  only for debugging and before parsing is finished. Delete later
-void test_map(t_game *window);
 void free_test_map(t_game *game);
 
-/* Map Utils */
 char    *ft_strjoin_mod(char const *s1, char const *s2);
 void	free_arr(char **arr);
 void	exit_error(char *s, int state);
@@ -168,7 +125,5 @@ int     is_player(char c);
 int     is_valid(char c);
 int	    process_map(t_map *map_info);
 int     get_info(t_map *map_info, t_txtr  *txtrs);
-
-void    clean_mem(void *ptr, t_type type);
 
 #endif
