@@ -72,15 +72,15 @@ int get_info(t_map *map_info, t_txtr  *txtrs)
     int     k;
     char    **tmp;
 
-    i = -1;
-    while (++i < 6)
-        txtrs->info[i] = NULL;
+    // i = -1;
+    // while (++i < 6)
+    //     txtrs->info[i] = NULL;
     tmp = map_info->temp_map;
     k = -1;
     while (tmp[++k])
     {
         if (parse_info(tmp[k], txtrs->info) != NULL)
-            break;
+            break ;
     }
     i = 0;
     while (tmp[k])
@@ -90,8 +90,10 @@ int get_info(t_map *map_info, t_txtr  *txtrs)
     if (check_info(txtrs))
         return (1);
     i = -1;
-    while (txtrs->info[++i])
+    while (++i < 6 && txtrs->info[i])
         printf("Info[%d]: %s\n", i, txtrs->info[i]);
+    // while (txtrs->info[i])
+    //     printf("Info[%d]: %s\n", i, txtrs->info[i++]);
     return (0);
 }
 
