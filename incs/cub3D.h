@@ -102,14 +102,6 @@ typedef struct s_ray
     double length;
 } t_ray;
 
-typedef struct s_texture
-{
-    mlx_texture_t   *n_txtr;
-    mlx_texture_t   *e_txtr;
-    mlx_texture_t   *s_txtr;
-    mlx_texture_t   *w_txtr;
-} t_texture;
-
 
 typedef struct s_game
 {
@@ -155,7 +147,7 @@ void draw_map(t_game *window);
 // void draw_player(t_game *game);
 // void wasd(t_game *game);
 // void rotate(t_game *game);
-void init_player(t_player *player);
+void init_player(t_map *map_info, t_player *player);
 void draw_player(t_game *game);
 void wasd(t_game *game);
 void rotate(t_game *game);
