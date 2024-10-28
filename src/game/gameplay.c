@@ -51,7 +51,7 @@ void init_game(t_map *map_info, t_game *game, t_player *player)
 		exit(1);
     init_player(map_info, player);
     game->player = player;
-    //load_textures(game);
+    // load_textures(txtr);
     game->map = map_info->temp_map;
     // test_map(game);
 }
@@ -60,9 +60,11 @@ int gameplay(t_map *map_info, t_txtr *txtr)
 {
     t_game game;
     t_player player;
+    // t_ray r;
 
     game = (t_game){0};
     player = (t_player){0};
+    // r = (t_ray){0};
     init_game(map_info, &game, &player);
     screen(&game);
     mlx_loop_hook(game.mlx, keys, &game);
