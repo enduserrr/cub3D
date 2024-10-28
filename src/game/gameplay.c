@@ -54,36 +54,6 @@ void init_game(t_map *map_info, t_game *game, t_player *player, t_txtr *txtr, t_
     game->ray = r;
 }
 
-/*// void init_game(t_map *map_info, t_game *game, t_player *player)
-// {
-//     if (!(game->mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, WIN_NAME, true)))
-// 		exit(1);
-//     init_player(map_info, player);
-//     game->player = player;
-//     //load_textures(game);
-//     game->map = map_info->temp_map;
-//     // test_map(game);
-// }
-
-// int gameplay(t_map *map_info, t_txtr *txtr)
-// {
-//     t_game game;
-//     t_player player;
-
-//     game = (t_game){0};
-//     player = (t_player){0};
-//     init_game(map_info, &game, &player);
-//     screen(&game);
-//     mlx_loop_hook(game.mlx, keys, &game);
-// 	mlx_loop(game.mlx);
-// 	mlx_terminate(game.mlx);
-//     clean_mem(&game, GAME);
-//     clean_mem(txtr, TXTR);
-//     // clean_mem(map_info, MAP);
-//     // free_test_map(&game);
-//     return (0);
-// }*/
-
 int gameplay(t_map *map_info, t_txtr *txtr)
 {
     static t_game game;
