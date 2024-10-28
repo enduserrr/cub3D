@@ -93,10 +93,10 @@ int gameplay(t_map *map_info, t_txtr *txtr)
 
     game = (t_game){0};
     player = (t_player){0};
-	txtr->n_txtr = NULL;
-	txtr->s_txtr = NULL;
-	txtr->w_txtr = NULL;
-	txtr->e_txtr = NULL;
+	  txtr->n_txtr = NULL;
+	  txtr->s_txtr = NULL;
+	  txtr->w_txtr = NULL;
+	  txtr->e_txtr = NULL;
     game.textures = txtr;
     r = (t_ray){0};
     game.map = map_info->temp_map;
@@ -104,8 +104,8 @@ int gameplay(t_map *map_info, t_txtr *txtr)
     init_game(&game, &player, txtr, &r);
     screen(&game);
     mlx_loop_hook(game.mlx, keys, &game);
-	mlx_loop(game.mlx);
-	mlx_terminate(game.mlx);
+	  mlx_loop(game.mlx);
+	  mlx_terminate(game.mlx);
     clean_mem(&game, GAME);
     clean_mem(txtr, TXTR);
     return (0);
