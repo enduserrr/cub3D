@@ -143,27 +143,16 @@ static int validate_chars(char **s, t_map *map_info)
  */
 int	process_map(t_map *map_info)
 {
-	static t_txtr  *txtr;
-	int		i;
+	static t_txtr  txtr;
 
-    txtr = malloc(sizeof(t_txtr));
-    if (!txtr)
-        return (write_err("failed memory allocation"), 1);
-    txtr->info = malloc(6 * sizeof(char *));
-    if (!txtr->info)
-        return (free(txtr), write_err("failed memory allocation"), 1);
-    i = -1;
-    while (++i < 6)
+	txtr = (t_txtr){0};
+	if (get_info(map_info, &txtr))
 	{
-        txtr->info[i] = NULL;
-	}
-	if (get_info(map_info, txtr))
-	{
-		free_arr(txtr->info);
-        free(txtr);
+		free_arr(txtr.info);
+        // free(txtr);
         return (1);
 	}
 	if (validate_chars(map_info->temp_map, map_info))
-		return (free_arr(map_info->temp_map), free_arr(txtr->info), 1);
-	return (gameplay(map_info, txtr));
+		return (free_arr(map_info->temp_map), free_arr(txtr.info), 1);
+	return (gameplay(map_info, &txtr));
 }

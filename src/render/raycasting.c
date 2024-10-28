@@ -174,54 +174,6 @@ void hit_side(t_game *game)
     else
         corner_case(game);
 }
-// void horizontal_rays(t_game *game, float ray_x, float ray_y, float a, int i)
-// {
-//     float height;
-//     float length;
-//     float cos_angle = cos(a);
-//     float sin_angle = sin(a);
-
-//     height = 0;
-
-//     int scaled_cos = (int)(cos_angle * 1000);/*scale up for precision*/
-//     int scaled_sin = (int)(sin_angle * 1000);
-//     int int_ray_x = (int)(ray_x * 1000);
-//     int int_ray_y = (int)(ray_y * 1000);
-
-//     while(!wall(game, int_ray_x, int_ray_y))
-//     {
-//         int_ray_x += scaled_cos;
-//         int_ray_y += scaled_sin;
-//     }
-//     /*back to float*/
-//     ray_x = int_ray_x / 1000.0f;
-//     ray_y = int_ray_y / 1000.0f;
-
-//     length = ray_length(game, ray_x, ray_y);
-//     height = (TILE / length) * (WIN_WIDTH / 2);
-//     ray_y = (WIN_HEIGHT - height) / 2;
-//     draw_result(game, ray_y, height, i);
-// }
-
-// void raycast(t_game *game)
-// {
-//     float ray_x;
-//     float ray_y;
-//     float a;
-//     int i;
-//     float fraction;
-
-//     fraction = PI / 3 / WIN_WIDTH;
-//     a = game->player->pa - PI / 6;
-//     i = -1;
-//     while (++i < WIN_WIDTH)
-//     {
-//         ray_x = game->player->ppx;
-//         ray_y = game->player->ppy;
-//         horizontal_rays(game, ray_x, ray_y, a, i);
-//         a += fraction;
-//     }
-// }
 
 void horizontal_rays(t_game *game, float ray_x, float ray_y, float a, int i)
 {

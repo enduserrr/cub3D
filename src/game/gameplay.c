@@ -27,7 +27,6 @@ void screen(t_game *game)
 		exit(1);
 	}
     raycast(game);
-
     //for debugging or minimap..
     //draw_map(game);
     //draw_player(game);
@@ -45,11 +44,11 @@ void keys(void  *param)
     screen(game);
 }
 
-void init_game(t_game *game, t_player *player, t_txtr *txtr, t_ray *r)
+void init_game(t_map *map_info, t_game *game, t_player *player, t_txtr *txtr, t_ray *r)
 {
     if (!(game->mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, WIN_NAME, true)))
 		exit(1);
-    init_player(player);
+    init_player(map_info, player);
     game->player = player;
     load_textures(txtr);
     game->ray = r;
@@ -88,25 +87,19 @@ void init_game(t_game *game, t_player *player, t_txtr *txtr, t_ray *r)
 int gameplay(t_map *map_info, t_txtr *txtr)
 {
     static t_game game;
-    t_player player;
-    t_ray r;
+    static t_player player;
+    static t_ray r;
 
     game = (t_game){0};
     player = (t_player){0};
-	  txtr->n_txtr = NULL;
-	  txtr->s_txtr = NULL;
-	  txtr->w_txtr = NULL;
-	  txtr->e_txtr = NULL;
-    game.textures = txtr;
     r = (t_ray){0};
+    game.textures = txtr;
     game.map = map_info->temp_map;
-    // free_arr(map_info->temp_map);
-    init_game(&game, &player, txtr, &r);
+    init_game(map_info, &game, &player, txtr, &r);
     screen(&game);
     mlx_loop_hook(game.mlx, keys, &game);
-	  mlx_loop(game.mlx);
-	  mlx_terminate(game.mlx);
-    clean_mem(&game, GAME);
-    clean_mem(txtr, TXTR);
+	mlx_loop(game.mlx);
+	mlx_terminate(game.mlx);
+    free_test_map(&game);
     return (0);
 }
