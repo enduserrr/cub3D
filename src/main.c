@@ -45,11 +45,14 @@ static char	*read_fd(int fd, char *new)
     return (new);
 }
 
-static int	get_map(char **av, t_map *map_info)
+int	get_map(char **av, t_game *game)
 {
+	t_map	map_info;
 	char	*temp_line;
 	int		fd;
 
+	map_info = (t_map){0};
+	game->map_info = &map_info;
 	temp_line = NULL;
 	if ((fd = open(av[1], O_RDONLY)) < 0)
 		return (write_err("dang"), 1);
@@ -58,11 +61,11 @@ static int	get_map(char **av, t_map *map_info)
 		close(fd);
 		return (write_err("read error"), 1);
 	}
-	map_info->temp_map = ft_split(temp_line, '\n');
+	game->map_info->temp_map = ft_split(temp_line, '\n');
 	free(temp_line);
-	if (map_info->temp_map == NULL)
-		return (free_arr(map_info->temp_map), write_err("map error 0"), 1);
-	return (process_map(map_info));
+	if (game->map_info->temp_map == NULL)
+		return (free_arr(game->map_info->temp_map), write_err("map error 0"), 1);
+	return (process_map(game));
 }
 
 static int validate_file(char *name)
@@ -84,16 +87,15 @@ static int validate_file(char *name)
 /* Map file size limiter */
 int	main(int ac, char **av)
 {
-	static t_map	map_info;
+	static t_game	game;
 	int				fd;
 
 	if (ac != 2)
         return (write_err("error: invalid argument count"), 1);
-	map_info = (t_map){0};
 	fd = validate_file(av[1]);
 	if (fd < 0)
 		exit(1);
-	if (get_map(av, &map_info))
+	if (get_map(av, &game))
 		exit(1);
 	return(0);
 }

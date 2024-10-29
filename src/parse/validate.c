@@ -102,10 +102,11 @@ static int	first_and_last_row(t_map *map_info)
  *			Swaps spaces to 1's.
  *			(Meaby don't swap space's before the string starts.)
  */
-static int validate_chars(char **s, t_map *map_info)
+
+static int validate_chars(char **s, t_game *game)
 {
     size_t		i;
-	int		k;
+	size_t		k;
 
 	k = -1;
 	while (s[++k])
@@ -117,22 +118,20 @@ static int validate_chars(char **s, t_map *map_info)
 				return (1);
 			if (is_player(s[k][i]))
 			{
-				map_info->start_orientation = s[k][i];
-				map_info->start_position_x = i;
-				map_info->start_position_y = k;
+				game->player->ppx = (float)i * 64;
+    			game->player->ppy = (float)k * 64;
+				game->player->pa = PI / 2;/*add func for start orientation*/
 			}
-				map_info->start_orientation = s[k][i];
 			if (s[k][i] == ' ')
 				s[k][i] = '1';
 		}
 		if (s[k][i - 1] != '1')
 			return (write_err("incorrect map"), 1);
-		if (i > map_info->size_x)
-        	map_info->size_x = i;
-		map_info->size_y++;
+		game->map_info->size_y++;
 	}
-	if (first_and_last_row(map_info))
+	if (first_and_last_row(game->map_info))
 		return (1);
+	printf("%f %f %f\n", game->player->ppx, game->player->ppy, game->player->pa);
 	return (0);
 }
 
@@ -141,21 +140,24 @@ static int validate_chars(char **s, t_map *map_info)
  *			Calls the functions to get and check the data for the map &
  *			the textures
  */
-int	process_map(t_map *map_info)
+int	process_map(t_game *game)
 {
-	static t_txtr  txtr;
+	t_txtr		txtr;
+	t_player	p;
 
 	txtr = (t_txtr){0};
-	if (get_info(map_info, &txtr))
+	p = (t_player){0};
+	game->textures = &txtr;
+	game->player = &p;
+	if (get_info(game))
 	{
-		free_arr(txtr.info);
+		free_arr(game->textures->info);
         // free(txtr);
         return (1);
 	}
-	if (validate_chars(map_info->temp_map, map_info))
-		return (free_arr(map_info->temp_map), free_arr(txtr.info), 1);
-	if (gameplay(map_info, &txtr))
-		return (free_arr(txtr.info), 1);
+	if (validate_chars(game->map_info->temp_map, game))
+		return (free_arr(game->map_info->temp_map), free_arr(game->textures->info), 1);
+	if (gameplay(game))
+		return (free_arr(game->textures->info), 1);
 	return (0);
-	// return (gameplay(map_info, &txtr));
 }

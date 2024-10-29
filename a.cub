@@ -3,8 +3,8 @@ SO /home/asalo/Code/enduserrr/cub3D/textures/south.png
 WE /home/asalo/Code/enduserrr/cub3D/textures/west.png
 EA /home/asalo/Code/enduserrr/cub3D/textures/east.png
 
-F 50,50,50
-C 90,90,90
+F 50,50,40
+C 90,90,80
 
 111111111
 1000000001
