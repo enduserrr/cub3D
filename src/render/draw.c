@@ -38,12 +38,12 @@ void draw_map(t_game *game)
     int x = 0;
     int y = 0;
 
-    while (game->map[y])
+    while (game->map_info->temp_map[y])
     {
-        while(game->map[y][x])
+        while(game->map_info->temp_map[y][x])
         {
 
-            if (game->map[y][x] == '1')
+            if (game->map_info->temp_map[y][x] == '1')
                 draw_tile(game, TILE, x * TILE, y * TILE);
             x ++;
         }

@@ -64,12 +64,13 @@
 
 void free_test_map(t_game *game)
 {
-    int i = 0;
+    size_t i = 0;
 
-    while(game->map[i] != NULL)
+    while(game->map_info->temp_map[i] != NULL)
     {
-        free(game->map[i]);
-        i ++;
+        free(game->map_info->temp_map[i]);
+        i++;
     }
-    free(game->map);
+    free(game->map_info->temp_map);
+    game->map_info->temp_map = NULL;
 }

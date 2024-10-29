@@ -12,6 +12,15 @@
 
 #include "../../incs/cub3D.h"
 
+// static unsigned int rgb_to_hex(int r, int g, int b)
+// {
+//     if (r < 0) r = 0; if (r > 255) r = 255;
+//     if (g < 0) g = 0; if (g > 255) g = 255;
+//     if (b < 0) b = 0; if (b > 255) b = 255;
+
+//     return ((r << 16) | (g << 8) | b);
+// }
+
 /**
  * @brief	Validate texture files and paths and colors.
  */
@@ -63,36 +72,38 @@ static void *parse_info(char *line, char **arr)
         return ((void *)1);
     return (NULL);
 }
+
 /**
  * @brief   Extract color and texture info from file and delete them from temp_map.
+ *          Add func to put info straight into mlx_ strings and int array
+ *          (with rgb->hex conversion)
  */
-int get_info(t_map *map_info, t_txtr  *txtrs)
+
+int get_info(t_game *game)
 {
     int     i;
     int     k;
     char    **tmp;
 
-    txtrs->info = malloc(6 * sizeof(char *));
+    game->textures->info = malloc(6 * sizeof(char *));
     i = -1;
     while (++i < 6)
-        txtrs->info[i] = NULL;
-    tmp = map_info->temp_map;
+        game->textures->info[i] = NULL;
+    tmp = game->map_info->temp_map;
     k = -1;
     while (tmp[++k])
     {
-        if (parse_info(tmp[k], txtrs->info) != NULL)
+        if (parse_info(tmp[k], game->textures->info) != NULL)
             break ;
+        free(tmp[k]);
+        tmp[k] = NULL;
     }
     i = 0;
     while (tmp[k])
         tmp[i++] = tmp[k++];
     tmp[i] = NULL;
-    map_info->temp_map = tmp;
-    if (check_info(txtrs))
+    game->map_info->temp_map = tmp;
+    if (check_info(game->textures))
         return (1);
-    // i = -1;
-    // while (++i < 6 && txtrs->info[i])
-    //     printf("Info[%d]: %s\n", i, txtrs->info[i]);
     return (0);
 }
-
