@@ -12,6 +12,13 @@
 
 #include "../../incs/cub3D.h"
 
+int is_player(char c)
+{
+	if (c == 'N' || c == 'E' || c == 'S' || c == 'W')
+		return (1);
+	return (0);
+}
+
 /**
  * @brief	Joins two strings; s1 & s2, into NULL terminated new string
  *			with sufficient mem allocated. Handles empty strings.
@@ -39,43 +46,33 @@ char *ft_strjoin_mod(char const *s1, char const *s2)
     return (new);
 }
 
-void	put_arr(char **arr)
+void    set_player(t_game *game, char c, size_t x, size_t y)
 {
-	int	k;
+	game->player->ppx = (float)x * 64;
+	game->player->ppy = (float)y * 64;
+	if (c == 'N')
+        game->player->pa = PI / 2;
+    else if (c == 'S')
+        game->player->pa = 3 * PI / 2;
+    else if (c == 'W')
+        game->player->pa = PI;
+    else if (c == 'E')
+        game->player->pa = 0;
+}
 
-	k = 0;
-	while (arr[k])
+int validate_file(char *name)
+{
+    int fd;
+
+    if (!name || ft_strlen(name) < 4 ||
+        ft_strcmp(name + (ft_strlen(name) - 4), ".cub"))
+        return (write_err("invalid map"), -1);
+    fd = open(name, O_RDONLY);
+    if (fd < 0)
 	{
-		while (*arr[k])
-			write(1, arr[k]++, 1);
-		write(1, "\n", 1);
-		k++;
+		close(fd);
+		return (write_err("unable to open the map file"), -1);
 	}
-	return ;
-}
-
-int is_player(char c)
-{
-	if (c == 'N' || c == 'E' || c == 'S' || c == 'W')
-		return (1);
-	return (0);
-}
-
-int	is_valid(char c)
-{
-    if (is_player(c) || c == ' ' || c == '0' || c == '1')
-        return (1);
-    return (0);
-}
-
-void	free_arr(char **arr)
-{
-	int	i;
-
-	i = 0;
-	if (arr == NULL || *arr == NULL)
-		return ;
-	while (arr[i])
-		free(arr[i++]);
-	free(arr);
+	close(fd);
+    return (fd);
 }

@@ -21,11 +21,7 @@
 # include "MLX42/include/MLX42/MLX42.h"
 
 # define W      "\033[0;37m"
-# define WB     "\033[1;97m"
-# define BB     "\033[1;96m"
-# define YB     "\033[1;93m"
 # define RB     "\033[1;91m"
-# define GC     "\033[3;90m"
 # define RES    "\033[0m"
 
 # define WIN_WIDTH  1280
@@ -51,9 +47,9 @@ typedef struct s_txtr
 
 typedef struct s_player
 {
-    float       ppx;    //player position x
-    float       ppy;    //player position y
-    float       pa;     //player angle
+    float       ppx;
+    float       ppy;
+    float       pa;
 
 } t_player;
 
@@ -79,40 +75,51 @@ typedef struct s_game
     t_ray           *ray;
 } t_game;
 
-// int gameplay(t_map *map_info, t_txtr *txtr);
+/* extract.c */
+int             get_map(char **av, t_game *game);
+
+/* gameplay.c */
 int             gameplay(t_game *game);
 void            screen(t_game *window);
 void            load_textures(t_txtr *test);
 unsigned char   *get_texture_pixels(t_game *game);
 
-
-
-void            raycast(t_game *window);
-bool            wall(t_game *window, float x, float y);
-
-void            pixel_safe(t_game *win, int x, float y, unsigned int color);
-void            draw_tile(t_game *window, int size, int x, int y);
-void            draw_map(t_game *window);
-
-// void init_player(t_map *map_info, t_player *player);
-void            init_player(t_game *game);
+/* player.c */
 void            draw_player(t_game *game);
 void            wasd(t_game *game);
 void            rotate(t_game *game);
 
-void            free_test_map(t_game *game);
-
-char            *ft_strjoin_mod(char const *s1, char const *s2);
-void            free_arr(char **arr);
-// void	exit_error(char *s, int state);
-void            write_err(char *s);
-void	        put_arr(char **arr);
-
-int             is_player(char c);
-int             is_valid(char c);
-// int	    process_map(t_map *map_info);
-// int     get_info(t_map *map_info, t_txtr  *txtrs);
+/* validate.c */
 int             process_map(t_game *game);
+
+/* map_info.c */
 int             get_info(t_game *game);
+
+/* map_utils.c */
+void            set_player(t_game *game, char c, size_t x, size_t y);
+char            *ft_strjoin_mod(char const *s1, char const *s2);
+int             is_player(char c);
+int             validate_file(char *name);
+
+/* draw.c */
+void            draw_tile(t_game *window, int size, int x, int y);
+void            draw_player(t_game *game);
+void            draw_result(t_game *game, float ray_y, float height, int i);
+
+
+/* raycasting.c */
+void            raycast(t_game *window);
+
+/* render_utils.c */
+float           ray_length(t_game *game, float ray_x, float ray_y);
+bool            wall(t_game *window, float x, float y);
+void            pixel_safe(t_game *win, int x, float y, unsigned int color);
+unsigned int    get_color(unsigned char *pixels, int tex_x, float texture_pos);
+unsigned char   *get_texture_pixels(t_game *game);
+
+/* utils */
+void            free_map(t_game *game);
+void            free_arr(char **arr);
+void            write_err(char *s);
 
 #endif
