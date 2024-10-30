@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   err.c                                              :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asalo <asalo@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 09:02:02 by asalo             #+#    #+#             */
-/*   Updated: 2024/10/09 09:02:16 by asalo            ###   ########.fr       */
+/*   Updated: 2024/10/30 07:29:38 by asalo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,3 +22,27 @@ void    write_err(char *s)
 	write(2, RES, ft_strlen(RES));
 }
 
+void	free_arr(char **arr)
+{
+	int	i;
+
+	i = 0;
+	if (arr == NULL || *arr == NULL)
+		return ;
+	while (arr[i])
+		free(arr[i++]);
+	free(arr);
+}
+
+void    free_map(t_game *game)
+{
+    size_t i = 0;
+
+    while(game->map_info->temp_map[i] != NULL)
+    {
+        free(game->map_info->temp_map[i]);
+        i++;
+    }
+    free(game->map_info->temp_map);
+    game->map_info->temp_map = NULL;
+}

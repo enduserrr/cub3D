@@ -78,7 +78,6 @@ static void *parse_info(char *line, char **arr)
  *          Add func to put info straight into mlx_ strings and int array
  *          (with rgb->hex conversion)
  */
-
 int get_info(t_game *game)
 {
     int     i;

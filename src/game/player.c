@@ -12,42 +12,6 @@
 
 #include "../../incs/cub3D.h"
 
-void draw_player(t_game *game)
-{
-    int size;
-
-    size = 10;
-    draw_tile(game, size, game->player->ppx, game->player->ppy);
-}
-
-// void init_player(t_map *map_info, t_player *player)
-// {
-//     player->ppx = (float)map_info->start_position_x * 64;
-//     player->ppy = (float)map_info->start_position_y * 64;
-//     // if (map_info->start_orientation == 'N')
-//     //     player->pa = PI / 2;
-//     // else if (map_info->start_orientation == 'S')
-//     //     player->pa = 3 * PI / 2;
-//     // else if (map_info->start_orientation == 'W')
-//     //     player->pa = PI;
-//     // else if (map_info->start_orientation == 'E')
-//     //     player->pa = 0;
-//     player->pa = PI / 2; // Face up to North (90 degree but in radians)
-// }
-void init_player(t_game *game)
-{
-    // game->player->ppx = (float)game->map_info->start_position_x * 64;
-    // game->player->ppy = (float)game->map_info->start_position_y * 64;
-    // if (map_info->start_orientation == 'N')
-    //     player->pa = PI / 2;
-    // else if (map_info->start_orientation == 'S')
-    //     player->pa = 3 * PI / 2;
-    // else if (map_info->start_orientation == 'W')
-    //     player->pa = PI;
-    // else if (map_info->start_orientation == 'E')
-    //     player->pa = 0;
-    game->player->pa = PI / 2; // Face up to North (90 degree but in radians)
-}
 
 
 void rotate(t_game *game)
