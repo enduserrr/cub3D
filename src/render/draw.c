@@ -12,30 +12,6 @@
 
 #include "../../incs/cub3D.h"
 
-
-
-void draw_tile(t_game *game, int size, int x, int y)
-{
-    int i = 0;
-
-    while(i < size)
-    {
-        pixel_safe(game, x + i, y, 0xFF16FF);
-        pixel_safe(game, x, y + i, 0xFF16FF);
-        pixel_safe(game, x + i, y + size, 0xFF16FF);
-        pixel_safe(game, x + size, y + i, 0xFF16FF);
-        i ++;
-    }
-}
-
-void draw_player(t_game *game)
-{
-    int size;
-
-    size = 10;
-    draw_tile(game, size, game->player->ppx, game->player->ppy);
-}
-
 void draw_wall(t_game *game, int wall, int i, float ray_y, float height)
 {
     unsigned char   *pixels;
@@ -74,13 +50,13 @@ void draw_result(t_game *game, float ray_y, float height, int i)
     floor = ray_y + height;
     while(sky > 0)
     {
-        pixel_safe(game, i, sky, 0x87CEEBFF);
+        pixel_safe(game, i, sky, 0x87CEEBFF); /*0x87CEEBFF*/
         sky --;
     }
     draw_wall(game, wall, i, ray_y, height);
     while(floor < WIN_HEIGHT)
     {
-        pixel_safe(game, i, floor, 0x008000FF);
+        pixel_safe(game, i, floor, 0x008000FF); /*0x008000FF*/
         floor ++;
     }
 }
