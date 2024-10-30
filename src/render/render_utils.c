@@ -12,19 +12,19 @@
 
 #include "../../incs/cub3D.h"
 
-unsigned char *get_texture_pixels(t_game *game)
+unsigned char *get_texture_pixels(t_game *game, int i) //
 {
-    if (game->ray->hs == 1)
+    if (game->ray[i].hs == 1)
         return game->textures->e_txtr->pixels;
-    if (game->ray->hs == 2)
+    if (game->ray[i].hs == 2)
         return game->textures->w_txtr->pixels;
-    if (game->ray->hs == 3)
+    if (game->ray[i].hs == 3)
         return game->textures->s_txtr->pixels;
     else
         return game->textures->n_txtr->pixels;
 }
 
-float ray_length(t_game *game, float ray_x, float ray_y)
+float ray_length(t_game *game, float ray_x, float ray_y) //
 {
     float dx;
     float dy;
@@ -39,7 +39,7 @@ float ray_length(t_game *game, float ray_x, float ray_y)
     return (length);
 }
 
-bool wall(t_game *game, float x, float y)
+bool wall(t_game *game, float x, float y) //
 {
     int map_x;
     int map_y;
@@ -59,7 +59,7 @@ void pixel_safe(t_game *game, int x, float y, unsigned int color)
     mlx_put_pixel(game->screen, x, (int)y, color);
 }
 
-unsigned int get_color(unsigned char *pixels, int tex_x, float texture_pos)
+unsigned int get_color(unsigned char *pixels, int tex_x, float texture_pos) // 
 {
     int tex_y = (int)texture_pos;
     unsigned char *color_data;

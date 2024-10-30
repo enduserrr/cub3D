@@ -1,0 +1,17 @@
+NO /home/eleppala/Documents/projects/3cube/textures/east.png
+SO /home/eleppala/Documents/projects/3cube/textures/west.png
+WE /home/eleppala/Documents/projects/3cube/textures/north.png
+EA /home/eleppala/Documents/projects/3cube/textures/south.png
+
+
+F 50,50,50
+C 90,90,90
+
+111111111111
+100000000001
+100011000001
+100001000001
+100000011001
+100000001001
+100W00000001
+111111111111

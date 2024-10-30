@@ -12,74 +12,50 @@
 
 #include "../../incs/cub3D.h"
 
-void round_ray_hits(t_game *game)
+void round_ray_hits(t_game *game, int i, float ray_x, float ray_y) 
 {
-    if (game->ray->hy % 64 != 0 && game->ray->hx % 64 != 0)
-        game->ray->hy += 1;
-    if (game->ray->hy % 64 != 0 && game->ray->hx % 64 != 0)
-        game->ray->hy -= 2;
-    if (game->ray->hx % 64 != 0)
-        game->ray->hx += 1;
-    if (game->ray->hx % 64 != 0)
-        game->ray->hx -= 2;
+    game->ray[i].hx = ray_x;
+    game->ray[i].hy = ray_y;
+    if (game->ray[i].hy % 64 == 1)
+        game->ray[i].hy -= 1;
+    if (game->ray[i].hy % 64 == 63)
+        game->ray[i].hy += 1;
+    if (game->ray[i].hx % 64 == 1)
+        game->ray[i].hx -= 1;
+    if (game->ray[i].hx % 64 == 63)
+       game->ray[i].hx += 1;
 }
 
-void corner_case(t_game *game)
+void init_ray(t_game *game, int i, float ray_x, float ray_y, float angle)
 {
-    if (game->ray->hx > game->player->ppx && game->ray->hy > game->player->ppy)
-        game->ray->hs = 3;
-    else if (game->ray->hx < game->player->ppx && game->ray->hy < game->player->ppy)
-        game->ray->hs = 4;
-    else if (game->ray->hx < game->player->ppx)
-        game->ray->hs = 1;
-    else
-        game->ray->hs = 2;
+    t_ray r;
+    r = (t_ray){0};
+
+    game->ray[i] = r;
+    game->ray[i].corner = false;
+    game->ray[i].index = i;
+    game->ray[i].sx = ray_x;
+    game->ray[i].sy = ray_y;
+    game->ray[i].angle = angle;
 }
 
-void hit_side(t_game *game)
+void cast_ray(t_game *game, float ray_x, float ray_y, float angle, int i)
 {
-    round_ray_hits(game);
-    if (game->ray->hy % 64 == 0 && game->ray->hx % 64 != 0)
-    {
-        if (game->ray->hy > game->player->ppy)
-            game->ray->hs = 3;
-        else
-            game->ray->hs = 4;
-    }
-    else if (game->ray->hx % 64 == 0 && game->ray->hy % 64 != 0)
-    {
-        if (game->ray->hx > game->player->ppx)
-            game->ray->hs = 2;
-        else
-            game->ray->hs = 1;
-    }
-    else
-        corner_case(game);
-}
+    float cos_angle = cos(angle);
+    float sin_angle = sin(angle);
 
-void horizontal_rays(t_game *game, float ray_x, float ray_y, float a, int i)
-{
-    float height;
-    float cos_angle = cos(a);
-    float sin_angle = sin(a);
-
-    game->ray->sx = ray_x;
-    game->ray->sy = ray_y;
+    init_ray(game, i, ray_x, ray_y, angle);
     while(!wall(game, ray_x, ray_y))
     {
-        //mlx_put_pixel(game->screen, ray_x, ray_y, 0xFF16FF);
+        mlx_put_pixel(game->screen, ray_x, ray_y, 0xFF16FF);
         ray_x += cos_angle;
         ray_y += sin_angle;
     }
-    game->ray->hx = round(ray_x);
-    game->ray->hy = round(ray_y);
-    game->ray->length = ray_length(game, ray_x, ray_y);
-    height = (TILE / game->ray->length) * (WIN_WIDTH / 2);
-    //printf("ray_y: = %f ----", ray_y);
-    ray_y = (WIN_HEIGHT - height) / 2;
-    //printf("hy = %d\n, hx: %d -- ray_x = %f\n", game->ray->hy, game->ray->hx, ray_x);
-    hit_side(game);
-    draw_result(game, ray_y, height, i);
+    round_ray_hits(game, i, ray_x, ray_y);
+    game->ray[i].length = ray_length(game, ray_x, ray_y);
+    game->ray[i].wall_height = (TILE / game->ray[i].length) * (WIN_WIDTH / 2);
+    game->ray[i].wall_y = (WIN_HEIGHT - game->ray[i].wall_height) / 2;
+    hit_side(game, i);
 }
 
 
@@ -89,14 +65,15 @@ void raycast(t_game *game)
     float ray_y = game->player->ppy;
 
     float a = game->player->pa - PI / 6;
-    float i = 0;
+    int i = 0;
     float fraction = PI / 3 / WIN_WIDTH;
 
     while (i < WIN_WIDTH)
     {
         //if (i == WIN_WIDTH / 2)
-            horizontal_rays(game, ray_x, ray_y, a, i);
+            cast_ray(game, ray_x, ray_y, a, i);
         a += fraction;
         i ++;
     }
 }
+

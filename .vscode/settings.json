@@ -1,5 +1,6 @@
 {
     "files.associations": {
         "cub3d.h": "c"
-    }
+    },
+    "cmake.sourceDirectory": "/home/eleppala/Documents/projects/guped3.0/incs/MLX42"
 }

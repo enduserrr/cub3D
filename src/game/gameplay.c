@@ -12,6 +12,18 @@
 
 #include "../../incs/cub3D.h"
 
+void render(t_game *game)
+{
+    int i;
+
+    i = 0;
+    while (i < WIN_WIDTH)
+    {
+        draw_result(game, i);
+        i ++;
+    }
+}
+
 void screen(t_game *game)
 {
     if (game->screen)
@@ -27,6 +39,7 @@ void screen(t_game *game)
 		exit(1);
 	}
     raycast(game);
+    render(game);
 }
 
 void keys(void  *param)
@@ -59,10 +72,6 @@ void keys(void  *param)
 
 int gameplay(t_game *game)
 {
-    t_ray       r;
-
-    r = (t_ray){0};
-    game->ray = &r;
     if (!(game->mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, WIN_NAME, true)))
         exit(1);
     // load_textures(game->textures);

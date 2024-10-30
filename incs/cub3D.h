@@ -28,7 +28,9 @@
 # define WIN_HEIGHT 720
 # define WIN_NAME   "cub3D"
 # define TILE       64
+# define TXTR_SIZE  64
 # define PI 3.14159265359
+
 typedef struct s_map
 {
 	char			**temp_map;
@@ -55,13 +57,17 @@ typedef struct s_player
 
 typedef struct s_ray
 {
-    int   index;
-    float sx;
-    float sy;
-    int   hx;
-    int   hy;
-    int   hs;
-    double length;
+    int     index;
+    bool    corner;
+    float   sx;
+    float   sy;
+    int     hx;
+    int     hy;
+    int     hs;
+    float   wall_y;
+    float   wall_height;
+    float   angle;
+    double  length;
 } t_ray;
 
 
@@ -72,7 +78,7 @@ typedef struct s_game
     t_map           *map_info;
     t_player        *player;
     t_txtr          *textures;
-    t_ray           *ray;
+    t_ray           ray[1280];
 } t_game;
 
 /* extract.c */
@@ -82,7 +88,6 @@ int             get_map(char **av, t_game *game);
 int             gameplay(t_game *game);
 void            screen(t_game *window);
 void            load_textures(t_txtr *txtr, char **arr);
-unsigned char   *get_texture_pixels(t_game *game);
 
 /* player.c */
 void            wasd(t_game *game);
@@ -101,17 +106,20 @@ int             is_player(char c);
 int             validate_file(char *name);
 
 /* draw.c */
-void            draw_result(t_game *game, float ray_y, float height, int i);
+void            draw_result(t_game *game, int i);
 
 /* raycasting.c */
-void            raycast(t_game *window);
+void            raycast(t_game *game);
+
+/* hit_side.c*/
+void hit_side(t_game *game, int i);
 
 /* render_utils.c */
 float           ray_length(t_game *game, float ray_x, float ray_y);
-bool            wall(t_game *window, float x, float y);
+bool            wall(t_game *game, float x, float y);
 void            pixel_safe(t_game *win, int x, float y, unsigned int color);
 unsigned int    get_color(unsigned char *pixels, int tex_x, float texture_pos);
-unsigned char   *get_texture_pixels(t_game *game);
+unsigned char   *get_texture_pixels(t_game *game, int i);
 
 /* utils */
 void            free_map(t_game *game);

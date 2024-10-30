@@ -12,7 +12,7 @@
 
 #include "../../incs/cub3D.h"
 
-void draw_wall(t_game *game, int wall, int i, float ray_y, float height)
+void draw_wall(t_game *game, int wall, int i)
 {
     unsigned char   *pixels;
     unsigned int    color;
@@ -21,42 +21,43 @@ void draw_wall(t_game *game, int wall, int i, float ray_y, float height)
     float           step;
     float           texture_pos;
 
-    step = 64 / height;
+    step = TXTR_SIZE / game->ray[i].wall_height;
     texture_pos = 0.0;
-    pixels = get_texture_pixels(game);
-    if (game->ray->hs == 1 || game->ray->hs == 2)
-        texture_x = fmod(game->ray->hy, TILE) / TILE;
+    pixels = get_texture_pixels(game, i);
+    if (game->ray[i].hs == 1 || game->ray[i].hs == 2) 
+        texture_x = (fmodf(game->ray[i].hy, TILE) / TILE) * TXTR_SIZE;
     else
-        texture_x = fmod(game->ray->hx, TILE) / TILE;
-    tex_x = (int)(texture_x * 64);
-    tex_x = tex_x % 64;
-    while ((int)ray_y < (int)wall)
+        texture_x = (fmodf(game->ray[i].hx, TILE) / TILE) * TXTR_SIZE;
+    tex_x = (int)(texture_x)  % TXTR_SIZE;
+    while ((int)game->ray[i].wall_y < (int)wall)
     {
-        color = get_color(pixels, tex_x, texture_pos);
-        pixel_safe(game, i, ray_y, color);
+        if ((int)texture_pos >= TXTR_SIZE) 
+            break ;
+        color = get_color(pixels, tex_x, (int)texture_pos);
+        pixel_safe(game, i, game->ray[i].wall_y, color);
         texture_pos += step;
-        ray_y++;
+        game->ray[i].wall_y ++;
     }
 }
 
-void draw_result(t_game *game, float ray_y, float height, int i)
+void draw_result(t_game *game, int i)
 {
     float wall;
     float sky;
     float floor;
 
-    wall = ray_y + height;
-    sky = ray_y + height;
-    floor = ray_y + height;
+    wall = game->ray[i].wall_y + game->ray[i].wall_height;
+    sky = game->ray[i].wall_y + game->ray[i].wall_height;
+    floor = game->ray[i].wall_y + game->ray[i].wall_height;
     while(sky > 0)
     {
-        pixel_safe(game, i, sky, 0x87CEEBFF); /*0x87CEEBFF*/
+        pixel_safe(game, i, sky, 0x87CEEBFF);
         sky --;
     }
-    draw_wall(game, wall, i, ray_y, height);
+    draw_wall(game, wall, i);
     while(floor < WIN_HEIGHT)
     {
-        pixel_safe(game, i, floor, 0x008000FF); /*0x008000FF*/
+        pixel_safe(game, i, floor, 0x008000FF);
         floor ++;
     }
 }
