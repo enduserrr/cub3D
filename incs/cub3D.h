@@ -37,8 +37,8 @@ typedef struct s_map
 typedef struct s_txtr
 {
     char            **info;
-    // size_t          *f;
-    // size_t          *c;
+    unsigned int          f;
+    unsigned int          c;
     mlx_texture_t   *n_txtr;
     mlx_texture_t   *e_txtr;
     mlx_texture_t   *s_txtr;
@@ -81,11 +81,10 @@ int             get_map(char **av, t_game *game);
 /* gameplay.c */
 int             gameplay(t_game *game);
 void            screen(t_game *window);
-void            load_textures(t_txtr *test);
+void            load_textures(t_txtr *txtr, char **arr);
 unsigned char   *get_texture_pixels(t_game *game);
 
 /* player.c */
-void            draw_player(t_game *game);
 void            wasd(t_game *game);
 void            rotate(t_game *game);
 
@@ -102,10 +101,7 @@ int             is_player(char c);
 int             validate_file(char *name);
 
 /* draw.c */
-void            draw_tile(t_game *window, int size, int x, int y);
-void            draw_player(t_game *game);
 void            draw_result(t_game *game, float ray_y, float height, int i);
-
 
 /* raycasting.c */
 void            raycast(t_game *window);

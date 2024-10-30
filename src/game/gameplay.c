@@ -41,21 +41,21 @@ void keys(void  *param)
     screen(game);
 }
 
-void load_textures(t_txtr *txtr)
-{
-    txtr->n_txtr = mlx_load_png(txtr->info[0]);
-    if (!txtr->n_txtr)
-        exit(12);
-    txtr->s_txtr = mlx_load_png(txtr->info[1]);
-    if (!txtr->s_txtr)
-        exit(12);
-    txtr->w_txtr = mlx_load_png(txtr->info[2]);
-    if (!txtr->w_txtr)
-        exit(12);
-    txtr->e_txtr = mlx_load_png(txtr->info[3]);
-    if (!txtr->e_txtr)
-        exit(12);
-}
+// void load_textures(t_txtr *txtr)
+// {
+//     txtr->n_txtr = mlx_load_png(txtr->info[0]);
+//     if (!txtr->n_txtr)
+//         exit(12);
+//     txtr->s_txtr = mlx_load_png(txtr->info[1]);
+//     if (!txtr->s_txtr)
+//         exit(12);
+//     txtr->w_txtr = mlx_load_png(txtr->info[2]);
+//     if (!txtr->w_txtr)
+//         exit(12);
+//     txtr->e_txtr = mlx_load_png(txtr->info[3]);
+//     if (!txtr->e_txtr)
+//         exit(12);
+// }
 
 int gameplay(t_game *game)
 {
@@ -65,7 +65,7 @@ int gameplay(t_game *game)
     game->ray = &r;
     if (!(game->mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, WIN_NAME, true)))
         exit(1);
-    load_textures(game->textures);
+    // load_textures(game->textures);
     screen(game);
     mlx_loop_hook(game->mlx, keys, game);
 	mlx_loop(game->mlx);

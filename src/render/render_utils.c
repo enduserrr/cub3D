@@ -70,3 +70,5 @@ unsigned int get_color(unsigned char *pixels, int tex_x, float texture_pos)
 }
 
 
+
+
