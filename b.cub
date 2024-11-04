@@ -1,7 +1,7 @@
-NO /home/asalo/Code/enduserrr/cub3D/textures/north.png
-SO /home/asalo/Code/enduserrr/cub3D/textures/south.png
-WE /home/asalo/Code/enduserrr/cub3D/textures/west.png
-EA /home/asalo/Code/enduserrr/cub3D/textures/east.png
+NO /home/asalo/Code/enduserrr/cub3D/textures/1.png
+SO /home/asalo/Code/enduserrr/cub3D/textures/4.png
+WE /home/asalo/Code/enduserrr/cub3D/textures/2.png
+EA /home/asalo/Code/enduserrr/cub3D/textures/3.png
 
 F 0, 0, 128
 C 249, 0, 0

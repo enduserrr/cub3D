@@ -53,166 +53,102 @@ static unsigned int rgb_to_hex(unsigned int *rgb)
     return ((red << 16) | (green << 8) | blue);
 }
 
-
-
-/**
- * @brief	Validate texture files and paths and colors.
- */
-
-/*
-// static int check_info(t_txtr *txtrs)
-// {
-//     int i;
-//     int fd;
-//     int floor;
-//     int ceiling;
-//     i = 0;
-//     fd = 0;
-//     floor = ft_atoi(txtrs->info[4]);
-//     ceiling = ft_atoi(txtrs->info[5]);
-//     if ((ceiling < 0 || ceiling > 255) || (floor < 0 || floor > 255))
-//         return (write_err("incorrect color info"), 1);
-//     while (i < 4)
-//     {
-//         if (!txtrs->info[i] || (fd = open(txtrs->info[i], O_RDONLY) < 0) || close(fd))
-//             return (write_err("unable to open the texture files"), 1);
-//         i++;
-//     }
-//     return (0);
-// }*/
-
-static int check_info(char **arr, t_game *game)
+static void check_info(char *line, t_txtr *textures, int i)
 {
-    int i;
     int fd;
-    unsigned int *floor;
-    unsigned int *ceiling;
+    unsigned int *color;
 
-    i = 0;
     fd = 0;
-    floor = get_rgb(arr[4]);
-    ceiling = get_rgb(arr[5]);
-    // if (!floor || !ceiling || ceiling > 255 || floor > 255)
-    //     return (write_err("incorrect color info"), 1);
-    game->textures->f = rgb_to_hex(floor);
-    game->textures->c = rgb_to_hex(ceiling);
-    // printf("%x\n", game->textures->c);
-    // printf("%x\n", game->textures->f);
-    free(floor);
-    free(ceiling);
-    // while (i < 4)
-    // {
-    //     if (!txtrs->info[i] || (fd = open(txtrs->info[i], O_RDONLY) < 0) || close(fd))
-    //         return (write_err("unable to open the texture files"), 1);
-    //     i++;
-    // }
-    return (0);
+    color = 0;
+    if (!line || (i != 4 && i != 5))
+        return ;
+    if (i == 4)
+    {
+        color = get_rgb(line);
+        textures->f = rgb_to_hex(color);
+        printf("%x\n", textures->f);
+        free(color);
+    }
+    else if (i == 5)
+    {
+        color = get_rgb(line);
+        textures->c = rgb_to_hex(color);
+        printf("%x\n", textures->c);
+        free(color);
+    }
+    return ;
 }
 
-/**
- * @brief   Removes white space (almost well) and saves the texture file paths
- *          into t_txtr struct array.
-*/
-static void *parse_info(char *line, char **arr)
+void    load_textures(t_txtr *txtr, char *line, int i)
+{
+    if (!line)
+        return ;
+    if (i == 0)
+        txtr->n_txtr = mlx_load_png(line);
+    else if (i == 1)
+        txtr->s_txtr = mlx_load_png(line);
+    else if (i == 2)
+        txtr->w_txtr = mlx_load_png(line);
+    else if (i == 3)
+        txtr->e_txtr = mlx_load_png(line);
+    else if (i == 4 || i == 5)
+        check_info(line, txtr, i);
+    free(line);
+    line = NULL;
+    return ;
+}
+
+static char *parse_info(char *line, char *result)
 {
     while (ft_isspace(*line))
         line++;
     if (ft_strncmp(line, "NO ", 3) == 0)
-        arr[0] = ft_strdup(line + 3);
+        result = ft_strdup(line + 3);
     else if (ft_strncmp(line, "SO ", 3) == 0)
-        arr[1] = ft_strdup(line + 3);
+        result = ft_strdup(line + 3);
     else if (ft_strncmp(line, "WE ", 3) == 0)
-        arr[2] = ft_strdup(line + 3);
+        result = ft_strdup(line + 3);
     else if (ft_strncmp(line, "EA ", 3) == 0)
-        arr[3] = ft_strdup(line + 3);
+        result = ft_strdup(line + 3);
     else if (ft_strncmp(line, "F ", 2) == 0)
-        arr[4] = ft_strdup(line + 2);
+        result = ft_strdup(line + 2);
     else if (ft_strncmp(line, "C ", 2) == 0)
-        arr[5] = ft_strdup(line + 2);
+        result = ft_strdup(line + 2);
     else
-        return ((void *)1);
-    return (NULL);
+        return ((NULL));
+    return (result);
 }
 
 /**
- * @brief   Extract color and texture info from file and delete them from temp_map.
+ * @brief   Extract color and texture info from file and delete them from map.
  *          Add func to put info straight into mlx_ strings and int array
  *          (with rgb->hex conversion)
  */
-/*// int get_info(t_game *game)
-// {
-//     int     i;
-//     int     k;
-//     char    **tmp;
-
-//     game->textures->info = malloc(6 * sizeof(char *));
-//     i = -1;
-//     while (++i < 6)
-//         game->textures->info[i] = NULL;
-//     tmp = game->map_info->temp_map;
-//     k = -1;
-//     while (tmp[++k])
-//     {
-//         if (parse_info(tmp[k], game->textures->info) != NULL)
-//             break ;
-//         free(tmp[k]);
-//         tmp[k] = NULL;
-//     }
-//     i = 0;
-//     while (tmp[k])
-//         tmp[i++] = tmp[k++];
-//     tmp[i] = NULL;
-//     game->map_info->temp_map = tmp;
-//     if (check_info(game->textures))
-//         return (1);
-//     return (0);
-// }*/
-
-/* Change to have exit loop.*/
-void load_textures(t_txtr *txtr, char **arr)
-{
-    txtr->n_txtr = mlx_load_png(arr[0]);
-    if (!txtr->n_txtr)
-        exit(12);
-    txtr->s_txtr = mlx_load_png(arr[1]);
-    if (!txtr->s_txtr)
-        exit(12);
-    txtr->w_txtr = mlx_load_png(arr[2]);
-    if (!txtr->w_txtr)
-        exit(12);
-    txtr->e_txtr = mlx_load_png(arr[3]);
-    if (!txtr->e_txtr)
-        exit(12);
-}
-
 int get_info(t_game *game)
 {
     int     i;
     int     k;
     char    **tmp;
-    char    **new;
+    char    *line;
 
-    if (!(new = malloc(6 * sizeof(char *))))
-        return (write_err("malloc error"), 1);
-    i = -1;
-    while (++i < 6)
-        new[i] = NULL;
-    tmp = game->map_info->temp_map;
-    k = -1;
-    while (tmp[++k])
+    line = NULL;
+    tmp = game->map_info->map;
+    k = 0;
+    while (tmp[k])
     {
-        if (parse_info(tmp[k], new) != NULL)
+        if ((line = parse_info(tmp[k], line)) == NULL)
             break ;
+        load_textures(game->textures, line, k);
         free(tmp[k]);
         tmp[k] = NULL;
+        k++;
     }
     i = 0;
     while (tmp[k])
         tmp[i++] = tmp[k++];
     tmp[i] = NULL;
-    game->map_info->temp_map = tmp;
-    if (check_info(new, game))
-        return (free_arr(new), 1);
-    load_textures(game->textures, new);
-    return (free_arr(new), 0);
+    game->map_info->map = tmp;
+    // for (int l = 0; game->map_info->map[l];)
+	// 	printf("%s\n", game->map_info->map[l++]);
+    return (0);
 }

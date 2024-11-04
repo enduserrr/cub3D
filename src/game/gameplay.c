@@ -54,30 +54,28 @@ void keys(void  *param)
     screen(game);
 }
 
-// void load_textures(t_txtr *txtr)
-// {
-//     txtr->n_txtr = mlx_load_png(txtr->info[0]);
-//     if (!txtr->n_txtr)
-//         exit(12);
-//     txtr->s_txtr = mlx_load_png(txtr->info[1]);
-//     if (!txtr->s_txtr)
-//         exit(12);
-//     txtr->w_txtr = mlx_load_png(txtr->info[2]);
-//     if (!txtr->w_txtr)
-//         exit(12);
-//     txtr->e_txtr = mlx_load_png(txtr->info[3]);
-//     if (!txtr->e_txtr)
-//         exit(12);
-// }
-
 int gameplay(t_game *game)
 {
     if (!(game->mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, WIN_NAME, true)))
         exit(1);
-    // load_textures(game->textures);
     screen(game);
     mlx_loop_hook(game->mlx, keys, game);
 	mlx_loop(game->mlx);
-	mlx_terminate(game->mlx);/*tilalle exit loop joka putsaa structit ja sulkee pelin?*/
+    mlx_delete_texture(game->textures->n_txtr);
+    mlx_delete_texture(game->textures->s_txtr);
+    mlx_delete_texture(game->textures->w_txtr);
+    mlx_delete_texture(game->textures->e_txtr);
+    if (game->screen)
+    {
+        mlx_delete_image(game->mlx, game->screen);
+        mlx_close_window(game->mlx);
+    }
+    mlx_terminate(game->mlx);
+    free_map(game);
+    game->map_info = NULL;
+    game->mlx = NULL;
+    game->textures = NULL;
+    game->screen = NULL;
+    game = NULL;
     return (0);
 }

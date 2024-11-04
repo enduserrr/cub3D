@@ -47,7 +47,7 @@ bool wall(t_game *game, float x, float y) //
     map_x = x / 64;
     map_y = y / 64;
 
-    if (game->map_info->temp_map[map_y][map_x] == '1')
+    if (game->map_info->map[map_y][map_x] == '1')
         return true;
     return false;
 }
@@ -59,7 +59,7 @@ void pixel_safe(t_game *game, int x, float y, unsigned int color)
     mlx_put_pixel(game->screen, x, (int)y, color);
 }
 
-unsigned int get_color(unsigned char *pixels, int tex_x, float texture_pos) // 
+unsigned int get_color(unsigned char *pixels, int tex_x, float texture_pos) //
 {
     int tex_y = (int)texture_pos;
     unsigned char *color_data;

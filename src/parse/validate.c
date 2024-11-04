@@ -50,18 +50,18 @@ static int	wall_coverage(t_map *map_info)
 	y = 1;
 	while (y < (map_info->size_y - 1))
 	{
-		below = ft_strlen(map_info->temp_map[y - 1]);
-		current = ft_strlen(map_info->temp_map[y]);
-		above = ft_strlen(map_info->temp_map[y + 1]);
-		if (!map_info->temp_map[y] || !map_info->temp_map[y - 1] || !map_info->temp_map[y + 1])
+		below = ft_strlen(map_info->map[y - 1]);
+		current = ft_strlen(map_info->map[y]);
+		above = ft_strlen(map_info->map[y + 1]);
+		if (!map_info->map[y] || !map_info->map[y - 1] || !map_info->map[y + 1])
 			return (1);
-		if (current > below && compare_rows(below, current, map_info->temp_map[y]))
+		if (current > below && compare_rows(below, current, map_info->map[y]))
 			return (1);
-		else if (current < below && compare_rows(current, below, map_info->temp_map[y - 1]))
+		else if (current < below && compare_rows(current, below, map_info->map[y - 1]))
 			return (1);
-		if (current > above && compare_rows(above, current, map_info->temp_map[y]))
+		if (current > above && compare_rows(above, current, map_info->map[y]))
 			return (1);
-		else if (current < above && compare_rows(current, above, map_info->temp_map[y + 1]))
+		else if (current < above && compare_rows(current, above, map_info->map[y + 1]))
 			return (1);
 		y++;
 	}
@@ -72,29 +72,32 @@ static int	wall_coverage(t_map *map_info)
  * @brief	Ensures both the first and last row consists only of 1's.
  *			Call wall checker.
  */
-static int	first_and_last_row(t_map *map_info)
+static int first_and_last_row(t_map *map_info)
 {
-	int	x;
-	int	y;
+    int x = 0;
+    int y;
 
-	x = 0;
-	while (map_info->temp_map[0][x])
-	{
-		if (map_info->temp_map[0][x] != '1')
-			return (write_err("invalid first row"), 1);
-		x++;
-	}
-	x = 0;
-	y = map_info->size_y - 1;
-	while (map_info->temp_map[y][x])
-	{
-		if (map_info->temp_map[y][x] != '1')
-			return (write_err("invalid last row"), 1);
-		x++;
-	}
-	if (wall_coverage(map_info))
-		return (write_err("invalid map walls"), 1);
-	return (0);
+    if (!map_info->map || !map_info->map[0])
+        return (write_err("invalid first row"), 1);
+    while (map_info->map[0][x])
+    {
+        if (map_info->map[0][x] != '1')
+            return (write_err("invalid first row"), 1);
+        x++;
+    }
+    y = map_info->size_y - 1;
+    if (y < 0 || !map_info->map[y])
+        return (write_err("invalid last row"), 1);
+    x = 0;
+    while (map_info->map[y][x])
+    {
+        if (map_info->map[y][x] != '1')
+            return (write_err("invalid last row"), 1);
+        x++;
+    }
+    if (wall_coverage(map_info))
+        return (write_err("invalid map walls"), 1);
+    return (0);
 }
 
 /**
@@ -109,6 +112,7 @@ static int validate_chars(char **s, t_game *game)
 	size_t		y;
 
 	y = -1;
+	game->map_info->size_y = 0;
 	while (s[++y])
 	{
 		x = -1;
@@ -144,15 +148,17 @@ int	process_map(t_game *game)
 	p = (t_player){0};
 	game->textures = &txtr;
 	game->player = &p;
+	// int	i = 0;
+	// while (game->map_info->map[i])
+	// 	printf("%s\n", game->map_info->map[i++]);
 	if (get_info(game))
 	{
-		free_arr(game->textures->info);
         return (1);
 	}
-	if (validate_chars(game->map_info->temp_map, game))
-		return (free_arr(game->map_info->temp_map), free_arr(game->textures->info), 1);
+	if (validate_chars(game->map_info->map, game))
+		return (free_arr(game->map_info->map), 1);
 	// printf("%f %f %f\n", game->player->ppx, game->player->ppy, game->player->pa);
 	if (gameplay(game))
-		return (free_arr(game->textures->info), 1);
+		return (1);
 	return (0);
 }

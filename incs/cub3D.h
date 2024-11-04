@@ -34,12 +34,12 @@
 
 typedef struct s_map
 {
-	char			**temp_map;
+	char			**map;
     size_t          size_y;
 }					t_map;
 typedef struct s_txtr
 {
-    char            **info;
+    // char            **info;
     unsigned int          f;
     unsigned int          c;
     mlx_texture_t   *n_txtr;
@@ -54,9 +54,9 @@ typedef struct s_player
     float       ppy;
     float       pa;
     float       pax;
-    float       pay; 
+    float       pay;
     float       plane_x;
-    float       plane_y; 
+    float       plane_y;
 
 } t_player;
 
@@ -92,7 +92,8 @@ int             get_map(char **av, t_game *game);
 /* gameplay.c */
 int             gameplay(t_game *game);
 void            screen(t_game *window);
-void            load_textures(t_txtr *txtr, char **arr);
+// void            load_textures(t_txtr *txtr, char **arr);
+void            load_textures(t_txtr *txtr, char *line, int i);
 
 /* player.c */
 void            wasd(t_game *game);
@@ -130,5 +131,8 @@ unsigned char   *get_texture_pixels(t_game *game, int i);
 void            free_map(t_game *game);
 void            free_arr(char **arr);
 void            write_err(char *s);
+char            *gnl_mod(int fd);
+char            **ft_split_mod(char const *s, char c);
+char            *gnl_strjoin_mod(char *s1, char *s2, int *line_end);
 
 #endif

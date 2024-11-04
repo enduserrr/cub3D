@@ -19,6 +19,33 @@ int is_player(char c)
 	return (0);
 }
 
+char	*gnl_strjoin_mod(char *s1, char *s2, int *line_end)
+{
+	char	*result;
+	size_t	len1;
+	size_t	len2;
+
+    (void)line_end;
+	if (!s1 || !s2)
+		return (NULL);
+	len1 = ft_strplen(s1);
+	len2 = ft_strplen(s2);
+    if ((len1 + len2) < 1)/*Changed*/
+        result = ft_calloc(len1 + len2, sizeof(char *));
+    result = ft_calloc(len1 + len2 + 1, sizeof(char *));
+	if (!result)
+	{
+		free(s1);
+		return ((void *)1);
+	}
+	ft_memcpy(result, s1, len1);
+	free(s1);
+	ft_memcpy(result + len1, s2, len2 + 1);
+	// if (len1 + len2 > 0 && *(result + len1 + len2 - 1) == '\n')
+	// 	*line_end = 0;
+	return (result);
+}
+
 /**
  * @brief	Joins two strings; s1 & s2, into NULL terminated new string
  *			with sufficient mem allocated. Handles empty strings.
@@ -61,7 +88,7 @@ void    set_player(t_game *game, char c, size_t x, size_t y)
     game->player->pax = cos(game->player->pa);
     game->player->pay = sin(game->player->pa);
     game->player->plane_x = -game->player->pay * 0.66;
-    game->player->plane_y = game->player->pax * 0.66; 
+    game->player->plane_y = game->player->pax * 0.66;
 }
 
 int validate_file(char *name)

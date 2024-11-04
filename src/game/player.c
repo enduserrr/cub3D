@@ -26,7 +26,7 @@ void rotate(t_game *game)
     game->player->pay = sin(game->player->pa);
     game->player->plane_x = -game->player->pay * 0.66; // 60 fov
     game->player->plane_y = game->player->pax * 0.66;  // 60 fov
-    printf("%f %f\n", game->player->plane_x, game->player->plane_y);
+    // printf("%f %f\n", game->player->plane_x, game->player->plane_y);
 }
 
 void move_up(t_game *game, int speed)
@@ -36,9 +36,9 @@ void move_up(t_game *game, int speed)
 
     x = (int)(game->player->ppx + game->player->pax * (speed * speed)) / TILE;
     y = (int)(game->player->ppy + game->player->pay * (speed * speed)) / TILE;
-    if (game->map_info->temp_map[y][x] != '1')
+    if (game->map_info->map[y][x] != '1')
         game->player->ppx += game->player->pax * speed;
-    if (game->map_info->temp_map[y][x] != '1')
+    if (game->map_info->map[y][x] != '1')
         game->player->ppy += game->player->pay * speed;
 }
 
@@ -49,9 +49,9 @@ void move_down(t_game *game, int speed)
 
     x = (int)(game->player->ppx - game->player->pax * (speed * speed)) / TILE;
     y = (int)(game->player->ppy - game->player->pay * (speed * speed)) / TILE;
-    if (game->map_info->temp_map[y][x] != '1')
+    if (game->map_info->map[y][x] != '1')
         game->player->ppx -= game->player->pax * speed;
-    if (game->map_info->temp_map[y][x] != '1')
+    if (game->map_info->map[y][x] != '1')
         game->player->ppy -= game->player->pay * speed;
 }
 
@@ -62,9 +62,9 @@ void move_left(t_game *game, int speed)
 
     x = (int)(game->player->ppx + game->player->pay * (speed * speed)) / TILE;
     y = (int)(game->player->ppy - game->player->pax * (speed * speed)) / TILE;
-    if (game->map_info->temp_map[y][x] != '1')
+    if (game->map_info->map[y][x] != '1')
         game->player->ppx += game->player->pay * speed;
-    if (game->map_info->temp_map[y][x] != '1')
+    if (game->map_info->map[y][x] != '1')
         game->player->ppy -= game->player->pax * speed;
 }
 
@@ -75,9 +75,9 @@ void move_right(t_game *game, int speed)
 
     x = (int)(game->player->ppx - game->player->pay * (speed * speed)) / TILE;
     y = (int)(game->player->ppy + game->player->pax * (speed * speed)) / TILE;
-    if (game->map_info->temp_map[y][x] != '1')
+    if (game->map_info->map[y][x] != '1')
         game->player->ppx -= game->player->pay * speed;
-    if (game->map_info->temp_map[y][x] != '1')
+    if (game->map_info->map[y][x] != '1')
         game->player->ppy += game->player->pax * speed;
 }
 

@@ -38,11 +38,11 @@ void    free_map(t_game *game)
 {
     size_t i = 0;
 
-    while(game->map_info->temp_map[i] != NULL)
+    while(game->map_info->map[i] != NULL)
     {
-        free(game->map_info->temp_map[i]);
+        free(game->map_info->map[i]);
         i++;
     }
-    free(game->map_info->temp_map);
-    game->map_info->temp_map = NULL;
+    free(game->map_info->map);
+    game->map_info->map = NULL;
 }
