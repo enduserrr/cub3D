@@ -58,6 +58,10 @@ void    set_player(t_game *game, char c, size_t x, size_t y)
         game->player->pa = PI;
     else if (c == 'E')
         game->player->pa = 0;
+    game->player->pax = cos(game->player->pa);
+    game->player->pay = sin(game->player->pa);
+    game->player->plane_x = -game->player->pay * 0.66;
+    game->player->plane_y = game->player->pax * 0.66; 
 }
 
 int validate_file(char *name)

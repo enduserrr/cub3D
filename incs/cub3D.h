@@ -27,6 +27,7 @@
 # define WIN_WIDTH  1280
 # define WIN_HEIGHT 720
 # define WIN_NAME   "cub3D"
+#define  FOV        60
 # define TILE       64
 # define TXTR_SIZE  64
 # define PI 3.14159265359
@@ -52,6 +53,10 @@ typedef struct s_player
     float       ppx;
     float       ppy;
     float       pa;
+    float       pax;
+    float       pay; 
+    float       plane_x;
+    float       plane_y; 
 
 } t_player;
 
