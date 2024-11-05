@@ -12,20 +12,23 @@
 
 #include "../../incs/cub3D.h"
 
-void render(t_game *game)
-{
-    int i;
+// void render(t_game *game)
+// {
+//     int i;
 
-    i = 0;
-    while (i < WIN_WIDTH)
-    {
-        draw_result(game, i);
-        i ++;
-    }
-}
+//     i = 0;
+//     while (i < WIN_WIDTH)
+//     {
+//         draw_result(game, i);
+//         i ++;
+//     }
+// }
 
-void screen(t_game *game)
+void screen(void *param)
 {
+    t_game *game;
+
+    game = param;
     if (game->screen)
         mlx_delete_image(game->mlx, game->screen);
     if (!(game->screen = mlx_new_image(game->mlx, WIN_WIDTH, WIN_HEIGHT)))
@@ -39,7 +42,7 @@ void screen(t_game *game)
 		exit(1);
 	}
     raycast(game);
-    render(game);
+    //render(game);
 }
 
 void keys(void  *param)
@@ -50,8 +53,10 @@ void keys(void  *param)
     if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(game->mlx);
     wasd(game);
-    rotate(game);
-    screen(game);
+    if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
+        rotate(game, -1);
+    if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
+        rotate(game, 1);
 }
 static void    out(t_game *game)
 {
@@ -81,7 +86,7 @@ int gameplay(t_game *game)
 {
     if (!(game->mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, WIN_NAME, true)))
         exit(1);
-    screen(game);
+    mlx_loop_hook(game->mlx, screen, game);
     mlx_loop_hook(game->mlx, keys, game);
 	mlx_loop(game->mlx);
     out(game);

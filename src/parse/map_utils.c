@@ -72,24 +72,64 @@ char *ft_strjoin_mod(char const *s1, char const *s2)
         ft_strcpy(new + len1, s2);
     return (new);
 }
+// void player_direction(t_game *game, double pax, double pay, double px, double py)
+// {
+// 	game->player->pax = pax;
+//     game->player->pay = pay;
+//     game->player->plane_x = px;
+//     game->player->plane_y = py;	
+// }
 
-void    set_player(t_game *game, char c, size_t x, size_t y)
+// void set_player(t_game *game, char c, size_t x, size_t y)
+// {
+//     game->player->ppx = (double)x + 0.3;
+//     game->player->ppy = (double)y + 0.3;
+//     if (c == 'N') 
+// 		player_direction(game, 0.0, -1.0, FOV, 0.0);
+//     else if (c == 'S') 
+//         player_direction(game, 0.0, 1.0, -FOV, 0.0);
+//     else if (c == 'W') 
+//         player_direction(game, -1.0, 0.0, 0.0, -FOV);
+//     else if (c == 'E') 
+//         player_direction(game, 1.0, 0.0, 0.0, FOV);
+// }
+
+void set_player(t_game *game, char c, size_t x, size_t y)
 {
-	game->player->ppx = (float)x * 64;
-	game->player->ppy = (float)y * 64;
-	if (c == 'N')
-        game->player->pa = PI / 2;
-    else if (c == 'S')
-        game->player->pa = 3 * PI / 2;
-    else if (c == 'W')
-        game->player->pa = PI;
-    else if (c == 'E')
-        game->player->pa = 0;
-    game->player->pax = cos(game->player->pa);
-    game->player->pay = sin(game->player->pa);
-    game->player->plane_x = -game->player->pay * 0.66;
-    game->player->plane_y = game->player->pax * 0.66;
+    game->player->ppx = (double)x + 0.3;
+    game->player->ppy = (double)y + 0.3;
+
+    if (c == 'N')  // Facing North
+    {
+        game->player->pax = 0.0;
+        game->player->pay = -1.0;
+        game->player->plane_x = FOV;
+        game->player->plane_y = 0.0;
+    }
+    else if (c == 'S')  // Facing South
+    {
+        game->player->pax = 0.0;
+        game->player->pay = 1.0;
+        game->player->plane_x = -FOV;
+        game->player->plane_y = 0.0;
+    }
+    else if (c == 'W')  // Facing West
+    {
+        game->player->pax = -1.0;
+        game->player->pay = 0.0;
+        game->player->plane_x = 0.0;
+        game->player->plane_y = -FOV;
+    }
+    else if (c == 'E')  // Facing East
+    {
+        game->player->pax = 1.0;
+        game->player->pay = 0.0;
+        game->player->plane_x = 0.0;
+        game->player->plane_y = FOV;
+    }
 }
+
+
 
 int validate_file(char *name)
 {

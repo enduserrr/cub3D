@@ -24,10 +24,10 @@
 # define RB     "\033[1;91m"
 # define RES    "\033[0m"
 
-# define WIN_WIDTH  1280
+# define WIN_WIDTH  960
 # define WIN_HEIGHT 720
 # define WIN_NAME   "cub3D"
-#define  FOV        60
+#define  FOV        0.66
 # define TILE       64
 # define TXTR_SIZE  64
 # define PI 3.14159265359
@@ -58,29 +58,39 @@ typedef struct s_txtr
 
 typedef struct s_player
 {
-    float       ppx;
-    float       ppy;
-    float       pa;
-    float       pax;
-    float       pay;
-    float       plane_x;
-    float       plane_y;
+    double      ppx;
+    double      ppy;
+    double      pa;
+    double      pax;
+    double      pay;
+    double      plane_x;
+    double      plane_y;
 
 } t_player;
 
 typedef struct s_ray
 {
-    int     index;
-    bool    corner;
-    float   sx;
-    float   sy;
-    int     hx;
-    int     hy;
-    int     hs;
-    float   wall_y;
-    float   wall_height;
-    float   angle;
-    double  length;
+    double          camera_x;
+    double          dir_x;
+    double          dir_y;
+    double          d_dist_x;
+    double          d_dist_y;
+    double          s_dist_x;
+    double          s_dist_y;
+    double          distance;
+    double          wall_height;
+    double          wall_x;
+    double          text_x;
+    double          text_y;
+    int             map_x;
+    int             map_y;
+    int             step_x;
+    int             step_y;
+    int             hit;
+    int             side; 
+    int             draw_start;
+    int             draw_end;
+    unsigned char   *pixels;
 } t_ray;
 
 typedef struct s_game
@@ -90,7 +100,7 @@ typedef struct s_game
     t_map           *map_info;
     t_player        *player;
     t_txtr          *textures;
-    t_ray           ray[1280];
+    t_ray           *ray;
 } t_game;
 
 /* extract.c */
@@ -98,13 +108,13 @@ int             get_map(char **av, t_game *game);
 
 /* gameplay.c */
 int             gameplay(t_game *game);
-void            screen(t_game *window);
+void            screen(void *param);
 // void            load_textures(t_txtr *txtr, char **arr);
 // void            load_textures(t_txtr *txtr, char *line, int i);
 
 /* player.c */
 void            wasd(t_game *game);
-void            rotate(t_game *game);
+void            rotate(t_game *game, int dir);
 
 /* validate.c */
 int             process_map(t_game *game);
@@ -119,19 +129,16 @@ int             is_player(char c);
 int             validate_file(char *name);
 
 /* draw.c */
-void            draw_result(t_game *game, int i);
+void            draw(t_game *game, int i);
 
 /* raycasting.c */
 void            raycast(t_game *game);
 
-/* hit_side.c*/
-void hit_side(t_game *game, int i);
-
 /* render_utils.c */
 float           ray_length(t_game *game, float ray_x, float ray_y);
 bool            wall(t_game *game, float x, float y);
-void            pixel_safe(t_game *win, int x, float y, uint32_t color);
-unsigned int    get_color(unsigned char *pixels, int tex_x, float texture_pos);
+void            pixel_safe(t_game *game, int x, int y, uint32_t color);
+unsigned int    get_color(unsigned char *pixels, int tex_x, int tex_y);
 unsigned char   *get_texture_pixels(t_game *game, int i);
 
 /* utils */
