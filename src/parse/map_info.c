@@ -12,74 +12,42 @@
 
 #include "../../incs/cub3D.h"
 
-static unsigned int  *get_rgb(char *line)
+void    str_to_color(t_color *ptr, char *line)
 {
-    unsigned int  *res;
-    int     i;
-    int     k;
+    char	**colors;
 
-    i = 0;
-    k = 0;
-    res = malloc(3 * sizeof(unsigned int));
-    if (!res)
-        return (NULL);
-    while (line[i] && k < 3)
+    colors = ft_split(line, ',');
+    if (colors && colors[0] && colors[1] && colors[2])
     {
-        while (line[i] && (line[i] == ' ' || line[i] == '\t'))
-            i++;
-        res[k] = (unsigned int)ft_atoi(&line[i]);
-        k++;
-        while (line[i] && line[i] >= '0' && line[i] <= '9')
-            i++;
-        while (line[i] && (line[i] == ',' || line[i] == ' '))
-            i++;
+        ptr->r = ft_atoi(colors[0]);
+        ptr->g = ft_atoi(colors[1]);
+        ptr->b = ft_atoi(colors[2]);
+        ptr->a = 0;
     }
-    if (k != 3)
-        return (free(res), NULL);
-    return (res);
+    free_arr(colors);
 }
 
-static unsigned int rgb_to_hex(unsigned int *rgb)
+static void check_info(t_game *game, char *line, int i)
 {
-    int red;
-    int green;
-    int blue;
+    t_color *colors;
 
-    if (!rgb || rgb[0] > 255 || rgb[1] > 255 || rgb[2] > 255)
-        return (0);
-    red = (int)rgb[0];
-    green = (int)rgb[1];
-    blue = (int)rgb[2];
-    return ((red << 16) | (green << 8) | blue);
-}
-
-static void check_info(char *line, t_txtr *textures, int i)
-{
-    int fd;
-    unsigned int *color;
-
-    fd = 0;
-    color = 0;
     if (!line || (i != 4 && i != 5))
         return ;
+    colors = NULL;
     if (i == 4)
     {
-        color = get_rgb(line);
-        textures->f = rgb_to_hex(color);
-        printf("%x\n", textures->f);
-        free(color);
+        game->textures->f = malloc(sizeof(t_color));
+        str_to_color(game->textures->f, line);
     }
     else if (i == 5)
     {
-        color = get_rgb(line);
-        textures->c = rgb_to_hex(color);
-        printf("%x\n", textures->c);
-        free(color);
+        game->textures->c = malloc(sizeof(t_color));
+        str_to_color(game->textures->c, line);
     }
     return ;
 }
 
-void    load_textures(t_txtr *txtr, char *line, int i)
+static void    load_textures(t_game *game, t_txtr *txtr, char *line, int i)
 {
     if (!line)
         return ;
@@ -92,7 +60,7 @@ void    load_textures(t_txtr *txtr, char *line, int i)
     else if (i == 3)
         txtr->e_txtr = mlx_load_png(line);
     else if (i == 4 || i == 5)
-        check_info(line, txtr, i);
+        check_info(game, line, i);
     free(line);
     line = NULL;
     return ;
@@ -138,7 +106,7 @@ int get_info(t_game *game)
     {
         if ((line = parse_info(tmp[k], line)) == NULL)
             break ;
-        load_textures(game->textures, line, k);
+        load_textures(game, game->textures, line, k);
         free(tmp[k]);
         tmp[k] = NULL;
         k++;

@@ -37,11 +37,19 @@ typedef struct s_map
 	char			**map;
     size_t          size_y;
 }					t_map;
+
+typedef struct s_color
+{
+	unsigned char	b;
+	unsigned char	g;
+	unsigned char	r;
+	unsigned char	a;
+}	t_color;
+
 typedef struct s_txtr
 {
-    // char            **info;
-    unsigned int          f;
-    unsigned int          c;
+    t_color         *f;
+    t_color         *c;
     mlx_texture_t   *n_txtr;
     mlx_texture_t   *e_txtr;
     mlx_texture_t   *s_txtr;
@@ -75,7 +83,6 @@ typedef struct s_ray
     double  length;
 } t_ray;
 
-
 typedef struct s_game
 {
     mlx_t           *mlx;
@@ -93,7 +100,7 @@ int             get_map(char **av, t_game *game);
 int             gameplay(t_game *game);
 void            screen(t_game *window);
 // void            load_textures(t_txtr *txtr, char **arr);
-void            load_textures(t_txtr *txtr, char *line, int i);
+// void            load_textures(t_txtr *txtr, char *line, int i);
 
 /* player.c */
 void            wasd(t_game *game);
@@ -123,7 +130,7 @@ void hit_side(t_game *game, int i);
 /* render_utils.c */
 float           ray_length(t_game *game, float ray_x, float ray_y);
 bool            wall(t_game *game, float x, float y);
-void            pixel_safe(t_game *win, int x, float y, unsigned int color);
+void            pixel_safe(t_game *win, int x, float y, uint32_t color);
 unsigned int    get_color(unsigned char *pixels, int tex_x, float texture_pos);
 unsigned char   *get_texture_pixels(t_game *game, int i);
 
