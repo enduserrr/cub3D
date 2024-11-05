@@ -53,14 +53,8 @@ void keys(void  *param)
     rotate(game);
     screen(game);
 }
-
-int gameplay(t_game *game)
+static void    out(t_game *game)
 {
-    if (!(game->mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, WIN_NAME, true)))
-        exit(1);
-    screen(game);
-    mlx_loop_hook(game->mlx, keys, game);
-	mlx_loop(game->mlx);
     mlx_delete_texture(game->textures->n_txtr);
     mlx_delete_texture(game->textures->s_txtr);
     mlx_delete_texture(game->textures->w_txtr);
@@ -71,11 +65,25 @@ int gameplay(t_game *game)
         mlx_close_window(game->mlx);
     }
     mlx_terminate(game->mlx);
+    free(game->textures->f);
+    game->textures->f = NULL;
+    free(game->textures->c);
+    game->textures->c = NULL;
     free_map(game);
     game->map_info = NULL;
     game->mlx = NULL;
     game->textures = NULL;
     game->screen = NULL;
     game = NULL;
+}
+
+int gameplay(t_game *game)
+{
+    if (!(game->mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, WIN_NAME, true)))
+        exit(1);
+    screen(game);
+    mlx_loop_hook(game->mlx, keys, game);
+	mlx_loop(game->mlx);
+    out(game);
     return (0);
 }

@@ -52,7 +52,7 @@ bool wall(t_game *game, float x, float y) //
     return false;
 }
 
-void pixel_safe(t_game *game, int x, float y, unsigned int color)
+void pixel_safe(t_game *game, int x, float y, uint32_t color)
 {
     if(x >= WIN_WIDTH || y >= WIN_HEIGHT || x < 0 || y < 0)
         return ;
