@@ -27,10 +27,16 @@
 # define WIN_WIDTH  960
 # define WIN_HEIGHT 720
 # define WIN_NAME   "cub3D"
-#define  FOV        0.66
+# define  FOV       0.66
 # define TILE       64
+# define PI         3.14159265359
+# define BIG_NUM    1e30
+
+/* textures */
 # define TXTR_SIZE  64
-# define PI 3.14159265359
+# define WEAPON_W   450
+# define WEAPON_H   242
+# define BYTES_P    4 
 
 typedef struct s_map
 {
@@ -54,6 +60,7 @@ typedef struct s_txtr
     mlx_texture_t   *e_txtr;
     mlx_texture_t   *s_txtr;
     mlx_texture_t   *w_txtr;
+    mlx_texture_t   *gun;
 } t_txtr;
 
 typedef struct s_player
@@ -97,6 +104,7 @@ typedef struct s_game
 {
     mlx_t           *mlx;
     mlx_image_t     *screen;
+    mlx_image_t     *gun;
     t_map           *map_info;
     t_player        *player;
     t_txtr          *textures;
@@ -108,7 +116,10 @@ int             get_map(char **av, t_game *game);
 
 /* gameplay.c */
 int             gameplay(t_game *game);
-void            screen(void *param);;
+// void            screen(void *param);;
+
+/* clean_exit.c */
+void    out(t_game *game);
 
 /* player.c */
 void            wasd(t_game *game);

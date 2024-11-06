@@ -1,11 +1,11 @@
-NO /home/eleppala/Documents/projects/3cube/textures/east.png
-SO /home/eleppala/Documents/projects/3cube/textures/west.png
-WE /home/eleppala/Documents/projects/3cube/textures/north.png
-EA /home/eleppala/Documents/projects/3cube/textures/south.png
+NO /home/eleppala/Documents/projects/c1/textures//tile174.png
+SO /home/eleppala/Documents/projects/c1/textures/tile193.png
+WE /home/eleppala/Documents/projects/c1/textures/tile232.png
+EA /home/eleppala/Documents/projects/c1/textures/tile175.png
 
 
-F 50,50,50
-C 90,90,90
+F 0, 135, 206
+C 255, 87, 51
 
 111111111111
 100000000001

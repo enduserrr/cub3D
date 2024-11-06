@@ -31,6 +31,6 @@ unsigned int get_color(unsigned char *pixels, int text_x, int text_y)
     unsigned char *color_data;
 
     tex_y = tex_y % 64;
-    color_data = pixels + (tex_y * 64 + tex_x) * 4;
+    color_data = pixels + (tex_y * TXTR_SIZE + tex_x) * BYTES_P;
     return (color_data[0] << 24) | (color_data[1] << 16) | (color_data[2] << 8) | color_data[3];
 }
