@@ -3,8 +3,8 @@ SO /home/asalo/Code/enduserrr/cub3D/textures/4.png
 WE /home/asalo/Code/enduserrr/cub3D/textures/2.png
 EA /home/asalo/Code/enduserrr/cub3D/textures/3.png
 
-F 0, 0, 128
-C 249, 0, 0
+F 0, 135, 206
+C 255, 87, 51
 
 1111111111     1111111111    1111
 1000000001     1000000001    10001

@@ -148,16 +148,12 @@ int	process_map(t_game *game)
 	p = (t_player){0};
 	game->textures = &txtr;
 	game->player = &p;
-	// int	i = 0;
-	// while (game->map_info->map[i])
-	// 	printf("%s\n", game->map_info->map[i++]);
 	if (get_info(game))
 	{
         return (1);
 	}
 	if (validate_chars(game->map_info->map, game))
 		return (free_arr(game->map_info->map), 1);
-	// printf("%f %f %f\n", game->player->ppx, game->player->ppy, game->player->pa);
 	if (gameplay(game))
 		return (1);
 	return (0);

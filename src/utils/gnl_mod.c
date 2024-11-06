@@ -23,15 +23,6 @@ static void	strlcpy_modi(char *dst, const char *src, size_t dstsize)
 		{
 			dst[i] = src[i];
 			i++;
-			// if (src[i] == '\n' && src[i + 1] == '\n')
-			// 	i++;
-			// else if ((src[i] == ' ' && src[i + 1] == ' ') || (src[i] == '\t'))
-			// 	i++;
-			// else
-			// {
-			// 	dst[i] = src[i];
-			// 	i++;
-			// }
 		}
 		dst[i] = '\0';
 	}
@@ -94,7 +85,7 @@ static char	*gnl_extract(char *line, char *stash, int *eof, int fd)
 		file_size = find_end(buffer);
 		strlcpy_modi(stash, &buffer[file_size], (4095 + 1));
 		buffer[file_size] = '\0';
-		line = gnl_strjoin_mod(line, buffer, eof);
+		line = strjoin_mod(line, buffer, eof);
 		if (read_check == 0)
 		{
 			ft_bzero(stash, 4095 + 1);
