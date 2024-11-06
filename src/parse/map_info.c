@@ -12,7 +12,7 @@
 
 #include "../../incs/cub3D.h"
 
-void    str_to_color(t_color *ptr, char *line)
+static void    str_to_color(t_color *ptr, char *line)
 {
     char	**colors;
 
@@ -22,7 +22,7 @@ void    str_to_color(t_color *ptr, char *line)
         ptr->r = ft_atoi(colors[0]);
         ptr->g = ft_atoi(colors[1]);
         ptr->b = ft_atoi(colors[2]);
-        ptr->a = 0;
+        ptr->a = 255;
     }
     free_arr(colors);
 }
@@ -116,7 +116,5 @@ int get_info(t_game *game)
         tmp[i++] = tmp[k++];
     tmp[i] = NULL;
     game->map_info->map = tmp;
-    // for (int l = 0; game->map_info->map[l];)
-	// 	printf("%s\n", game->map_info->map[l++]);
     return (0);
 }

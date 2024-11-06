@@ -19,7 +19,7 @@ int is_player(char c)
 	return (0);
 }
 
-char	*gnl_strjoin_mod(char *s1, char *s2, int *line_end)
+char	*strjoin_mod(char *s1, char *s2, int *line_end)
 {
 	char	*result;
 	size_t	len1;
@@ -46,49 +46,40 @@ char	*gnl_strjoin_mod(char *s1, char *s2, int *line_end)
 	return (result);
 }
 
-/**
- * @brief	Joins two strings; s1 & s2, into NULL terminated new string
- *			with sufficient mem allocated. Handles empty strings.
-*/
-char *ft_strjoin_mod(char const *s1, char const *s2)
-{
-	char	*new;
-	size_t	len1;
-	size_t	len2;
 
-	len1 = 0;
-	len2 = 0;
-	new = NULL;
-	if (s1 != NULL)
-		len1 = ft_strlen(s1);
-	if (s2 != NULL)
-		len2 = ft_strlen(s2);
-    new = malloc(len1 + len2 + 1);
-    if (!new)
-        return (NULL);
-    if (s1)
-        ft_strcpy(new, s1);
-    if (s2)
-        ft_strcpy(new + len1, s2);
-    return (new);
-}
-
-void    set_player(t_game *game, char c, size_t x, size_t y)
+void set_player(t_game *game, char c, size_t x, size_t y)
 {
-	game->player->ppx = (float)x * 64;
-	game->player->ppy = (float)y * 64;
-	if (c == 'N')
-        game->player->pa = PI / 2;
-    else if (c == 'S')
-        game->player->pa = 3 * PI / 2;
-    else if (c == 'W')
-        game->player->pa = PI;
-    else if (c == 'E')
-        game->player->pa = 0;
-    game->player->pax = cos(game->player->pa);
-    game->player->pay = sin(game->player->pa);
-    game->player->plane_x = -game->player->pay * 0.66;
-    game->player->plane_y = game->player->pax * 0.66;
+    game->player->ppx = (double)x + 0.3;
+    game->player->ppy = (double)y + 0.3;
+
+    if (c == 'N')  // Facing North
+    {
+        game->player->pax = 0.0;
+        game->player->pay = -1.0;
+        game->player->plane_x = FOV;
+        game->player->plane_y = 0.0;
+    }
+    else if (c == 'S')  // Facing South
+    {
+        game->player->pax = 0.0;
+        game->player->pay = 1.0;
+        game->player->plane_x = -FOV;
+        game->player->plane_y = 0.0;
+    }
+    else if (c == 'W')  // Facing West
+    {
+        game->player->pax = -1.0;
+        game->player->pay = 0.0;
+        game->player->plane_x = 0.0;
+        game->player->plane_y = -FOV;
+    }
+    else if (c == 'E')  // Facing East
+    {
+        game->player->pax = 1.0;
+        game->player->pay = 0.0;
+        game->player->plane_x = 0.0;
+        game->player->plane_y = FOV;
+    }
 }
 
 int validate_file(char *name)

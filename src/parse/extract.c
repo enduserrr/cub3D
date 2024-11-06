@@ -43,7 +43,7 @@ int	get_map(char **av, t_game *game)
 		close(fd);
 		return (write_err("read error"), 1);
 	}
-	arr = ft_split_mod(temp_line, '\n');
+	arr = ft_split(temp_line, '\n');
 	game->map_info->map = arr;
 	free(temp_line);
 	temp_line = NULL;
