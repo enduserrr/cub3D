@@ -20,11 +20,11 @@ void init_ray(t_game *game, int i)
     game->ray->map_x = (int)game->player->ppx;
     game->ray->map_y = (int)game->player->ppy;
     if (game->ray->dir_x == 0)
-        game->ray->d_dist_x = 1e30;
+        game->ray->d_dist_x = BIG_NUM;
     else
         game->ray->d_dist_x = fabs(1 / game->ray->dir_x);
     if (game->ray->dir_y == 0)
-        game->ray->d_dist_y = 1e30;
+        game->ray->d_dist_y = BIG_NUM;
     else
         game->ray->d_dist_y = fabs(1 / game->ray->dir_y);
     game->ray->hit = 0;

@@ -71,8 +71,6 @@ void background(t_game *game, int i)
 
     up = rgb_to_hex(game->textures->c);
     down = rgb_to_hex(game->textures->f);
-    printf("%i\n%i\n", up, down);
-    printf("up:%x down:%x\n", up, down);
     half = WIN_HEIGHT / 2;
     start = 0;
     while (start < half)

@@ -46,40 +46,27 @@ char	*strjoin_mod(char *s1, char *s2, int *line_end)
 	return (result);
 }
 
+void set_player_direction(t_game *game, double pax, double pay, double plane_x, double plane_y)
+{
+    game->player->pax = pax;
+    game->player->pay = pay;
+    game->player->plane_x = plane_x;
+    game->player->plane_y = plane_y;
+}
 
 void set_player(t_game *game, char c, size_t x, size_t y)
 {
     game->player->ppx = (double)x + 0.3;
     game->player->ppy = (double)y + 0.3;
 
-    if (c == 'N')  // Facing North
-    {
-        game->player->pax = 0.0;
-        game->player->pay = -1.0;
-        game->player->plane_x = FOV;
-        game->player->plane_y = 0.0;
-    }
-    else if (c == 'S')  // Facing South
-    {
-        game->player->pax = 0.0;
-        game->player->pay = 1.0;
-        game->player->plane_x = -FOV;
-        game->player->plane_y = 0.0;
-    }
-    else if (c == 'W')  // Facing West
-    {
-        game->player->pax = -1.0;
-        game->player->pay = 0.0;
-        game->player->plane_x = 0.0;
-        game->player->plane_y = -FOV;
-    }
-    else if (c == 'E')  // Facing East
-    {
-        game->player->pax = 1.0;
-        game->player->pay = 0.0;
-        game->player->plane_x = 0.0;
-        game->player->plane_y = FOV;
-    }
+    if (c == 'N')
+        set_player_direction(game, 0.0, -1.0, FOV, 0.0);
+    else if (c == 'S')
+        set_player_direction(game, 0.0, 1.0, -FOV, 0.0);
+    else if (c == 'W')
+        set_player_direction(game, -1.0, 0.0, 0.0, -FOV);
+    else if (c == 'E')
+        set_player_direction(game, 1.0, 0.0, 0.0, FOV);
 }
 
 int validate_file(char *name)

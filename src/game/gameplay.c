@@ -21,15 +21,16 @@ void screen(void *param)
         mlx_delete_image(game->mlx, game->screen);
     if (!(game->screen = mlx_new_image(game->mlx, WIN_WIDTH, WIN_HEIGHT)))
 	{
-		mlx_close_window(game->mlx);
+		out(game);
 		exit(1);
 	}
 	if (mlx_image_to_window(game->mlx, game->screen, 0, 0) == -1)
 	{
-		mlx_close_window(game->mlx);
+        out(game);
 		exit(1);
 	}
     raycast(game);
+    game->screen->instances[0].z = 0; // pienempi kuin aseen instance
 }
 
 void keys(void  *param)
@@ -45,34 +46,42 @@ void keys(void  *param)
     if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
         rotate(game, 1);
 }
-void    out(t_game *game)
+
+void get_weapon(t_game *game)
 {
-    mlx_delete_texture(game->textures->n_txtr);
-    mlx_delete_texture(game->textures->s_txtr);
-    mlx_delete_texture(game->textures->w_txtr);
-    mlx_delete_texture(game->textures->e_txtr);
-    if (game->screen)
+    //muokkaa oikea path: /home/asalo/Code/enduserrr/cub3D/textures/gun.png
+    //Kokeile myos c.cub mappia, siina yhet uudet random texturet
+    game->textures->gun = mlx_load_png("/home/eleppala/Documents/projects/c1/textures/gun.png");
+    if (!game->textures->gun)
     {
-        mlx_delete_image(game->mlx, game->screen);
-        mlx_close_window(game->mlx);
+        out(game);
+        exit(1);
     }
-    mlx_terminate(game->mlx);
-    free(game->textures->f);
-    game->textures->f = NULL;
-    free(game->textures->c);
-    game->textures->c = NULL;
-    free_map(game);
-    game->map_info = NULL;
-    game->mlx = NULL;
-    game->textures = NULL;
-    game->screen = NULL;
-    game = NULL;
+    game->gun = mlx_new_image(game->mlx, WEAPON_W, WEAPON_H);
+    if (!game->gun)
+    {
+        out(game);
+        exit(1);
+    }
+    game->gun = mlx_texture_to_image(game->mlx, game->textures->gun);
+    if (!game->gun)
+    {
+        out(game);
+        exit(1);
+    }
+	if (mlx_image_to_window(game->mlx, game->gun, WIN_WIDTH / 3, (WIN_HEIGHT - WEAPON_H)) == -1)
+	{
+        out(game);
+		exit(1);
+	}
+    game->gun->instances[0].z = 1; // suurempi kuin screen instance
 }
 
 int gameplay(t_game *game)
 {
     if (!(game->mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, WIN_NAME, true)))
         exit(1);
+    get_weapon(game);
     mlx_loop_hook(game->mlx, screen, game);
     mlx_loop_hook(game->mlx, keys, game);
 	mlx_loop(game->mlx);
