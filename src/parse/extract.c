@@ -16,39 +16,42 @@
  * @brief	Read an fd and copy it's contents to new string.
  *			Handles too large files and read() errors gracefully.
  */
-static char	*read_fd(int fd)
+static char	*read_fd(char **av)
 {
 	char	*new;
+	int		fd;
 
+	fd = open(av[1], O_RDONLY);
+	if (fd < 0)
+		return (write_err("dang"), NULL);
 	new = gnl_mod(fd);
-    return (new);
+	if (!new)
+	{
+		close(fd);
+		return (write_err("read error"), NULL);
+	}
+	close(fd);
+	return (new);
 }
 
 int	get_map(char **av, t_game *game)
 {
-	t_map	*map_info;
+	t_map	*info;
 	char	*temp_line;
 	char	**arr;
-	int		fd;
 	int		i;
 
-	map_info = malloc(sizeof(t_map));
-	map_info->map = NULL;
-	game->map_info = map_info;
+	info = malloc(sizeof(t_map));
+	info->map = NULL;
+	game->info = info;
 	temp_line = NULL;
-	if ((fd = open(av[1], O_RDONLY)) < 0)
-		return (write_err("dang"), 1);
-	if ((temp_line = read_fd(fd)) == NULL)
-	{
-		close(fd);
-		return (write_err("read error"), 1);
-	}
+	temp_line = read_fd(av);
 	arr = ft_split(temp_line, '\n');
-	game->map_info->map = arr;
+	game->info->map = arr;
 	free(temp_line);
 	temp_line = NULL;
-	if (game->map_info->map == NULL)
+	if (game->info->map == NULL)
 		return (write_err("map error 0"), 1);
-	i = process_map(game);
-	return (free(map_info), i);
+	i = processinfo(game);
+	return (free(info), i);
 }

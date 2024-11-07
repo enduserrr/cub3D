@@ -12,7 +12,7 @@
 
 #include "../../incs/cub3D.h"
 
-void    write_err(char *s)
+void	write_err(char *s)
 {
 	write(2, RB, ft_strlen(RB));
 	write(2, "Error: ", ft_strlen("Error: "));
@@ -34,15 +34,16 @@ void	free_arr(char **arr)
 	free(arr);
 }
 
-void    free_map(t_game *game)
+void	free_map(t_game *game)
 {
-    size_t i = 0;
+	size_t	i;
 
-    while(game->map_info->map[i] != NULL)
-    {
-        free(game->map_info->map[i]);
-        i++;
-    }
-    free(game->map_info->map);
-    game->map_info->map = NULL;
+	i = 0;
+	while (game->info->map[i] != NULL)
+	{
+		free(game->info->map[i]);
+		i++;
+	}
+	free(game->info->map);
+	game->info->map = NULL;
 }

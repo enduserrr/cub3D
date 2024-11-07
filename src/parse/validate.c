@@ -21,7 +21,7 @@
  *			and copy it to t_game.
  */
 
-static int	compare_rows(size_t shorter, size_t longer, char *long_row)
+static int	cmpr_rows(size_t shorter, size_t longer, char *long_row)
 {
 	size_t	x;
 
@@ -38,30 +38,30 @@ static int	compare_rows(size_t shorter, size_t longer, char *long_row)
 }
 
 /**
- * @brief	 Determines whether all viable map area is covered with walls (1's).
+		Determines whether all viable map area is covered with walls (1's).
  */
-static int	wall_coverage(t_map *map_info)
+static int	wall_coverage(t_map *info)
 {
 	size_t	y;
 	size_t	below;
-	size_t	current;
+	size_t	curr;
 	size_t	above;
 
 	y = 1;
-	while (y < (map_info->size_y - 1))
+	while (y < (info->size_y - 1))
 	{
-		below = ft_strlen(map_info->map[y - 1]);
-		current = ft_strlen(map_info->map[y]);
-		above = ft_strlen(map_info->map[y + 1]);
-		if (!map_info->map[y] || !map_info->map[y - 1] || !map_info->map[y + 1])
+		below = ft_strlen(info->map[y - 1]);
+		curr = ft_strlen(info->map[y]);
+		above = ft_strlen(info->map[y + 1]);
+		if (!info->map[y] || !info->map[y - 1] || !info->map[y + 1])
 			return (1);
-		if (current > below && compare_rows(below, current, map_info->map[y]))
+		if (curr > below && cmpr_rows(below, curr, info->map[y]))
 			return (1);
-		else if (current < below && compare_rows(current, below, map_info->map[y - 1]))
+		else if (curr < below && cmpr_rows(curr, below, info->map[y - 1]))
 			return (1);
-		if (current > above && compare_rows(above, current, map_info->map[y]))
+		if (curr > above && cmpr_rows(above, curr, info->map[y]))
 			return (1);
-		else if (current < above && compare_rows(current, above, map_info->map[y + 1]))
+		else if (curr < above && cmpr_rows(curr, above, info->map[y + 1]))
 			return (1);
 		y++;
 	}
@@ -72,32 +72,33 @@ static int	wall_coverage(t_map *map_info)
  * @brief	Ensures both the first and last row consists only of 1's.
  *			Call wall checker.
  */
-static int first_and_last_row(t_map *map_info)
+static int	first_and_last_row(t_map *info)
 {
-    int x = 0;
-    int y;
+	int	x;
+	int	y;
 
-    if (!map_info->map || !map_info->map[0])
-        return (write_err("invalid first row"), 1);
-    while (map_info->map[0][x])
-    {
-        if (map_info->map[0][x] != '1')
-            return (write_err("invalid first row"), 1);
-        x++;
-    }
-    y = map_info->size_y - 1;
-    if (y < 0 || !map_info->map[y])
-        return (write_err("invalid last row"), 1);
-    x = 0;
-    while (map_info->map[y][x])
-    {
-        if (map_info->map[y][x] != '1')
-            return (write_err("invalid last row"), 1);
-        x++;
-    }
-    if (wall_coverage(map_info))
-        return (write_err("invalid map walls"), 1);
-    return (0);
+	x = 0;
+	if (!info->map || !info->map[0])
+		return (write_err("invalid first row"), 1);
+	while (info->map[0][x])
+	{
+		if (info->map[0][x] != '1')
+			return (write_err("invalid first row"), 1);
+		x++;
+	}
+	y = info->size_y - 1;
+	if (y < 0 || !info->map[y])
+		return (write_err("invalid last row"), 1);
+	x = 0;
+	while (info->map[y][x])
+	{
+		if (info->map[y][x] != '1')
+			return (write_err("invalid last row"), 1);
+		x++;
+	}
+	if (wall_coverage(info))
+		return (write_err("invalid map walls"), 1);
+	return (0);
 }
 
 /**
@@ -105,20 +106,20 @@ static int first_and_last_row(t_map *map_info)
  *			Swaps spaces to 1's.
  *			(Meaby don't swap space's before the string starts.)
  */
-
-static int validate_chars(char **s, t_game *game)
+static int	validate_chars(char **s, t_game *game)
 {
-    size_t		x;
-	size_t		y;
+	size_t	x;
+	size_t	y;
 
 	y = -1;
-	game->map_info->size_y = 0;
+	game->info->size_y = 0;
 	while (s[++y])
 	{
 		x = -1;
 		while (s[y][++x])
 		{
-			if (!is_player(s[y][x]) && s[y][x] != ' ' && s[y][x] != '0' && s[y][x] != '1')
+			if (!is_player(s[y][x]) && s[y][x] != ' ' && s[y][x] != '0'
+				&& s[y][x] != '1')
 				return (1);
 			if (is_player(s[y][x]))
 				set_player(game, s[y][x], x, y);
@@ -127,9 +128,9 @@ static int validate_chars(char **s, t_game *game)
 		}
 		if (s[y][x - 1] != '1')
 			return (write_err("incorrect map"), 1);
-		game->map_info->size_y++;
+		game->info->size_y++;
 	}
-	if (first_and_last_row(game->map_info))
+	if (first_and_last_row(game->info))
 		return (1);
 	return (0);
 }
@@ -139,7 +140,7 @@ static int validate_chars(char **s, t_game *game)
  *			Calls the functions to get and check the data for the map &
  *			the textures
  */
-int	process_map(t_game *game)
+int	processinfo(t_game *game)
 {
 	t_txtr		txtr;
 	t_player	p;
@@ -148,12 +149,13 @@ int	process_map(t_game *game)
 	p = (t_player){0};
 	game->textures = &txtr;
 	game->player = &p;
+	game->player->set = false;
 	if (get_info(game))
 	{
-        return (1);
+		return (1);
 	}
-	if (validate_chars(game->map_info->map, game))
-		return (free_arr(game->map_info->map), 1);
+	if (validate_chars(game->info->map, game))
+		return (free_arr(game->info->map), 1);
 	if (gameplay(game))
 		return (1);
 	return (0);
