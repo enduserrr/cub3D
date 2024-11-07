@@ -79,8 +79,6 @@ void dda(t_game *game)
 
 void walls(t_game *game)
 {
-    game->ray->draw_start = 0;
-    game->ray->draw_end = 0;
     if (game->ray->side == 0)
         game->ray->distance = (game->ray->s_dist_x - game->ray->d_dist_x);
     else
@@ -96,11 +94,12 @@ void walls(t_game *game)
 
 void raycast(t_game *game)
 {
-    int i = 0;
     t_ray r;
     r = (t_ray){0};
-    game->ray = &r;
+    int i;
 
+    game->ray = &r;
+    i = 0;
     while (i < WIN_WIDTH)
     {
         init_ray(game, i);

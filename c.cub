@@ -1,17 +1,17 @@
-NO /home/eleppala/Documents/projects/c1/textures//tile174.png
-SO /home/eleppala/Documents/projects/c1/textures/tile193.png
-WE /home/eleppala/Documents/projects/c1/textures/tile232.png
-EA /home/eleppala/Documents/projects/c1/textures/tile175.png
+NO ./textures//tile174.png
+SO ./textures/tile193.png
+WE ./textures/tile232.png
+EA ./textures/tile175.png
 
 
 F 0, 135, 206
 C 255, 87, 51
 
 111111111111
-100000000001
-100011000001
 100001000001
-100000011001
-100000001001
-100W00000001
+100000000001
+10000N000001
+100000000001
+100000000001
+100000000001
 111111111111

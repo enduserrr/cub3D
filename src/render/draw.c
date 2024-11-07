@@ -87,13 +87,14 @@ void background(t_game *game, int i)
 
 void draw(t_game *game, int i)
 {
-	int		y;
-	double	step;
-	double	texture_pos;
-    unsigned int color;
+	int		        y;
+    int             x;
+	double	        step;
+	double	        texture_pos;
+    unsigned int    color;
 
 	y = game->ray->draw_start;
-    int x = game->ray->draw_end;
+    x = game->ray->draw_end;
 	step = 1.0 * ((double)TXTR_SIZE) / (double)game->ray->wall_height;
 	texture_pos = ((double)game->ray->draw_start - ((double)WIN_HEIGHT / 2.0)
     + ((double)game->ray->wall_height / 2.0)) * step;
