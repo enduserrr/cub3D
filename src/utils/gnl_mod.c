@@ -28,13 +28,12 @@ static void	strlcpy_modi(char *dst, const char *src, size_t dstsize)
 	}
 }
 
-static char	*init_gnl(char *stash, int *eof)
+static char	*init_gnl(char *stash)
 {
 	size_t	i;
 	char	*line;
 
 	i = 0;
-	(void)eof;
 	while (stash[i])
 		i++;
 	i++;
@@ -43,8 +42,6 @@ static char	*init_gnl(char *stash, int *eof)
 		return (NULL);
 	ft_memcpy(line, stash, i);
 	line[i] = '\0';
-	// if (i > 0 && line[i - 1] == '\n')
-	// 	*eof = i - 1;
 	return (line);
 }
 
@@ -64,13 +61,11 @@ static size_t	find_end(char *line)
 	return (i);
 }
 
-static char	*gnl_extract(char *line, char *stash, int *eof, int fd)
+static char	*gnl_extract(char *line, char *stash, int fd)
 {
 	char	buffer[4095 + 1];
 	ssize_t	read_check;
-	size_t	file_size;
 
-	(void)eof;
 	read_check = 0;
 	while (read_check < 4095)
 	{
@@ -82,10 +77,9 @@ static char	*gnl_extract(char *line, char *stash, int *eof, int fd)
 			ft_bzero(stash, (4095 + 1));
 			return (NULL);
 		}
-		file_size = find_end(buffer);
-		strlcpy_modi(stash, &buffer[file_size], (4095 + 1));
-		buffer[file_size] = '\0';
-		line = strjoin_mod(line, buffer, eof);
+		strlcpy_modi(stash, &buffer[find_end(buffer)], (4095 + 1));
+		buffer[find_end(buffer)] = '\0';
+		line = strjoin_modi(line, buffer);
 		if (read_check == 0)
 		{
 			ft_bzero(stash, 4095 + 1);
@@ -99,18 +93,17 @@ char	*gnl_mod(int fd)
 {
 	static char	stash[4095];
 	char		*line;
-	static int			eof;
+	static int	eof;
 
 	if (fd < 0)
 		return (NULL);
 	eof = -1;
-	line = init_gnl(stash, &eof);
+	line = init_gnl(stash);
 	if (!line)
 		return (NULL);
 	strlcpy_modi(stash, &stash[eof + 1], 4095 + 1);
-	line = gnl_extract(line, stash, &eof, fd);
-	// if (!line || line[0] == '\0')
-	if (line == (void *)1 || line[0] == '\0') /*Changed*/
+	line = gnl_extract(line, stash, fd);
+	if (line == (void *)1 || line[0] == '\0')
 	{
 		free(line);
 		return (NULL);

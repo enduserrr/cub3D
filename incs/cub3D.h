@@ -13,35 +13,35 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
+# include "MLX42/include/MLX42/MLX42.h"
+# include "libft/incs/libft.h"
+# include <fcntl.h>
+# include <math.h>
 # include <stdio.h>
 
-# include <math.h>
-# include <fcntl.h>
-# include "libft/incs/libft.h"
-# include "MLX42/include/MLX42/MLX42.h"
+# define W "\033[0;37m"
+# define RB "\033[1;91m"
+# define ORANGE "\033[1;93m"
+# define RES "\033[0m"
 
-# define W      "\033[0;37m"
-# define RB     "\033[1;91m"
-# define RES    "\033[0m"
-
-# define WIN_WIDTH  960
+# define WIN_WIDTH 960
 # define WIN_HEIGHT 720
-# define WIN_NAME   "cub3D"
-# define  FOV       0.66
-# define TILE       64
-# define PI         3.14159265359
-# define BIG_NUM    1e30
+# define WIN_NAME "cub3D"
+# define FOV 0.66
+# define TILE 64
+# define PI 3.14159265359
+# define BIG_NUM 1e30
 
 /* textures */
-# define TXTR_SIZE  64
-# define WEAPON_W   450
-# define WEAPON_H   242
-# define BYTES_P    4 
+# define TXTR_SIZE 64
+# define WEAPON_W 450
+# define WEAPON_H 242
+# define BYTES_P 4
 
-typedef struct s_map
+typedef struct sinfo
 {
 	char			**map;
-    size_t          size_y;
+	size_t			size_y;
 }					t_map;
 
 typedef struct s_color
@@ -50,108 +50,103 @@ typedef struct s_color
 	unsigned char	g;
 	unsigned char	r;
 	unsigned char	a;
-}	t_color;
+}					t_color;
 
 typedef struct s_txtr
 {
-    t_color         *f;
-    t_color         *c;
-    mlx_texture_t   *n_txtr;
-    mlx_texture_t   *e_txtr;
-    mlx_texture_t   *s_txtr;
-    mlx_texture_t   *w_txtr;
-    mlx_texture_t   *gun;
-} t_txtr;
+	t_color			*f;
+	t_color			*c;
+	mlx_texture_t	*n_txtr;
+	mlx_texture_t	*e_txtr;
+	mlx_texture_t	*s_txtr;
+	mlx_texture_t	*w_txtr;
+	mlx_texture_t	*gun;
+}					t_txtr;
 
 typedef struct s_player
 {
-    float       ppx;
-    float       ppy;
-    float       pa;
-    float       pax;
-    float       pay;
-    float       plane_x;
-    float       plane_y;
-
-} t_player;
+	float			ppx;
+	float			ppy;
+	float			pa;
+	float			pax;
+	float			pay;
+	float			plane_x;
+	float			plane_y;
+	bool			set;
+}					t_player;
 
 typedef struct s_ray
 {
-    double          camera_x;
-    double          dir_x;
-    double          dir_y;
-    double          d_dist_x;
-    double          d_dist_y;
-    double          s_dist_x;
-    double          s_dist_y;
-    double          distance;
-    double          wall_height;
-    double          wall_x;
-    double          text_x;
-    double          text_y;
-    int             map_x;
-    int             map_y;
-    int             step_x;
-    int             step_y;
-    int             hit;
-    int             side;
-    int             draw_start;
-    int             draw_end;
-    unsigned char   *pixels;
-} t_ray;
+	double			camera_x;
+	double			dir_x;
+	double			dir_y;
+	double			d_dist_x;
+	double			d_dist_y;
+	double			s_dist_x;
+	double			s_dist_y;
+	double			distance;
+	double			wall_height;
+	double			wall_x;
+	double			text_x;
+	double			text_y;
+	int				map_x;
+	int				map_y;
+	int				step_x;
+	int				step_y;
+	int				hit;
+	int				side;
+	int				draw_start;
+	int				draw_end;
+	unsigned char	*pixels;
+}					t_ray;
 
 typedef struct s_game
 {
-    mlx_t           *mlx;
-    mlx_image_t     *screen;
-    mlx_image_t     *gun;
-    t_map           *map_info;
-    t_player        *player;
-    t_txtr          *textures;
-    t_ray           *ray;
-} t_game;
+	mlx_t			*mlx;
+	mlx_image_t		*screen;
+	mlx_image_t		*gun;
+	t_map			*info;
+	t_player		*player;
+	t_txtr			*textures;
+	t_ray			*ray;
+}					t_game;
 
-/* extract.c */
-int             get_map(char **av, t_game *game);
+/* PARSE */
+int					get_map(char **av, t_game *game);
+int					processinfo(t_game *game);
+int					get_info(t_game *game);
+void				set_player(t_game *game, char c, size_t x, size_t y);
+int					is_player(char c);
 
-/* gameplay.c */
-int             gameplay(t_game *game);
-// void            screen(void *param);;
+/* GAME*/
+void				screen(void *param);
+void				keys(void *param);
+void				get_weapon(t_game *game);
+int					gameplay(t_game *game);
+void				rotate(t_game *game, int dir);
+void				move_up(t_game *game, double speed, double bumber);
+void				move_down(t_game *game, double speed, double bumber);
+void				move_left(t_game *game, double speed, double bumber);
+void				move_right(t_game *game, double speed, double bumber);
+void				wasd(t_game *game);
+void				rotate(t_game *game, int dir);
 
-/* clean_exit.c */
-void    out(t_game *game);
+void				out(t_game *game);
 
-/* player.c */
-void            wasd(t_game *game);
-void            rotate(t_game *game, int dir);
+/* RENDER */
+void				raycast(t_game *game);
+void				draw(t_game *game, int i);
 
-/* validate.c */
-int             process_map(t_game *game);
+void				pixel_safe(t_game *game, int x, int y, int color);
+unsigned int		get_color(unsigned char *pixels, int tex_x, int tex_y);
+unsigned char		*get_texture_pixels(t_game *game, int i);
 
-/* map_info.c */
-int             get_info(t_game *game);
-
-/* map_utils.c */
-void            set_player(t_game *game, char c, size_t x, size_t y);
-int             is_player(char c);
-int             validate_file(char *name);
-
-/* draw.c */
-void            draw(t_game *game, int i);
-
-/* raycasting.c */
-void            raycast(t_game *game);
-
-/* render_utils.c */
-void            pixel_safe(t_game *game, int x, int y, int color);
-unsigned int    get_color(unsigned char *pixels, int tex_x, int tex_y);
-unsigned char   *get_texture_pixels(t_game *game, int i);
-
-/* utils */
-void            free_map(t_game *game);
-void            free_arr(char **arr);
-void            write_err(char *s);
-char            *gnl_mod(int fd);
-char            *strjoin_mod(char *s1, char *s2, int *line_end);
+/* UTILS */
+void				output(char *s, const char *color);
+void				write_err(char *s);
+void				free_map(t_game *game);
+void				free_arr(char **arr);
+char				*gnl_mod(int fd);
+char				*strjoin_modi(char *s1, char *s2);
 
 #endif

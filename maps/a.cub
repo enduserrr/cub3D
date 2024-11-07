@@ -1,7 +1,7 @@
-NO /home/asalo/Code/enduserrr/cub3D/textures/1.png
-SO /home/asalo/Code/enduserrr/cub3D/textures/4.png
-WE /home/asalo/Code/enduserrr/cub3D/textures/2.png
-EA /home/asalo/Code/enduserrr/cub3D/textures/3.png
+NO ./textures/1.png
+SO ./textures/4.png
+WE ./textures/2.png
+EA ./textures/3.png
 
 F 50,50,40
 C 90,90,80
