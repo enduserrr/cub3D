@@ -30,7 +30,7 @@ void screen(void *param)
 		exit(1);
 	}
     raycast(game);
-    game->screen->instances[0].z = 0; // pienempi kuin aseen instance
+    game->screen->instances[0].z = 0;
 }
 
 void keys(void  *param)
@@ -49,9 +49,7 @@ void keys(void  *param)
 
 void get_weapon(t_game *game)
 {
-    //muokkaa oikea path: /home/asalo/Code/enduserrr/cub3D/textures/gun.png
-    //Kokeile myos c.cub mappia, siina yhet uudet random texturet
-    game->textures->gun = mlx_load_png("/home/eleppala/Documents/projects/c1/textures/gun.png");
+    game->textures->gun = mlx_load_png("./textures/gun.png");
     if (!game->textures->gun)
     {
         out(game);
@@ -74,7 +72,7 @@ void get_weapon(t_game *game)
         out(game);
 		exit(1);
 	}
-    game->gun->instances[0].z = 1; // suurempi kuin screen instance
+    game->gun->instances[0].z = 1;
 }
 
 int gameplay(t_game *game)
