@@ -27,49 +27,39 @@ static void	str_to_color(t_color *ptr, char *line)
 	free_arr(colors);
 }
 
-static void	check_info(t_game *game, char *line, int i)
-{
-	t_color	*colors;
-
-	if (!line || (i != 4 && i != 5))
-		return ;
-	colors = NULL;
-	if (i == 4)
-	{
-		game->textures->f = malloc(sizeof(t_color));
-		str_to_color(game->textures->f, line);
-	}
-	else if (i == 5)
-	{
-		game->textures->c = malloc(sizeof(t_color));
-		str_to_color(game->textures->c, line);
-	}
-	return ;
-}
-
-static void	load_textures(t_game *game, t_txtr *txtr, char *line, int i)
-{
-	if (!line)
-		return ;
-	if (i == 0)
-		txtr->n_txtr = mlx_load_png(line);
-	else if (i == 1)
-		txtr->s_txtr = mlx_load_png(line);
-	else if (i == 2)
-		txtr->w_txtr = mlx_load_png(line);
-	else if (i == 3)
-		txtr->e_txtr = mlx_load_png(line);
-	else if (i == 4 || i == 5)
-		check_info(game, line, i);
-	free(line);
-	line = NULL;
-	return ;
-}
-
-static char	*parse_info(char *line, char *result)
+static char	*colors(t_game *game, char *line)
 {
 	int	i;
 
+	while (ft_isspace(*line))
+		line++;
+	if (ft_strncmp(line, "F ", 2) == 0)
+	{
+		i = 2;
+		while (ft_isspace(line[i]))
+			i++;
+		game->textures->f = malloc(sizeof(t_color));
+		str_to_color(game->textures->f, line);
+	}
+	else if (ft_strncmp(line, "C ", 2) == 0)
+	{
+		i = 2;
+		while (ft_isspace(line[i]))
+			i++;
+		game->textures->c = malloc(sizeof(t_color));
+		str_to_color(game->textures->c, line);
+	}
+	else
+		return (line);
+	return (NULL);
+}
+
+static char	*parse_info(t_game *game, char *line)
+{
+	int		i;
+	char	*new;
+
+	new = NULL;
 	while (ft_isspace(*line))
 		line++;
 	if (ft_strncmp(line, "NO ", 3) == 0 || ft_strncmp(line, "SO ", 3) == 0
@@ -78,20 +68,19 @@ static char	*parse_info(char *line, char *result)
 		i = 3;
 		while (ft_isspace(line[i]))
 			i++;
-		line += i;
-		result = ft_strdup(line);
-		return (result);
+		new = ft_strdup(line + i);
+		if (ft_strncmp(line, "NO ", 3) == 0 && !game->textures->n_txtr)
+			game->textures->n_txtr = mlx_load_png(new);
+		else if (ft_strncmp(line, "SO ", 3) == 0 && !game->textures->s_txtr)
+			game->textures->s_txtr = mlx_load_png(new);
+		else if (ft_strncmp(line, "WE ", 3) == 0 && !game->textures->w_txtr)
+			game->textures->w_txtr = mlx_load_png(new);
+		else if (ft_strncmp(line, "EA ", 3) == 0 && !game->textures->e_txtr)
+			game->textures->e_txtr = mlx_load_png(new);
 	}
-	else if (ft_strncmp(line, "F ", 2) == 0 || ft_strncmp(line, "C ", 2) == 0)
-	{
-		i = 2;
-		while (ft_isspace(line[i]))
-			i++;
-		line += i;
-		result = ft_strdup(line);
-		return (result);
-	}
-	return (NULL);
+	else if (colors(game, line) != NULL)
+		return (line);
+	return (free(new), NULL);
 }
 
 /**
@@ -111,10 +100,9 @@ int	get_info(t_game *game)
 	k = 0;
 	while (tmp[k])
 	{
-		line = parse_info(tmp[k], line);
-		if (line == NULL)
+		line = parse_info(game, tmp[k]);
+		if (line != NULL)
 			break ;
-		load_textures(game, game->textures, line, k);
 		free(tmp[k]);
 		tmp[k] = NULL;
 		k++;

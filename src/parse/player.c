@@ -24,7 +24,7 @@ void	set_planes(t_game *game, double plane_x, double plane_y)
 	game->player->plane_y = plane_y;
 }
 
-void set_orientation(t_game *game, char c)
+void	set_orientation(t_game *game, char c)
 {
 	if (c == 'N')
 	{
