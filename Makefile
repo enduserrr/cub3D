@@ -4,8 +4,8 @@ OBJ_DIR	=	.obj
 LIBFT	=	incs/libft/libft.a
 MLX		=	incs/MLX42/build/libmlx42.a
 
-SRCS	=	$(addprefix $(SRC_DIR)/game/, gameplay.c player.c move.c clean_exit.c) \
-			$(addprefix $(SRC_DIR)/parse/, extract.c validate.c map_info.c map_utils.c) \
+SRCS	=	$(addprefix $(SRC_DIR)/game/, gameplay.c move.c clean_exit.c) \
+			$(addprefix $(SRC_DIR)/parse/, player.c extract.c validate.c map_info.c map_utils.c) \
 			$(addprefix $(SRC_DIR)/render/, draw.c raycasting.c render_utils.c) \
 			$(addprefix $(SRC_DIR)/utils/, utils.c gnl_mod.c) \
 			$(addprefix $(SRC_DIR)/, main.c)

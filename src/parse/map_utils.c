@@ -42,33 +42,3 @@ char	*strjoin_modi(char *s1, char *s2)
 	ft_memcpy(result + len1, s2, len2 + 1);
 	return (result);
 }
-
-void	set_player_direction(t_game *game, double pax, double pay,
-		double plane_x, double plane_y)
-{
-	game->player->pax = pax;
-	game->player->pay = pay;
-	game->player->plane_x = plane_x;
-	game->player->plane_y = plane_y;
-}
-
-void	set_player(t_game *game, char c, size_t x, size_t y)
-{
-	if (game->player->set == true)
-	{
-		printf("%s%s%s\n", ORANGE, "Found multiple player positions.", RES);
-		game->info->map[y][x] = '0';
-		return ;
-	}
-	game->player->ppx = (double)x + 0.3;
-	game->player->ppy = (double)y + 0.3;
-	if (c == 'N')
-		set_player_direction(game, 0.0, -1.0, FOV, 0.0);
-	else if (c == 'S')
-		set_player_direction(game, 0.0, 1.0, -FOV, 0.0);
-	else if (c == 'W')
-		set_player_direction(game, -1.0, 0.0, 0.0, -FOV);
-	else if (c == 'E')
-		set_player_direction(game, 1.0, 0.0, 0.0, FOV);
-	game->player->set = true;
-}

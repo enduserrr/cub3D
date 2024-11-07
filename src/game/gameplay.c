@@ -34,18 +34,29 @@ void	screen(void *param)
 	game->screen->instances[0].z = 0;
 }
 
-void	keys(void *param)
+void keys(void  *param)
 {
-	t_game	*game;
+	t_game *game;
+    double speed;
+    double bumber;
 
-	game = param;
-	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
+    game = param;
+    speed = 3.0 * game->mlx->delta_time;
+    bumber = 0.5;
+    if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(game->mlx);
-	wasd(game);
-	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
-		rotate(game, -1);
-	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
-		rotate(game, 1);
+    if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
+        rotate(game, -1);
+    if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
+        rotate(game, 1);
+    if (mlx_is_key_down(game->mlx, MLX_KEY_W))
+        move_up(game, speed, speed + bumber);
+    if (mlx_is_key_down(game->mlx, MLX_KEY_S))
+        move_down(game, speed, speed + bumber);
+    if (mlx_is_key_down(game->mlx, MLX_KEY_D))
+        move_right(game, speed, speed + bumber);
+    if (mlx_is_key_down(game->mlx, MLX_KEY_A))
+        move_left(game, speed, speed + bumber);
 }
 
 void	get_weapon(t_game *game)
