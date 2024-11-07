@@ -65,13 +65,13 @@ typedef struct s_txtr
 
 typedef struct s_player
 {
-	float			ppx;
-	float			ppy;
-	float			pa;
-	float			pax;
-	float			pay;
-	float			plane_x;
-	float			plane_y;
+	double			ppx;
+	double			ppy;
+	double			pa;
+	double			pax;
+	double			pay;
+	double			plane_x;
+	double			plane_y;
 	bool			set;
 }					t_player;
 
@@ -117,7 +117,7 @@ int					processinfo(t_game *game);
 int					get_info(t_game *game);
 void				set_player(t_game *game, char c, size_t x, size_t y);
 int					is_player(char c);
-
+void				set_player(t_game *game, char c, size_t x, size_t y);
 /* GAME*/
 void				screen(void *param);
 void				keys(void *param);
@@ -128,7 +128,6 @@ void				move_up(t_game *game, double speed, double bumber);
 void				move_down(t_game *game, double speed, double bumber);
 void				move_left(t_game *game, double speed, double bumber);
 void				move_right(t_game *game, double speed, double bumber);
-void				wasd(t_game *game);
 void				rotate(t_game *game, int dir);
 
 void				out(t_game *game);
