@@ -22,6 +22,17 @@ int	is_player(char c)
 	return (0);
 }
 
+// int	color_validator(t_color *ptr)
+// {
+// 	if (!ptr)
+// 		return (1);
+// 	if (!ft_isdigit(ptr->r) || !ft_isdigit(ptr->g) || !ft_isdigit(ptr->b))
+// 		return (1);
+// 	if (ptr->r > 255 || ptr->g > 255 || ptr->b > 255)
+// 		return (1);
+// 	return (0);
+// }
+
 /**
  * @brief	Like strjoin with handling for empty strings.
  *			Accounts for 0 length.

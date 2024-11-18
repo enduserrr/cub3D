@@ -134,5 +134,8 @@ int	get_info(t_game *game)
 		tmp[i++] = tmp[k++];
 	tmp[i] = NULL;
 	game->info->map = tmp;
+	if (!game->textures->n_txtr || !game->textures->s_txtr ||
+	!game->textures->w_txtr || !game->textures->e_txtr)
+		return (1);
 	return (0);
 }

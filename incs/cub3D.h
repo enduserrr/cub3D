@@ -38,7 +38,7 @@
 # define WEAPON_H 242
 # define BYTES_P 4
 
-typedef struct sinfo
+typedef struct s_map
 {
 	char			**map;
 	size_t			size_y;
@@ -60,6 +60,8 @@ typedef struct s_txtr
 	mlx_texture_t	*s_txtr;
 	mlx_texture_t	*w_txtr;
 	mlx_texture_t	*gun;
+	bool			c_flag;
+	bool			f_flag;
 }					t_txtr;
 
 typedef struct s_player
@@ -71,7 +73,7 @@ typedef struct s_player
 	double			pay;
 	double			plane_x;
 	double			plane_y;
-	bool			set;
+	int				set;
 }					t_player;
 
 typedef struct s_ray
