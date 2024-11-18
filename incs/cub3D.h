@@ -46,10 +46,9 @@ typedef struct sinfo
 
 typedef struct s_color
 {
-	unsigned char	b;
-	unsigned char	g;
-	unsigned char	r;
-	unsigned char	a;
+	unsigned int	b;
+	unsigned int	g;
+	unsigned int	r;
 }					t_color;
 
 typedef struct s_txtr
@@ -136,7 +135,7 @@ void				out(t_game *game);
 void				raycast(t_game *game);
 void				draw(t_game *game, int i);
 
-void				pixel_safe(t_game *game, int x, int y, int color);
+void				pixel_safe(t_game *game, int x, int y, unsigned int color);
 unsigned int		get_color(unsigned char *pixels, int tex_x, int tex_y);
 unsigned char		*get_texture_pixels(t_game *game, int i);
 

@@ -15,11 +15,11 @@
 /**
  * @brief 	Sets the player's direction vector.
  * @param 	game 	The game structure containing the player's state.
- * @param 	pax 	The X component of the direction vector (player's movement direction).
- * @param 	pay 	The Y component of the direction vector (player's movement direction).
- * 
- * This function sets the player's direction vector (`pax`, `pay`), which 
- * represents the direction the player is facing. This vector is used for 
+ * @param 	pax 	The X component of the direction vector (movement dir).
+ * @param 	pay 	The Y component of the direction vector (movement dir).
+ *
+ * This function sets the player's direction vector (`pax`, `pay`), which
+ * represents the direction the player is facing. This vector is used for
  * movement and raycasting in the game.
  */
 
@@ -31,12 +31,12 @@ void	set_direction(t_game *game, double pax, double pay)
 
 /**
  * @brief 	Sets the player's camera plane vector.
- * @param 	game 	The game structure containing the player's state.
- * @param 	plane_x 	The X component of the camera plane vector.
- * @param 	plane_y 	The Y component of the camera plane vector.
- * 
- * This function sets the player's camera plane (`plane_x`, `plane_y`), which 
- * determines the field of view and is used for raycasting calculations to 
+ * @param	game 	The game structure containing the player's state.
+ * @param	plane_x 	The X component of the camera plane vector.
+ * @param	plane_y 	The Y component of the camera plane vector.
+ *
+ * This function sets the player's camera plane (`plane_x`, `plane_y`), which
+ * determines the field of view and is used for raycasting calculations to
  * render the environment correctly.
  */
 
@@ -47,14 +47,14 @@ void	set_planes(t_game *game, double plane_x, double plane_y)
 }
 
 /**
- * @brief 	Sets the player's initial direction and camera plane based on orientation.
- * @param 	game 	The game structure containing the player's state.
- * @param 	c 	The orientation character: 'N' 'S' 'W' 'E'.
- * 
- * This function initializes the player's facing direction and camera plane 
- * based on the given orientation character (`c`). The player's direction 
- * vector (`pax`, `pay`) and camera plane (`plane_x`, `plane_y`) are set 
- * according to the four possible directions (North, South, West, East) with 
+ * @brief	Sets the player's initial direction.
+ * @param	game 	The game structure containing the player's state.
+ * @param	c 	The orientation character: 'N' 'S' 'W' 'E'.
+ *
+ * This function initializes the player's facing direction and camera plane
+ * based on the given orientation character (`c`). The player's direction
+ * vector (`pax`, `pay`) and camera plane (`plane_x`, `plane_y`) are set
+ * according to the four possible directions (North, South, West, East) with
  * predefined field-of-view (`FOV`) values.
  */
 
@@ -83,17 +83,17 @@ void	set_orientation(t_game *game, char c)
 }
 
 /**
- * @brief 	Sets the player's initial position and orientation on the map.
- * @param 	game 	The game structure containing the player's state.
- * @param 	c 	The orientation character ('N', 'S', 'W', 'E') 
- * 				representing the player's initial direction.
- * @param 	x 	The X coordinate of the player's position on the map.
- * @param 	y 	The Y coordinate of the player's position on the map.
- * 
- * This function sets the player's starting position (`ppx`, `ppy`) on 
- * the map based on the given `x` and `y` coordinates, and the player's 
- * orientation (direction and camera plane) is set according to the 
- * `c` parameter. The function also checks for multiple player positions 
+ * @brief	Sets the player's initial position and orientation on the map.
+ * @param	game The game structure containing the player's state.
+ * @param	c The orientation character ('N', 'S', 'W', 'E')
+ *			representing the player's initial direction.
+ * @param	x The X coordinate of the player's position on the map.
+ * @param	y The Y coordinate of the player's position on the map.
+ *
+ * This function sets the player's starting position (`ppx`, `ppy`) on
+ * the map based on the given `x` and `y` coordinates, and the player's
+ * orientation (direction and camera plane) is set according to the
+ * `c` parameter. The function also checks for multiple player positions
  * on the map, and reports an error if more than one is found.
  */
 

@@ -12,6 +12,9 @@
 
 #include "../../incs/cub3D.h"
 
+/**
+ * @brief	Valid player position & starting orientation characters.
+ */
 int	is_player(char c)
 {
 	if (c == 'N' || c == 'E' || c == 'S' || c == 'W')
@@ -19,6 +22,10 @@ int	is_player(char c)
 	return (0);
 }
 
+/**
+ * @brief	Like strjoin with handling for empty strings.
+ *			Accounts for 0 length.
+ */
 char	*strjoin_modi(char *s1, char *s2)
 {
 	char	*result;

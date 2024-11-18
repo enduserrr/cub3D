@@ -12,6 +12,11 @@
 
 #include "../../incs/cub3D.h"
 
+/**
+ * @brief	Converts a comma-separated string into an RGB color.
+ * @param	ptr     Pointer to the t_color struct where the values are stored.
+ * @param	line    Comma-separated string representing the color values.
+ */
 static void	str_to_color(t_color *ptr, char *line)
 {
 	char	**colors;
@@ -19,33 +24,40 @@ static void	str_to_color(t_color *ptr, char *line)
 	colors = ft_split(line, ',');
 	if (colors && colors[0] && colors[1] && colors[2])
 	{
+		ptr->r = 0;
 		ptr->r = ft_atoi(colors[0]);
+		ptr->g = 0;
 		ptr->g = ft_atoi(colors[1]);
+		ptr->b = 0;
 		ptr->b = ft_atoi(colors[2]);
-		ptr->a = 255;
 	}
 	free_arr(colors);
 }
 
+/**
+ * @brief	Extracts floor & ceiling color information from a line.
+ * @param	game    Pointer to the t_game struct containing texture data.
+ * @param	line    Input string to parse for color information.
+ * @return	Pointer to the remaining part of the line if not processed,
+ *			or NULL otherwise.
+ */
 static char	*colors(t_game *game, char *line)
 {
-	int	i;
-
 	while (ft_isspace(*line))
 		line++;
 	if (ft_strncmp(line, "F ", 2) == 0)
 	{
-		i = 2;
-		while (ft_isspace(line[i]))
-			i++;
+		line += 2;
+		while (ft_isspace(*line))
+			line++;
 		game->textures->f = malloc(sizeof(t_color));
 		str_to_color(game->textures->f, line);
 	}
 	else if (ft_strncmp(line, "C ", 2) == 0)
 	{
-		i = 2;
-		while (ft_isspace(line[i]))
-			i++;
+		line += 2;
+		while (ft_isspace(*line))
+			line++;
 		game->textures->c = malloc(sizeof(t_color));
 		str_to_color(game->textures->c, line);
 	}
@@ -54,6 +66,16 @@ static char	*colors(t_game *game, char *line)
 	return (NULL);
 }
 
+/**
+ * @brief   Parses texture and color information from a line.
+ * @param   game    Pointer to the t_game struct.
+ * @param   line    String where the texture & color info are extracted from
+ * @return  Pointer to the unprocessed part of the line if parsing fails,
+ *			or NULL otherwise.
+ *
+ * Identifies texture paths (NO, SO, WE, EA) and assigns them to
+ * texture fields.
+ */
 static char	*parse_info(t_game *game, char *line)
 {
 	int		i;
@@ -84,9 +106,9 @@ static char	*parse_info(t_game *game, char *line)
 }
 
 /**
- * @brief   Extract color and texture info from file and delete them from map.
- *          Add func to put info straight into mlx_ strings and int array
- *          (with rgb->hex conversion)
+ * @brief	Processes and removes texture and color info from the map array.
+ * @param   game Pointer to the t_game struct.
+ * @return  0 on success, or an error code if processing fails.
  */
 int	get_info(t_game *game)
 {
