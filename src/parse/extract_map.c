@@ -13,8 +13,7 @@
 #include "../../incs/cub3D.h"
 
 /**
- * @brief	Read an fd and copy it's contents to new string.
- *			Handles too large files and read() errors gracefully.
+ * @brief	Read an fd and copy it's contents to a new string.
  */
 static char	*read_fd(char **av)
 {

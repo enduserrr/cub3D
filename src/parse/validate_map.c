@@ -13,14 +13,14 @@
 #include "../../incs/cub3D.h"
 
 /**
- * @brief	Function to separate map and map info starting from the end of arr
- *			to locate the map. After map find N/W/S/E/F/C and their values and
- *			updating correspongind t_map variables.
- *
- *			Function to remove white spaces from map & check for errors in it
- *			and copy it to t_game.
+ * @brief  Compares the len of two rows and checks if the longer row is
+ *         filled with walls ('1') in the excess positions.
+ * @param  shorter  The length of the shorter row.
+ * @param  longer   The length of the longer row.
+ * @param  long_row The longer row string to validate.
+ * @return 1 if the longer row has non-wall characters in excess positions,
+ *         0 otherwise.
  */
-
 static int	cmpr_rows(size_t shorter, size_t longer, char *long_row)
 {
 	size_t	x;
@@ -38,7 +38,13 @@ static int	cmpr_rows(size_t shorter, size_t longer, char *long_row)
 }
 
 /**
-		Determines whether all viable map area is covered with walls (1's).
+ * @brief  Determines whether all valid map areas are enclosed by walls ('1').
+ * @param  info  The map structure containing the map and its dimensions.
+ * @return 1 if the map is not fully enclosed by walls, 0 otherwise.
+ *
+ * This function iterates through each row of the map, comparing it with
+ * the rows above and below to ensure proper wall coverage. It uses the
+ * `cmpr_rows` function to validate areas where row lengths differ.
  */
 static int	wall_coverage(t_map *info)
 {
@@ -69,8 +75,12 @@ static int	wall_coverage(t_map *info)
 }
 
 /**
- * @brief	Ensures both the first and last row consists only of 1's.
- *			Call wall checker.
+ * @brief	Validates that the first and last rows of the map consist only of 1's.
+ * @param	info  The map structure containing the map and its dimensions.
+ * @return	1 for invalid first or last row, 0 otherwise.
+ *
+ * Checker to validate the first and last rows of the map and then rest by
+ * calling `wall_coverage` function.
  */
 static int	first_and_last_row(t_map *info)
 {
@@ -102,9 +112,15 @@ static int	first_and_last_row(t_map *info)
 }
 
 /**
- * @brief	Checks for invalid characters found in the map.
- *			Swaps spaces to 1's.
- *			(Meaby don't swap space's before the string starts.)
+ * @brief	Validates map characters and initialises the player's position.
+ * @param	s     The map array containing rows of the map as strings.
+ * @param	game  The game structure to store map dimensions and player info.
+ * @return	1 for incorrect characters or map format,
+ *			0 otherwise.
+ *
+ * This function checks that the map contains only valid characters:
+ * '0', '1', ' ' 'N', 'S', 'E', 'W'. Replaces spaces with '1'
+ * and sets the player's initial position using `set_player`.
  */
 static int	validate_chars(char **s, t_game *game)
 {
@@ -136,9 +152,13 @@ static int	validate_chars(char **s, t_game *game)
 }
 
 /**
- * @brief	Init & alloc memory for a texture info struct.
- *			Calls the functions to get and check the data for the map &
- *			the textures
+ * @brief  Processes map and texture information, initialises the game state,
+ *         and validates the game map.
+ * @param  game  The main game structure to store textures, player, and map info.
+ * @return 1 if any validation or initialization fails, 0 otherwise.
+ *
+ * Initialises the textures and player structs, calls the proper functions to
+ * get & validate game map and map info.
  */
 int	processinfo(t_game *game)
 {

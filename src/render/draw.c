@@ -13,19 +13,13 @@
 #include "../../incs/cub3D.h"
 
 /**
- * @brief 	Places a pixel on the screen, ensuring it is within the window bounds.
- * @param 	game 	The game structure containing the screen and rendering context.
- * @param 	x 	The x-coordinate of the pixel to place.
- * @param 	y 	The y-coordinate of the pixel to place.
- * @param 	color 	The color of the pixel to place.
- * 
- * This function checks if the specified (x, y) coordinates are within the 
- * window boundaries. If the coordinates are valid, it places the pixel on the 
- * screen at the given location with the specified color. If the coordinates are 
- * out of bounds, the function does nothing. 
+ * @brief	Places a pixel on the screen, ensuring it is within the window.
+ * @param	game The game structure.
+ * @param 	x The x-coordinate of the pixel to place.
+ * @param 	y The y-coordinate of the pixel to place.
+ * @param 	color The color of the pixel to place.
  */
-
-void	pixel_safe(t_game *game, int x, int y, int color)
+void	pixel_safe(t_game *game, int x, int y, unsigned int color)
 {
 	if (x >= WIN_WIDTH || y >= WIN_HEIGHT || x < 0 || y < 0)
 		return ;
@@ -35,43 +29,28 @@ void	pixel_safe(t_game *game, int x, int y, int color)
 /**
  * @brief 	Converts an RGBA color to its corresponding hexadecimal value.
  * @param 	color 	The color structure containing RGBA components.
- * @return 	The color in hexadecimal format as a uint32_t, or 0 if the input 
- * 			color is invalid.
- * 
- * This function takes a color structure containing the red, green, blue, 
- * and alpha components, ensuring that each value is within the valid range 
- * (0-255). It then converts the color to a single uint32_t value in ARGB format 
- * (alpha, red, green, blue), where each channel is packed into 8 bits.
+ * @return 	The color in hexadecimal format as a uint32_t,
+ *			or 0 if the input color is invalid.
  */
-
 static uint32_t	rgb_to_hex(t_color *color)
 {
-	int	red;
-	int	green;
-	int	blue;
-	int	a;
+	unsigned char	red;
+	unsigned char	green;
+	unsigned char	blue;
 
-	if (!color || color->r > 255 || color->g > 255 || color->b > 255
-		|| color->a > 255)
+	if (!color || color->r > 255 || color->g > 255 || color->b > 255)
 		return (0);
-	red = (int)color->r;
-	green = (int)color->g;
-	blue = (int)color->b;
-	a = (int)color->a;
-	return ((red << 24) | (green << 16) | (blue << 8) | a);
+	red = (unsigned char)color->r;
+	green = (unsigned char)color->g;
+	blue = (unsigned char)color->b;
+	return ((red << 24) | (green << 16) | (blue << 8) | 255);
 }
 
 /**
- * @brief 	Determines the texture to use based on the ray's side and position, 
+ * @brief 	Selects textures based on the ray's side and position,
  * 			and calculates texture mapping.
  * @param 	game 	The game structure containing the ray and player data.
- * 
- * This function selects the appropriate texture for the wall the ray intersects 
- * based on the ray's direction and the side it hits (either vertical or horizontal). 
- * It calculates the intersection point on the wall and computes the corresponding 
- * texture coordinates for mapping.
  */
-
 void	textures(t_game *game)
 {
 	if (game->ray->side == 0)
@@ -102,24 +81,16 @@ void	textures(t_game *game)
 
 /**
  * @brief 	Draws the background of the scene with sky and floor colors.
- * @param 	game 	The game structure containing the color data for the 
- * 					sky and floor.
- * @param 	i 	The x-coordinate of the column currently being processed.
- * 
- * This function draws the background of the scene, dividing the screen 
- * into two parts: the sky and the floor. The upper half of the screen is 
- * filled with the sky color, and the lower half is filled with the floor 
- * color. It uses the `rgb_to_hex` function to convert the color components 
- * into hexadecimal values and calls `pixel_safe` to safely place each pixel 
- * on the screen.
+ * @param 	game The game structure containing the color data for the
+ * 				sky and floor.
+ * @param 	i The x-coordinate of the column currently being processed.
  */
-
 void	background(t_game *game, int i)
 {
-	int	half;
-	int	start;
-	int	up;
-	int	down;
+	int				half;
+	int				start;
+	unsigned int	up;
+	unsigned int	down;
 
 	up = rgb_to_hex(game->textures->c);
 	down = rgb_to_hex(game->textures->f);
@@ -139,19 +110,10 @@ void	background(t_game *game, int i)
 
 /**
  * @brief 	Renders the vertical slice of the wall based on the raycasting result.
- * @param 	game 	The game structure containing ray data, textures,
- * 					and the screen context.
- * @param 	i 	The x-coordinate (column) of the pixel being processed.
- * 
- * This function draws the wall slice for a given column (x-coordinate) of the 
- * screen. It calculates the texture's position based on the height of the wall 
- * slice and maps the texture to the wall's vertical section. The function uses 
- * the ray data to determine the correct texture, retrieves the color from the 
- * texture at the calculated coordinates, and places the pixel on the screen 
- * using `pixel_safe`. It also handles the drawing of the background and textures
- * for the walls.
+ * @param 	game The game structure containing ray data, textures,
+ * 			and the screen context.
+ * @param 	i The x-coordinate (column) of the pixel being processed.
  */
-
 void	draw(t_game *game, int i)
 {
 	int				y;
