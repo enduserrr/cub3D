@@ -3,9 +3,8 @@ EA ./textures/3.png
 SO ./textures/4.png
 NO ./textures/1.png
 
-F 1, 70, 22
-C 2, 160, 155
-F 1, 70, 22
+F 57, 135, 94
+C 255, 180, 166
 
 111111111
 1000000001

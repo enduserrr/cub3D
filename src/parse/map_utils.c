@@ -22,16 +22,29 @@ int	is_player(char c)
 	return (0);
 }
 
-// int	color_validator(t_color *ptr)
-// {
-// 	if (!ptr)
-// 		return (1);
-// 	if (!ft_isdigit(ptr->r) || !ft_isdigit(ptr->g) || !ft_isdigit(ptr->b))
-// 		return (1);
-// 	if (ptr->r > 255 || ptr->g > 255 || ptr->b > 255)
-// 		return (1);
-// 	return (0);
-// }
+int	atoi_mod(const char *s)
+{
+	unsigned long long	res;
+
+	res = 0;
+	if (!*s)
+		return (-1);
+	while (*s == ' ')
+		s++;
+	if (*s < '0' || *s > '9')
+		return (-1);
+	while (*s)
+	{
+		if (*s >= '0' && *s <= '9')
+			res = res * 10 + *s - '0';
+		if (*s < '0' || *s > '9')
+			return (-1);
+		s++;
+	}
+	if (res > 255 || res < 0)
+		return (-1);
+	return (res);
+}
 
 /**
  * @brief	Like strjoin with handling for empty strings.

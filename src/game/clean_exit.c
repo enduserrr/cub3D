@@ -14,6 +14,10 @@
 
 void	delete_textures(t_game *game)
 {
+	if (game->textures->f)
+		free(game->textures->f);
+	if (game->textures->c)
+		free(game->textures->c);
 	if (game->textures->gun)
 		mlx_delete_texture(game->textures->gun);
 	if (game->textures->n_txtr)
@@ -41,12 +45,12 @@ void	delete_images(t_game *game)
 
 void	out(t_game *game)
 {
-	delete_textures(game);
+	if (game->textures)
+		delete_textures(game);
 	delete_images(game);
-	mlx_terminate(game->mlx);
-	free(game->textures->f);
+	if (game->mlx)
+		mlx_terminate(game->mlx);
 	game->textures->f = NULL;
-	free(game->textures->c);
 	game->textures->c = NULL;
 	free_map(game);
 	game->info = NULL;

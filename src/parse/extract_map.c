@@ -51,6 +51,6 @@ int	get_map(char **av, t_game *game)
 	temp_line = NULL;
 	if (game->info->map == NULL)
 		return (write_err("map error 0"), 1);
-	i = processinfo(game);
+	i = process_info(game);
 	return (free(info), i);
 }

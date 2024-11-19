@@ -20,16 +20,28 @@
 static void	str_to_color(t_color *ptr, char *line)
 {
 	char	**colors;
+	int		tmp;
+	int		i;
 
 	colors = ft_split(line, ',');
 	if (colors && colors[0] && colors[1] && colors[2])
 	{
-		ptr->r = 0;
-		ptr->r = ft_atoi(colors[0]);
-		ptr->g = 0;
-		ptr->g = ft_atoi(colors[1]);
-		ptr->b = 0;
-		ptr->b = ft_atoi(colors[2]);
+		i = -1;
+		while (++i < 3)
+		{
+			tmp = atoi_mod(colors[i]);
+			if (tmp == -1)
+			{
+				ptr->flag = true;
+				break ;
+			}
+			if (i == 0)
+				ptr->r = (unsigned int)tmp;
+			else if (i == 1)
+				ptr->g = (unsigned int)tmp;
+			else if (i == 2)
+				ptr->b = (unsigned int)tmp;
+		}
 	}
 	free_arr(colors);
 }
@@ -45,7 +57,7 @@ static char	*colors(t_game *game, char *line)
 {
 	while (ft_isspace(*line))
 		line++;
-	if (ft_strncmp(line, "F ", 2) == 0)
+	if (ft_strncmp(line, "F ", 2) == 0 && !game->textures->f)
 	{
 		line += 2;
 		while (ft_isspace(*line))
@@ -53,7 +65,7 @@ static char	*colors(t_game *game, char *line)
 		game->textures->f = malloc(sizeof(t_color));
 		str_to_color(game->textures->f, line);
 	}
-	else if (ft_strncmp(line, "C ", 2) == 0)
+	else if (ft_strncmp(line, "C ", 2) == 0 && !game->textures->c)
 	{
 		line += 2;
 		while (ft_isspace(*line))
@@ -64,6 +76,18 @@ static char	*colors(t_game *game, char *line)
 	else
 		return (line);
 	return (NULL);
+}
+
+static mlx_texture_t	*put_png(mlx_texture_t *ptr, char *png, t_game *game)
+{
+	ptr = mlx_load_png(png);
+	if (ptr == NULL)
+	{
+		out(game);
+		write_err("failed loading textures");
+		exit(1);
+	}
+	return (ptr);
 }
 
 /**
@@ -92,13 +116,13 @@ static char	*parse_info(t_game *game, char *line)
 			i++;
 		new = ft_strdup(line + i);
 		if (ft_strncmp(line, "NO ", 3) == 0 && !game->textures->n_txtr)
-			game->textures->n_txtr = mlx_load_png(new);
+			game->textures->n_txtr = put_png(game->textures->n_txtr, new, game);
 		else if (ft_strncmp(line, "SO ", 3) == 0 && !game->textures->s_txtr)
-			game->textures->s_txtr = mlx_load_png(new);
+			game->textures->s_txtr = put_png(game->textures->s_txtr, new, game);
 		else if (ft_strncmp(line, "WE ", 3) == 0 && !game->textures->w_txtr)
-			game->textures->w_txtr = mlx_load_png(new);
+			game->textures->w_txtr = put_png(game->textures->w_txtr, new, game);
 		else if (ft_strncmp(line, "EA ", 3) == 0 && !game->textures->e_txtr)
-			game->textures->e_txtr = mlx_load_png(new);
+			game->textures->e_txtr = put_png(game->textures->e_txtr, new, game);
 	}
 	else if (colors(game, line) != NULL)
 		return (line);
@@ -134,8 +158,5 @@ int	get_info(t_game *game)
 		tmp[i++] = tmp[k++];
 	tmp[i] = NULL;
 	game->info->map = tmp;
-	if (!game->textures->n_txtr || !game->textures->s_txtr ||
-	!game->textures->w_txtr || !game->textures->e_txtr)
-		return (1);
 	return (0);
 }
