@@ -82,11 +82,7 @@ static mlx_texture_t	*put_png(mlx_texture_t *ptr, char *png, t_game *game)
 {
 	ptr = mlx_load_png(png);
 	if (ptr == NULL)
-	{
-		out(game);
-		write_err("failed loading textures");
-		exit(1);
-	}
+		out(game, ERROR_PNG);
 	return (ptr);
 }
 

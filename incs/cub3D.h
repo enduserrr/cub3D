@@ -32,11 +32,36 @@
 # define PI 3.14159265359
 # define BIG_NUM 1e30
 
-/* textures */
+/* Textures */
 # define TXTR_SIZE 64
 # define WEAPON_W 450
 # define WEAPON_H 242
 # define BYTES_P 4
+# define GUN_PATH "./textures/gun.png"
+
+/* MLX Errors */
+# define ERROR_PNG "failed to load .png"
+# define ERROR_IMG "failed to create mlx image"
+# define ERROR_TXTR "failed to add texture to image"
+# define ERROR_WINDOW "failed to put mlx image to window\n"
+# define ERROR_INIT "failed to initialize mlx"
+
+/* General Errors */
+# define ERROR_CUB "unable to open the .cub file"
+# define ERROR_GNL "failed while using get next line"
+# define ERROR_OPEN "failed to open file"
+# define ERROR_ARG "invalid argument count"
+
+
+/* Map Errors */
+# define ERROR_MAP "invalid map"
+# define ERROR_MAP_NAME "invalid map name"
+# define ERROR_MAP_CHAR "invalid map character(s)"
+# define ERROR_NO_MAP "No map detected"
+# define ERROR_MAP_INFO "invalid map info"
+# define ERROR_PLAYER "invalid amount of players"
+
+
 
 typedef struct s_map
 {
@@ -120,6 +145,7 @@ int					get_info(t_game *game);
 void				set_player(t_game *game, char c, size_t x, size_t y);
 int					is_player(char c);
 void				set_player(t_game *game, char c, size_t x, size_t y);
+
 /* GAME*/
 void				screen(void *param);
 void				keys(void *param);
@@ -131,13 +157,11 @@ void				move_down(t_game *game, double speed, double bumber);
 void				move_left(t_game *game, double speed, double bumber);
 void				move_right(t_game *game, double speed, double bumber);
 void				rotate(t_game *game, int dir);
-
-void				out(t_game *game);
+void				out(t_game *game, char *error);
 
 /* RENDER */
 void				raycast(t_game *game);
 void				draw(t_game *game, int i);
-
 void				pixel_safe(t_game *game, int x, int y, unsigned int color);
 unsigned int		get_color(unsigned char *pixels, int tex_x, int tex_y);
 unsigned char		*get_texture_pixels(t_game *game, int i);
