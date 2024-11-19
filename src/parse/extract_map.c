@@ -22,12 +22,12 @@ static char	*read_fd(char **av)
 
 	fd = open(av[1], O_RDONLY);
 	if (fd < 0)
-		return (write_err("dang"), NULL);
+		return (write_err(ERROR_OPEN), NULL);
 	new = gnl_mod(fd);
 	if (!new)
 	{
 		close(fd);
-		return (write_err("read error"), NULL);
+		return (write_err(ERROR_GNL), NULL);
 	}
 	close(fd);
 	return (new);
@@ -40,6 +40,7 @@ int	get_map(char **av, t_game *game)
 	char	**arr;
 	int		i;
 
+	i = 0;
 	info = malloc(sizeof(t_map));
 	info->map = NULL;
 	game->info = info;
@@ -50,7 +51,7 @@ int	get_map(char **av, t_game *game)
 	free(temp_line);
 	temp_line = NULL;
 	if (game->info->map == NULL)
-		return (write_err("map error 0"), 1);
+		return (write_err(ERROR_NO_MAP), 1);
 	i = process_info(game);
 	return (free(info), i);
 }

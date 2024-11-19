@@ -43,7 +43,7 @@ void	delete_images(t_game *game)
 	}
 }
 
-void	out(t_game *game)
+void	out(t_game *game, char *error)
 {
 	if (game->textures)
 		delete_textures(game);
@@ -58,4 +58,9 @@ void	out(t_game *game)
 	game->textures = NULL;
 	game->screen = NULL;
 	game = NULL;
+	if (error)
+	{
+		write_err(error);
+		exit(1);
+	}
 }

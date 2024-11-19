@@ -32,15 +32,9 @@ void	screen(void *param)
 		mlx_delete_image(game->mlx, game->screen);
 	game->screen = mlx_new_image(game->mlx, WIN_WIDTH, WIN_HEIGHT);
 	if (!game->screen)
-	{
-		out(game);
-		exit(1);
-	}
+		out(game, ERROR_IMG);
 	if (mlx_image_to_window(game->mlx, game->screen, 0, 0) == -1)
-	{
-		out(game);
-		exit(1);
-	}
+		out(game, ERROR_WINDOW);
 	raycast(game);
 	game->screen->instances[0].z = 0;
 }
@@ -90,30 +84,18 @@ void	keys(void *param)
 
 void	get_weapon(t_game *game)
 {
-	game->textures->gun = mlx_load_png("./textures/gun.png");
+	game->textures->gun = mlx_load_png(GUN_PATH);
 	if (!game->textures->gun)
-	{
-		out(game);
-		exit(1);
-	}
+		out(game, ERROR_PNG);
 	game->gun = mlx_new_image(game->mlx, WEAPON_W, WEAPON_H);
 	if (!game->gun)
-	{
-		out(game);
-		exit(1);
-	}
+		out(game, ERROR_IMG);
 	game->gun = mlx_texture_to_image(game->mlx, game->textures->gun);
 	if (!game->gun)
-	{
-		out(game);
-		exit(1);
-	}
+		out(game, ERROR_TXTR);
 	if (mlx_image_to_window(game->mlx, game->gun, WIN_WIDTH / 3, (WIN_HEIGHT
 				- WEAPON_H)) == -1)
-	{
-		out(game);
-		exit(1);
-	}
+		out(game, ERROR_WINDOW);
 	game->gun->instances[0].z = 1;
 }
 
@@ -140,6 +122,6 @@ int	gameplay(t_game *game)
 	mlx_loop_hook(game->mlx, screen, game);
 	mlx_loop_hook(game->mlx, keys, game);
 	mlx_loop(game->mlx);
-	out(game);
+	out(game, NULL);
 	return (0);
 }
