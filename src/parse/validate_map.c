@@ -160,8 +160,7 @@ static int	validate_chars(char **s, t_game *game)
  * Initialises the textures and player structs, calls the proper functions to
  * get & validate game map and map info.
  */
-
-int	processinfo(t_game *game)
+int	process_info(t_game *game)
 {
 	t_txtr		txtr;
 	t_player	p;
@@ -177,6 +176,10 @@ int	processinfo(t_game *game)
 	{
 		return (write_err("invalid map info"), free_arr(game->info->map), 1);
 	}
+	if (!game->textures->n_txtr || !game->textures->s_txtr ||
+	!game->textures->w_txtr || !game->textures->e_txtr || game->textures->c->flag == true
+	|| game->textures->f->flag == true)
+		return (write_err("invalid map info"), free_arr(game->info->map), 1);
 	if (validate_chars(game->info->map, game))
 		return (free_arr(game->info->map), 1);
 	if (game->player->set < 1 || game->player->set > 1)
