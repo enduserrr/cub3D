@@ -45,6 +45,7 @@ int	get_map(char **av, t_game *game)
 	if (!data)
 		return (1);
 	data->map = NULL;
+	data->size_y = 0;
 	game->data = data;
 	temp_line = NULL;
 	temp_line = read_fd(av);
