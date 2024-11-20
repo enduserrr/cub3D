@@ -84,8 +84,6 @@ static char	*colors(t_game *game, char *line)
 static mlx_texture_t	*put_png(mlx_texture_t *ptr, char *png, t_game *game)
 {
 	ptr = mlx_load_png(png);
-	free(png);
-	png = NULL;
 	if (ptr == NULL)
 	{
 		out(game, ERROR_PNG);
@@ -130,7 +128,7 @@ static char	*parse_info(t_game *game, char *line)
 	}
 	else if (colors(game, line) != NULL)
 		return (line);
-	return (NULL);
+	return (free(new), NULL);
 }
 
 /**
