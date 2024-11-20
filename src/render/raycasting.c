@@ -120,6 +120,7 @@ void	raycast(t_game *game)
 	int		i;
 
 	r = (t_ray){0};
+	r.pixels = NULL;
 	game->ray = &r;
 	i = 0;
 	while (i < WIN_WIDTH)
