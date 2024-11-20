@@ -128,7 +128,7 @@ static int	validate_chars(char **s, t_game *game)
 	size_t	y;
 
 	y = -1;
-	game->info->size_y = 0;
+	game->data->size_y = 0;
 	while (s[++y])
 	{
 		x = -1;
@@ -144,9 +144,9 @@ static int	validate_chars(char **s, t_game *game)
 		}
 		if (s[y][x - 1] != '1')
 			return (write_err(ERROR_MAP), 1);
-		game->info->size_y++;
+		game->data->size_y++;
 	}
-	if (first_and_last_row(game->info))
+	if (first_and_last_row(game->data))
 		return (1);
 	return (0);
 }
@@ -160,30 +160,28 @@ static int	validate_chars(char **s, t_game *game)
  * Initialises the textures and player structs, calls the proper functions to
  * get & validate game map and map info.
  */
-int	process_info(t_game *game)
+int	process_data(t_game *game)
 {
 	t_txtr		txtr;
 	t_player	p;
 
 	txtr = (t_txtr){0};
+	txtr_ptrs_init(&txtr);
 	p = (t_player){0};
-	txtr.c_flag = false;
-	txtr.f_flag = false;
 	game->textures = &txtr;
 	game->player = &p;
-	game->player->set = false;
 	if (get_info(game) == 1)
 	{
-		return (write_err(ERROR_MAP_INFO), free_arr(game->info->map), 1);
+		return (write_err(ERROR_MAP_INFO), free_arr(game->data->map), 1);
 	}
-	if (!game->textures->n_txtr || !game->textures->s_txtr ||
-	!game->textures->w_txtr || !game->textures->e_txtr || game->textures->c->flag == true
-	|| game->textures->f->flag == true)
-		return (write_err(ERROR_MAP_INFO), free_arr(game->info->map), 1);
-	if (validate_chars(game->info->map, game))
-		return (free_arr(game->info->map), 1);
-	if (game->player->set < 1 || game->player->set > 1)
-		return (write_err(ERROR_PLAYER), free_arr(game->info->map), 1);
+	if (!game->textures->n_txtr || !game->textures->s_txtr
+		|| !game->textures->w_txtr || !game->textures->e_txtr
+		|| !game->textures->c || !game->textures->f)
+		return (write_err(ERROR_MAP_INFO), free_arr(game->data->map), 1);
+	if (validate_chars(game->data->map, game))
+		return (free_arr(game->data->map), 1);
+	if (game->player->is_set < 1 || game->player->is_set > 1)
+		return (write_err(ERROR_PLAYER), free_arr(game->data->map), 1);
 	if (gameplay(game))
 		return (1);
 	return (0);

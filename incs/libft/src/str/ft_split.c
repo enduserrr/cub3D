@@ -12,6 +12,22 @@
 
 #include "../../incs/libft.h"
 
+static void	clear_arr(char **arr)
+{
+	int	i;
+
+	i = 0;
+	if (!arr)
+		return ;
+	while (arr[i])
+	{
+		free(arr[i]);
+		arr[i] = NULL;
+		i++;
+	}
+	free(arr);
+}
+
 static int	word_count(const char *s, char c)
 {
 	int	i;
@@ -85,7 +101,7 @@ char	**ft_split(const char *s, char c)
 	{
 		new[i] = ft_substr(s, start_point(s, c, i), w_len(s, c, i));
 		if (!new[i])
-			return (NULL);
+			return (clear_arr(new), NULL);
 		i++;
 	}
 	return (new);

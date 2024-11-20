@@ -24,24 +24,23 @@ static void	str_to_color(t_color *ptr, char *line)
 	int		i;
 
 	colors = ft_split(line, ',');
-	if (colors && colors[0] && colors[1] && colors[2])
+	if (!colors || !colors[0] || !colors[1] || !colors[2])
 	{
-		i = -1;
-		while (++i < 3)
-		{
-			tmp = atoi_mod(colors[i]);
-			if (tmp == -1)
-			{
-				ptr->flag = true;
-				break ;
-			}
-			if (i == 0)
-				ptr->r = (unsigned int)tmp;
-			else if (i == 1)
-				ptr->g = (unsigned int)tmp;
-			else if (i == 2)
-				ptr->b = (unsigned int)tmp;
-		}
+		ptr = NULL;
+		return ;
+	}
+	i = -1;
+	while (++i < 3)
+	{
+		tmp = atoi_mod(colors[i]);
+		if (tmp == -1)
+			ptr = NULL;
+		else if (i == 0)
+			ptr->r = (unsigned int)tmp;
+		else if (i == 1)
+			ptr->g = (unsigned int)tmp;
+		else if (i == 2)
+			ptr->b = (unsigned int)tmp;
 	}
 	free_arr(colors);
 }
@@ -63,6 +62,8 @@ static char	*colors(t_game *game, char *line)
 		while (ft_isspace(*line))
 			line++;
 		game->textures->f = malloc(sizeof(t_color));
+		if (!game->textures->f)
+			return (line);
 		str_to_color(game->textures->f, line);
 	}
 	else if (ft_strncmp(line, "C ", 2) == 0 && !game->textures->c)
@@ -71,6 +72,8 @@ static char	*colors(t_game *game, char *line)
 		while (ft_isspace(*line))
 			line++;
 		game->textures->c = malloc(sizeof(t_color));
+		if (!game->textures->c)
+			return (line);
 		str_to_color(game->textures->c, line);
 	}
 	else
@@ -81,8 +84,13 @@ static char	*colors(t_game *game, char *line)
 static mlx_texture_t	*put_png(mlx_texture_t *ptr, char *png, t_game *game)
 {
 	ptr = mlx_load_png(png);
+	free(png);
+	png = NULL;
 	if (ptr == NULL)
+	{
 		out(game, ERROR_PNG);
+		return (NULL);
+	}
 	return (ptr);
 }
 
@@ -122,7 +130,7 @@ static char	*parse_info(t_game *game, char *line)
 	}
 	else if (colors(game, line) != NULL)
 		return (line);
-	return (free(new), NULL);
+	return (NULL);
 }
 
 /**
@@ -138,7 +146,7 @@ int	get_info(t_game *game)
 	char	*line;
 
 	line = NULL;
-	tmp = game->info->map;
+	tmp = game->data->map;
 	k = 0;
 	while (tmp[k])
 	{
@@ -153,6 +161,6 @@ int	get_info(t_game *game)
 	while (tmp[k])
 		tmp[i++] = tmp[k++];
 	tmp[i] = NULL;
-	game->info->map = tmp;
+	game->data->map = tmp;
 	return (0);
 }

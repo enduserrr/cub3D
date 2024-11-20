@@ -86,7 +86,7 @@ void	dda(t_game *game)
 			game->ray->map_y += game->ray->step_y;
 			game->ray->side = 1;
 		}
-		if (game->info->map[game->ray->map_y][game->ray->map_x] == '1')
+		if (game->data->map[game->ray->map_y][game->ray->map_x] == '1')
 		{
 			game->ray->hit = 1;
 		}

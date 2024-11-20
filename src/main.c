@@ -12,6 +12,17 @@
 
 #include "../incs/cub3D.h"
 
+static void	game_ptrs_init(t_game *game)
+{
+	game->mlx = NULL;
+	game->gun = NULL;
+	game->data = NULL;
+	game->player = NULL;
+	game->ray = NULL;
+	game->screen = NULL;
+	game->textures = NULL;
+}
+
 static int	validate_file(char *name)
 {
 	int	fd;
@@ -35,6 +46,7 @@ int	main(int ac, char **av)
 	int				fd;
 
 	game = (t_game){0};
+	game_ptrs_init(&game);
 	if (ac != 2)
 		return (write_err(ERROR_ARG), 1);
 	fd = validate_file(av[1]);
