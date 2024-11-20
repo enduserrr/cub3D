@@ -52,7 +52,6 @@
 # define ERROR_OPEN "failed to open file"
 # define ERROR_ARG "invalid argument count"
 
-
 /* Map Errors */
 # define ERROR_MAP "invalid map"
 # define ERROR_MAP_NAME "invalid map name"
@@ -60,8 +59,6 @@
 # define ERROR_NO_MAP "No map detected"
 # define ERROR_MAP_INFO "invalid map info"
 # define ERROR_PLAYER "invalid amount of players"
-
-
 
 typedef struct s_map
 {
@@ -99,7 +96,7 @@ typedef struct s_player
 	double			pay;
 	double			plane_x;
 	double			plane_y;
-	int				set;
+	int				is_set;
 }					t_player;
 
 typedef struct s_ray
@@ -132,7 +129,7 @@ typedef struct s_game
 	mlx_t			*mlx;
 	mlx_image_t		*screen;
 	mlx_image_t		*gun;
-	t_map			*info;
+	t_map			*data;
 	t_player		*player;
 	t_txtr			*textures;
 	t_ray			*ray;
@@ -140,11 +137,12 @@ typedef struct s_game
 
 /* PARSE */
 int					get_map(char **av, t_game *game);
-int					process_info(t_game *game);
+int					process_data(t_game *game);
 int					get_info(t_game *game);
 void				set_player(t_game *game, char c, size_t x, size_t y);
 int					is_player(char c);
 void				set_player(t_game *game, char c, size_t x, size_t y);
+void				txtr_ptrs_init(t_txtr *t);
 
 /* GAME*/
 void				screen(void *param);

@@ -84,14 +84,14 @@ void	set_orientation(t_game *game, char c)
 
 void	set_player(t_game *game, char c, size_t x, size_t y)
 {
-	if (game->player->set >= 1)
+	if (game->player->is_set >= 1)
 	{
-		game->player->set += 1;
-		game->info->map[y][x] = '0';
+		game->player->is_set += 1;
+		game->data->map[y][x] = '0';
 		return ;
 	}
 	game->player->ppx = (double)x + 0.3;
 	game->player->ppy = (double)y + 0.3;
 	set_orientation(game, c);
-	game->player->set += 1;
+	game->player->is_set += 1;
 }

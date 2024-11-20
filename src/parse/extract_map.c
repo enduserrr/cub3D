@@ -35,23 +35,27 @@ static char	*read_fd(char **av)
 
 int	get_map(char **av, t_game *game)
 {
-	t_map	*info;
+	t_map	*data;
 	char	*temp_line;
 	char	**arr;
 	int		i;
 
 	i = 0;
-	info = malloc(sizeof(t_map));
-	info->map = NULL;
-	game->info = info;
+	data = malloc(sizeof(t_map));
+	if (!data)
+		return (1);
+	data->map = NULL;
+	game->data = data;
 	temp_line = NULL;
 	temp_line = read_fd(av);
 	arr = ft_split(temp_line, '\n');
-	game->info->map = arr;
+	if (!arr)
+		return (free(data), free(temp_line), write_err(ERROR_NO_MAP), 1);
+	game->data->map = arr;
 	free(temp_line);
 	temp_line = NULL;
-	if (game->info->map == NULL)
+	if (game->data->map == NULL)
 		return (write_err(ERROR_NO_MAP), 1);
-	i = process_info(game);
-	return (free(info), i);
+	i = process_data(game);
+	return (free(data), i);
 }

@@ -73,3 +73,18 @@ char	*strjoin_modi(char *s1, char *s2)
 	ft_memcpy(result + len1, s2, len2 + 1);
 	return (result);
 }
+
+void	txtr_ptrs_init(t_txtr *t)
+{
+	t->n_txtr = NULL;
+	t->s_txtr = NULL;
+	t->e_txtr = NULL;
+	t->w_txtr = NULL;
+	t->gun = NULL;
+	t->c_flag = NULL;
+	t->f_flag = NULL;
+	t->n_txtr = NULL;
+	t->s_txtr = NULL;
+	t->e_txtr = NULL;
+	t->w_txtr = NULL;
+}

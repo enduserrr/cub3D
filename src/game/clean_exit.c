@@ -53,7 +53,7 @@ void	out(t_game *game, char *error)
 	game->textures->f = NULL;
 	game->textures->c = NULL;
 	free_map(game);
-	game->info = NULL;
+	game->data = NULL;
 	game->mlx = NULL;
 	game->textures = NULL;
 	game->screen = NULL;
