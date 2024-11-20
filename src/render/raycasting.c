@@ -108,7 +108,7 @@ void	walls(t_game *game)
 		game->ray->draw_start = 0;
 	game->ray->draw_end = WIN_HEIGHT / 2 + game->ray->wall_height / 2;
 	if (game->ray->draw_end >= WIN_HEIGHT)
-		game->ray->draw_end = WIN_HEIGHT - 1;
+		game->ray->draw_end = WIN_HEIGHT;
 }
 
 /**

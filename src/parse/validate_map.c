@@ -130,10 +130,12 @@ static int	validate_chars(char **s, t_game *game)
 	y = -1;
 	while (s[++y])
 	{
-		x = -1;
-		if (s[y][0] != '1')
+		x = 0;
+		while (s[y][x] == ' ')
+			s[y][x++] = '1';
+		if (s[y][x] != '1')
 			return (write_err(ERROR_MAP), 1);
-		while (s[y][++x])
+		while (s[y][x])
 		{
 			if (!is_player(s[y][x]) && s[y][x] != ' ' && s[y][x] != '0'
 				&& s[y][x] != '1')
@@ -142,12 +144,11 @@ static int	validate_chars(char **s, t_game *game)
 				set_player(game, s[y][x], x, y);
 			if (s[y][x] == ' ')
 				s[y][x] = '0';
+			x++;
 		}
 		game->data->size_y++;
 	}
-	if (first_and_last_row(game->data))
-		return (1);
-	return (0);
+	return (first_and_last_row(game->data));
 }
 
 /**
