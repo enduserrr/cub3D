@@ -21,7 +21,6 @@ static void	restore(char **map, size_t size_y)
 	while (y < size_y)
 	{
 		x = 0;
-		printf("%s\n", map[y]);
 		while (map[y][x])
 		{
 			if (map[y][x] == 'v')
@@ -36,7 +35,7 @@ static int	fill(char **map, size_t x, size_t y, size_t max_x, size_t max_y)
 {
 	if (x >= max_x || y >= max_y || x < 0 || y < 0 || map[y][x] == '\0')
 		return (1);
-	if (map[y][x] == '1' || map[y][x] == '0')
+	if (map[y][x] == '1' || map[y][x] == 'v')
         return (0);
 	if (map[y][x] != '0' && !is_player(map[y][x]))
 		return (1);
@@ -71,4 +70,3 @@ int	wall_coverage(t_map *info)
 	restore(info->map, info->size_y);
 	return (0);
 }
-
