@@ -143,6 +143,11 @@ void				set_player(t_game *game, char c, size_t x, size_t y);
 int					is_player(char c);
 void				set_player(t_game *game, char c, size_t x, size_t y);
 void				txtr_ptrs_init(t_txtr *t);
+int					check_enclosure(char **map, size_t x, size_t y,
+									size_t max_x, size_t max_y);
+int					wall_coverage(t_map *info);
+void				restore_map(char **map, size_t size_y);
+
 
 /* GAME*/
 void				screen(void *param);
