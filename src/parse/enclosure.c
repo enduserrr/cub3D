@@ -12,7 +12,7 @@
 
 #include "../../incs/cub3D.h"
 
-void	restore_map(char **map, size_t size_y)
+static void	restore(char **map, size_t size_y)
 {
 	size_t	y;
 	size_t	x;
@@ -38,12 +38,6 @@ static int	fill(char **map, size_t x, size_t y, size_t max_x, size_t max_y)
 		return (1);
 	if (map[y][x] == '1' || map[y][x] == '0')
         return (0);
-	// if (map[y][x] == '1')
-	// 	return (0);
-	// if (map[y][x] == ' ')
-	// 	return (1);
-	// if (map[y][x] == ' ')
-	// 	map[y][x] = '0';
 	if (map[y][x] != '0' && !is_player(map[y][x]))
 		return (1);
 	if (map[y][x] == '0')
@@ -74,7 +68,7 @@ int	wall_coverage(t_map *info)
 		}
 		y++;
 	}
-	restore_map(info->map, info->size_y);
+	restore(info->map, info->size_y);
 	return (0);
 }
 
