@@ -49,7 +49,7 @@ static int	first_and_last_row(t_map *info)
 		return (write_err(ERROR_MAP), 1);
 	while (info->map[0][x])
 	{
-		if (info->map[0][x] != '1' && info->map[0][x] != ' ')
+		if (info->map[0][x] != '1' && info->map[0][x] != ' ' && info->map[0][x] != '2')
 			return (write_err(ERROR_MAP), 1);
 		x++;
 	}
@@ -59,7 +59,7 @@ static int	first_and_last_row(t_map *info)
 	x = 0;
 	while (info->map[y][x])
 	{
-		if (info->map[y][x] != '1' && info->map[y][x] != ' ')
+		if (info->map[y][x] != '1' && info->map[y][x] != ' ' && info->map[y][x] != '2')
 			return (write_err(ERROR_MAP), 1);
 		x++;
 	}
@@ -100,10 +100,11 @@ static int	validate_chars(char **s, t_game *game)
 				return (write_err(ERROR_MAP_CHAR), 1);
 			if (is_player(s[y][x]))
 				set_player(game, s[y][x], x, y);
-			// if (s[y][x] == ' ')
-			// 	s[y][x] = '2';
+			if (s[y][x] == ' ')
+				s[y][x] = '2';
 			x++;
 		}
+		printf("%s\n", s[y]);
 		game->data->size_y++;
 	}
 	if (first_and_last_row(game->data))
