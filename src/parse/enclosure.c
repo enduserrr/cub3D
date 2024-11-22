@@ -21,6 +21,7 @@ static void	restore(char **map, size_t size_y)
 	while (y < size_y)
 	{
 		x = 0;
+		printf("%s\n", map[y]);
 		while (map[y][x])
 		{
 			if (map[y][x] == 'v')
@@ -31,12 +32,58 @@ static void	restore(char **map, size_t size_y)
 	}
 }
 
+// static int	fill2(char **map, size_t x, size_t y, size_t max_x, size_t max_y)
+// {
+// 	if (x >= max_x || y >= max_y || map[y][x] == '\0')
+// 		return (1);
+// 	if (map[y][x] == 'v' || map[y][x] == '1' || map[y][x] == ' ')
+// 		return (0);
+// 	if (map[y][x] == '2')
+// 	{
+// 		if ((y > 0 && map[y - 1][x] == '0') ||
+// 			(y + 1 < max_y && map[y + 1][x] == '0') ||
+// 			(x > 0 && map[y][x - 1] == '0') ||
+// 			(x + 1 < max_x && map[y][x + 1] == '0'))
+// 			return (1);
+// 		map[y][x] = '0';
+// 	}
+// 	fill2(map, x + 1, y, max_x, max_y);
+// 	fill2(map, x - 1, y, max_x, max_y);
+// 	fill2(map, x, y + 1, max_x, max_y);
+// 	fill2(map, x, y - 1, max_x, max_y);
+// 	return (0);
+// }
+
+static int	fill2(char **map, size_t x, size_t y, size_t max_x, size_t max_y)
+{
+	if (x >= max_x || y >= max_y || map[y][x] == '\0')
+		return (1);
+	if (map[y][x] == 'v' || map[y][x] == '1' || map[y][x] == ' ')
+		return (0);
+	if (map[y][x] == '2')
+	{
+		if ((y > 0 && map[y - 1][x] == '0') ||
+			(y + 1 < max_y && map[y + 1][x] == '0') ||
+			(x > 0 && map[y][x - 1] == '0') ||
+			(x + 1 < max_x && map[y][x + 1] == '0'))
+			return (1);
+		map[y][x] = ' ';
+	}
+	fill2(map, x + 1, y, max_x, max_y);
+	fill2(map, x - 1, y, max_x, max_y);
+	fill2(map, x, y + 1, max_x, max_y);
+	fill2(map, x, y - 1, max_x, max_y);
+	return (0);
+}
+
 static int	fill(char **map, size_t x, size_t y, size_t max_x, size_t max_y)
 {
 	if (x >= max_x || y >= max_y || x < 0 || y < 0 || map[y][x] == '\0')
 		return (1);
 	if (map[y][x] == '1' || map[y][x] == 'v')
         return (0);
+	if (map[y][x] == '2')
+		return (1);
 	if (map[y][x] != '0' && !is_player(map[y][x]))
 		return (1);
 	if (map[y][x] == '0')
@@ -52,17 +99,34 @@ int	wall_coverage(t_map *info)
 {
 	size_t	y;
 	size_t	x;
+	size_t	max_x;
 
 	y = 1;
 	while (y < (info->size_y - 1))
 	{
 		x = -1;
-		while (++x < (ft_strplen(info->map[y]) - 1))
+		max_x = ft_strplen(info->map[y]);
+		while (++x < (max_x - 1))
+		{
+			if (info->map[y][x] == '2')
+			{
+				if (fill2(info->map, x, y, max_x, info->size_y))
+					return (write_err("fill: '2'"), 1);
+			}
+		}
+		y++;
+	}
+	y = 1;
+	while (y < (info->size_y - 1))
+	{
+		x = -1;
+		max_x = ft_strplen(info->map[y]);
+		while (++x < (max_x - 1))
 		{
 			if (info->map[y][x] == '0')
 			{
-				if (fill(info->map, x, y, ft_strplen(info->map[y]), info->size_y))
-					return (1);
+				if (fill(info->map, x, y, max_x, info->size_y))
+					return (write_err("fill: '0'"), 1);
 			}
 		}
 		y++;

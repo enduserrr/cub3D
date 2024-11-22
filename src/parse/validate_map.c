@@ -12,25 +12,6 @@
 
 #include "../../incs/cub3D.h"
 
-// static void	restore_map(char **map, size_t size_y)
-// {
-// 	size_t	y;
-// 	size_t	x;
-
-// 	y = 0;
-// 	while (y < size_y)
-// 	{
-// 		x = 0;
-// 		while (map[y][x])
-// 		{
-// 			if (map[y][x] == 'v')
-// 				map[y][x] = '0';
-// 			x++;
-// 		}
-// 		y++;
-// 	}
-// }
-
 /**
  * @brief	Validates that the first and last rows of the map consist only of 1's.
  * @param	info  The map structure containing the map and its dimensions.
@@ -39,6 +20,7 @@
  * Checker to validate the first and last rows of the map and then rest by
  * calling `wall_coverage` function.
  */
+
 static int	first_and_last_row(t_map *info)
 {
 	int	x;
@@ -79,6 +61,7 @@ static int	first_and_last_row(t_map *info)
  * '0', '1', ' ' 'N', 'S', 'E', 'W'. Replaces spaces with '1'
  * and sets the player's initial position using `set_player`.
  */
+
 static int	validate_chars(char **s, t_game *game)
 {
 	size_t	x;
@@ -104,7 +87,6 @@ static int	validate_chars(char **s, t_game *game)
 				s[y][x] = '2';
 			x++;
 		}
-		printf("%s\n", s[y]);
 		game->data->size_y++;
 	}
 	if (first_and_last_row(game->data))
@@ -121,6 +103,7 @@ static int	validate_chars(char **s, t_game *game)
  * Initialises the textures and player structs, calls the proper functions to
  * get & validate game map and map info.
  */
+
 int	process_data(t_game *game)
 {
 	t_txtr		txtr;
