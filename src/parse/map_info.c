@@ -17,16 +17,21 @@
  * @param	ptr     Pointer to the t_color struct where the values are stored.
  * @param	line    Comma-separated string representing the color values.
  */
-static void	str_to_color(t_color *ptr, char *line)
+static void	str_to_color(t_color *ptr, char *line, t_game *game)
 {
 	char	**colors;
 	int		tmp;
 	int		i;
 
+	(void)game;
 	colors = ft_split(line, ',');
-	if (!colors || !colors[0] || !colors[1] || !colors[2])
+	if (!colors)
+		ptr = NULL;
+	if (!colors[0] || !colors[1] || !colors[2])
 	{
 		ptr = NULL;
+		free_arr(colors);
+		// out(game, "colors");
 		return ;
 	}
 	i = -1;
@@ -34,7 +39,11 @@ static void	str_to_color(t_color *ptr, char *line)
 	{
 		tmp = atoi_mod(colors[i]);
 		if (tmp == -1)
+		{
 			ptr = NULL;
+			// free_arr(colors);
+			// return ;
+		}
 		else if (i == 0)
 			ptr->r = (unsigned int)tmp;
 		else if (i == 1)
@@ -64,7 +73,7 @@ static char	*colors(t_game *game, char *line)
 		game->textures->f = malloc(sizeof(t_color));
 		if (!game->textures->f)
 			return (line);
-		str_to_color(game->textures->f, line);
+		str_to_color(game->textures->f, line, game);
 	}
 	else if (ft_strncmp(line, "C ", 2) == 0 && !game->textures->c)
 	{
@@ -74,7 +83,7 @@ static char	*colors(t_game *game, char *line)
 		game->textures->c = malloc(sizeof(t_color));
 		if (!game->textures->c)
 			return (line);
-		str_to_color(game->textures->c, line);
+		str_to_color(game->textures->c, line, game);
 	}
 	else
 		return (line);

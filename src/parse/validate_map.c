@@ -46,7 +46,7 @@ static int	first_and_last_row(t_map *info)
 		x++;
 	}
 	if (wall_coverage(info))
-		return (write_err("fill"), 1);
+		return (write_err(ERROR_MAP), 1);
 	return (0);
 }
 
@@ -71,8 +71,6 @@ static int	validate_chars(char **s, t_game *game)
 	while (s[++y])
 	{
 		x = 0;
-		// while (s[y][x] == ' ')
-		// 	s[y][x++] = '2';
 		while (s[y][x] == ' ')
 			x++;
 		if (s[y][x] != '1')
@@ -83,15 +81,15 @@ static int	validate_chars(char **s, t_game *game)
 				return (write_err(ERROR_MAP_CHAR), 1);
 			if (is_player(s[y][x]))
 				set_player(game, s[y][x], x, y);
-			if (s[y][x] == ' ')
+			if (s[y][x] == ' ' && x != 0 && s[y][x - 1] == '0')
+				s[y][x] = '0';
+			else if (s[y][x] == ' ')
 				s[y][x] = '2';
 			x++;
 		}
 		game->data->size_y++;
 	}
-	if (first_and_last_row(game->data))
-		return (write_err("first&last"), 1);
-	return (0);
+	return (first_and_last_row(game->data));
 }
 
 /**
@@ -120,7 +118,8 @@ int	process_data(t_game *game)
 	}
 	if (!game->textures->n_txtr || !game->textures->s_txtr
 		|| !game->textures->w_txtr || !game->textures->e_txtr
-		|| !game->textures->c || !game->textures->f)
+		|| !game->textures->c || game->textures->f->flag == true
+		|| game->textures->c->flag == true)
 		return (write_err(ERROR_MAP_INFO), free_arr(game->data->map), 1);
 	if (validate_chars(game->data->map, game))
 		return (free_arr(game->data->map), 1);

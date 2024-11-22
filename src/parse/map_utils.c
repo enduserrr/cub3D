@@ -24,10 +24,10 @@ int	is_player(char c)
 
 int	atoi_mod(const char *s)
 {
-	unsigned long long	res;
+	int	res;
 
 	res = 0;
-	if (!*s)
+	if (!*s || *s == '\0')
 		return (-1);
 	while (*s == ' ')
 		s++;
