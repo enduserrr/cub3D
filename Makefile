@@ -24,6 +24,7 @@ GREEN	= \33[92m
 ORANG	= \33[93m
 RED		= \33[91m
 WB		= \33[1;97m
+WB_OVER	= \33[30;47m
 RES 	= \033[0m
 
 $(OBJ_DIR)/%.o :	$(SRC_DIR)/%.c
@@ -38,6 +39,11 @@ $(NAME):	$(OBJ)
 			@$(MAKE) -C incs/MLX42 build
 			@$(CC) $(OBJ) $(LIBFT) $(MLX) -o $(NAME) $(INCS) $(LIBS)
 			@echo "$(WB)GAME BUILT SUCCESSFULLY!$(RES)"
+			@echo "$(GREY)* MAP FILE EXAMPLE: *" \
+			"\nNO ./*/*.png\nSO ./*/*.png\nWE ./*/*.png\nEA ./*/*.png\n" \
+			"\nF 11, 70, 111\nC 255, 180, 166\n\n1111\n10N1\n1111$(RES)" \
+			"\n$(WB_OVER)You can play it. Enjoy!$(RES)" \
+			"\n$(GREY)Execute:\t./cub3d maps/*.cub\nControls:\tWASD & ←↑→↓\nQuit:\t\tESC$(GREY)"
 
 build:
 			@cd incs/MLX42 && cmake -B build && cmake --build build -j4

@@ -26,7 +26,7 @@ static void	str_to_color(t_color *ptr, char *line)
 	colors = ft_split(line, ',');
 	if (!colors || !colors[0] || !colors[1] || !colors[2])
 	{
-		set_default(ptr);
+		invalid_color(ptr);
 		free_arr(colors);
 		return ;
 	}
@@ -35,7 +35,7 @@ static void	str_to_color(t_color *ptr, char *line)
 	{
 		tmp = atoi_mod(colors[i]);
 		if (tmp == -1)
-			tmp = 0;
+			tmp = 256;
 		if (i == 0)
 			ptr->r = (unsigned int)tmp;
 		else if (i == 1)
