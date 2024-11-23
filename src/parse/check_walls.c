@@ -32,47 +32,58 @@ static void	restore(char **map, size_t size_y)
 	}
 }
 
-static int	fill2(char **map, size_t x, size_t y, size_t xmax, size_t ymax)
+/**
+ * @brief	Checks any potential 2's found in the map and what they are
+ *			surrounded with.
+ * @return
+ */
+static int	fill2(t_map *data, size_t x, size_t y, size_t xmax)
 {
-	if (x >= xmax || y >= ymax || map[y][x] == '\0')
+	size_t	ymax;
+
+	ymax = data->size_y;
+	if (x >= xmax || y >= ymax || data->map[y][x] == '\0')
 		return (1);
-	if (map[y][x] == 'v' || map[y][x] == '1' || map[y][x] == ' ')
+	if (data->map[y][x] == 'v' || data->map[y][x] == '1' || data->map[y][x] == ' ')
 		return (0);
-	if (map[y][x] == '2')
+	if (data->map[y][x] == '2')
 	{
-		if ((y > 0 && map[y - 1][x] == '0') ||
-			(y + 1 < ymax && map[y + 1][x] == '0') ||
-			(x > 0 && map[y][x - 1] == '0') ||
-			(x + 1 < xmax && map[y][x + 1] == '0'))
+		if ((y > 0 && data->map[y - 1][x] == '0') ||
+			(y + 1 < ymax && data->map[y + 1][x] == '0') ||
+			(x > 0 && data->map[y][x - 1] == '0') ||
+			(x + 1 < xmax && data->map[y][x + 1] == '0'))
 		{
-			map[y][x] = '0';
+			data->map[y][x] = '0';
 			return (1);
 		}
-		map[y][x] = ' ';
+		data->map[y][x] = ' ';
 	}
-	fill2(map, x + 1, y, xmax, ymax);
-	fill2(map, x - 1, y, xmax, ymax);
-	fill2(map, x, y + 1, xmax, ymax);
-	fill2(map, x, y - 1, xmax, ymax);
+	fill2(data, x + 1, y, xmax);
+	fill2(data, x - 1, y, xmax);
+	fill2(data, x, y + 1, xmax);
+	fill2(data, x, y - 1, xmax);
 	return (0);
 }
 
-static int	fill(char **map, size_t x, size_t y, size_t xmax, size_t ymax)
+static int	fill(t_map *data, size_t x, size_t y, size_t xmax)
 {
-	if (x >= xmax || y >= ymax || x < 0 || y < 0 || map[y][x] == '\0')
+	size_t	ymax;
+
+	ymax = data->size_y;
+	if (x >= xmax || y >= ymax || x < 0 || y < 0 || data->map[y][x] == '\0')
 		return (1);
-	if (map[y][x] == '1' || map[y][x] == 'v')
+	if (data->map[y][x] == '1' || data->map[y][x] == 'v')
 		return (0);
-	if (map[y][x] == '2')
+	if (data->map[y][x] == '2')
 		return (1);
-	if (map[y][x] != '0' && !is_player(map[y][x]))
+	if (data->map[y][x] != '0' && !is_player(data->map[y][x]))
 		return (1);
-	if (map[y][x] == '0')
-		map[y][x] = 'v';
-	fill(map, x + 1, y, xmax, ymax);
-	fill(map, x - 1, y, xmax, ymax);
-	fill(map, x, y + 1, xmax, ymax);
-	fill(map, x, y - 1, xmax, ymax);
+	if (data->map[y][x] == '0')
+		data->map[y][x] = 'v';
+	fill(data, x + 1, y, xmax);
+	fill(data, x - 1, y, xmax);
+	fill(data, x, y + 1, xmax);
+	fill(data, x, y - 1, xmax);
 	return (0);
 }
 
@@ -91,7 +102,7 @@ static int	handle_spaces(t_map *data)
 		{
 			if (data->map[y][x] == '2')
 			{
-				if (fill2(data->map, x, y, xmax, data->size_y))
+				if (fill2(data, x, y, xmax))
 					return (1);
 			}
 		}
@@ -118,7 +129,7 @@ int	wall_check(t_map *data)
 		{
 			if (data->map[y][x] == '0')
 			{
-				if (fill(data->map, x, y, xmax, data->size_y))
+				if (fill(data, x, y, xmax))
 					return (1);
 			}
 		}
