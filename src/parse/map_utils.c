@@ -24,10 +24,10 @@ int	is_player(char c)
 
 int	atoi_mod(const char *s)
 {
-	unsigned long long	res;
+	int	res;
 
 	res = 0;
-	if (!*s)
+	if (!*s || *s == '\0')
 		return (-1);
 	while (*s == ' ')
 		s++;
@@ -74,6 +74,13 @@ char	*strjoin_modi(char *s1, char *s2)
 	return (result);
 }
 
+void	set_default(t_color *ptr)
+{
+	ptr->r = 0;
+	ptr->g = 0;
+	ptr->b = 0;
+}
+
 void	txtr_ptrs_init(t_txtr *t)
 {
 	t->n_txtr = NULL;
@@ -81,8 +88,6 @@ void	txtr_ptrs_init(t_txtr *t)
 	t->e_txtr = NULL;
 	t->w_txtr = NULL;
 	t->gun = NULL;
-	t->c_flag = NULL;
-	t->f_flag = NULL;
 	t->n_txtr = NULL;
 	t->s_txtr = NULL;
 	t->e_txtr = NULL;

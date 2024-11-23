@@ -26,7 +26,8 @@ static void	str_to_color(t_color *ptr, char *line)
 	colors = ft_split(line, ',');
 	if (!colors || !colors[0] || !colors[1] || !colors[2])
 	{
-		ptr = NULL;
+		set_default(ptr);
+		free_arr(colors);
 		return ;
 	}
 	i = -1;
@@ -34,8 +35,8 @@ static void	str_to_color(t_color *ptr, char *line)
 	{
 		tmp = atoi_mod(colors[i]);
 		if (tmp == -1)
-			ptr = NULL;
-		else if (i == 0)
+			tmp = 0;
+		if (i == 0)
 			ptr->r = (unsigned int)tmp;
 		else if (i == 1)
 			ptr->g = (unsigned int)tmp;
@@ -136,7 +137,7 @@ static char	*parse_info(t_game *game, char *line)
  * @param   game Pointer to the t_game struct.
  * @return  0 on success, or an error code if processing fails.
  */
-int	get_info(t_game *game)
+int	get_data(t_game *game)
 {
 	int		i;
 	int		k;

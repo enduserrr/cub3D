@@ -21,32 +21,30 @@
  * calling `wall_coverage` function.
  */
 
-static int	first_and_last_row(t_map *info)
+static int	first_and_last_row(t_map *data)
 {
 	int	x;
 	int	y;
 
-	x = 0;
-	if (!info->map || !info->map[0])
+	if (!data->map || !data->map[0])
 		return (write_err(ERROR_MAP), 1);
-	while (info->map[0][x])
+	x = -1;
+	while (data->map[0][++x])
 	{
-		if (info->map[0][x] != '1' && info->map[0][x] != ' ' && info->map[0][x] != '2')
+		if (data->map[0][x] != '1' && data->map[0][x] != ' '
+			&& data->map[0][x] != '2')
 			return (write_err(ERROR_MAP), 1);
-		x++;
 	}
-	y = info->size_y - 1;
-	if (y < 0 || !info->map[y])
+	y = data->size_y - 1;
+	x = -1;
+	while (data->map[y][++x])
+	{
+		if (data->map[y][x] != '1' && data->map[y][x] != ' '
+			&& data->map[y][x] != '2')
+			return (write_err(ERROR_MAP), 1);
+	}
+	if (wall_check(data))
 		return (write_err(ERROR_MAP), 1);
-	x = 0;
-	while (info->map[y][x])
-	{
-		if (info->map[y][x] != '1' && info->map[y][x] != ' ' && info->map[y][x] != '2')
-			return (write_err(ERROR_MAP), 1);
-		x++;
-	}
-	if (wall_coverage(info))
-		return (write_err("fill"), 1);
 	return (0);
 }
 
@@ -71,27 +69,22 @@ static int	validate_chars(char **s, t_game *game)
 	while (s[++y])
 	{
 		x = 0;
-		// while (s[y][x] == ' ')
-		// 	s[y][x++] = '2';
-		while (s[y][x] == ' ')
-			x++;
-		if (s[y][x] != '1')
-			return (write_err(ERROR_MAP), 1);
 		while (s[y][x])
 		{
-			if (!is_player(s[y][x]) && s[y][x] != ' ' && s[y][x] != '0' && s[y][x] != '1')
+			if (!is_player(s[y][x]) && s[y][x] != ' ' && s[y][x] != '0'
+				&& s[y][x] != '1')
 				return (write_err(ERROR_MAP_CHAR), 1);
 			if (is_player(s[y][x]))
 				set_player(game, s[y][x], x, y);
-			if (s[y][x] == ' ')
+			if (s[y][x] == ' ' && x != 0 && s[y][x - 1] == '0')
+				s[y][x] = '0';
+			else if (s[y][x] == ' ')
 				s[y][x] = '2';
 			x++;
 		}
 		game->data->size_y++;
 	}
-	if (first_and_last_row(game->data))
-		return (write_err("first&last"), 1);
-	return (0);
+	return (first_and_last_row(game->data));
 }
 
 /**
@@ -114,18 +107,16 @@ int	process_data(t_game *game)
 	p = (t_player){0};
 	game->textures = &txtr;
 	game->player = &p;
-	if (get_info(game) == 1)
-	{
-		return (write_err(ERROR_MAP_INFO), free_arr(game->data->map), 1);
-	}
-	if (!game->textures->n_txtr || !game->textures->s_txtr
-		|| !game->textures->w_txtr || !game->textures->e_txtr
-		|| !game->textures->c || !game->textures->f)
-		return (write_err(ERROR_MAP_INFO), free_arr(game->data->map), 1);
+	if (get_data(game) == 1)
+		return (write_err(ERROR_MAP_INFO), free_map(game), 1);
+	if (!game || !game->textures || !game->textures->n_txtr
+		|| !game->textures->s_txtr || !game->textures->w_txtr
+		|| !game->textures->e_txtr || !game->textures->c)
+		return (write_err(ERROR_MAP_INFO), free_map(game), 1);
 	if (validate_chars(game->data->map, game))
 		return (free_arr(game->data->map), 1);
-	if (game->player->is_set < 1 || game->player->is_set > 1)
-		return (write_err(ERROR_PLAYER), free_arr(game->data->map), 1);
+	if (!game->player || game->player->is_set < 1 || game->player->is_set > 1)
+		return (write_err(ERROR_PLAYER), free_map(game), 1);
 	if (gameplay(game))
 		return (1);
 	return (0);
