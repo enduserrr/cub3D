@@ -44,7 +44,7 @@ static int	first_and_last_row(t_map *data)
 			return (write_err(ERROR_MAP), 1);
 	}
 	if (wall_check(data))
-		return (write_err(ERROR_MAP), 1);
+		return (1);
 	return (0);
 }
 
@@ -76,8 +76,8 @@ static int	validate_chars(char **s, t_game *game)
 				return (write_err(ERROR_MAP_CHAR), 1);
 			if (is_player(s[y][x]))
 				set_player(game, s[y][x], x, y);
-			if (s[y][x] == ' ' && x != 0 && s[y][x - 1] == '0')
-				s[y][x] = '0';
+			// if (s[y][x] == ' ' && x != 0 && s[y][x - 1] == '0')
+			// 	s[y][x] = '0';
 			else if (s[y][x] == ' ')
 				s[y][x] = '2';
 			x++;

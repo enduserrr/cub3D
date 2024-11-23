@@ -21,13 +21,15 @@ static void	restore(char **map, size_t size_y)
 	while (y < size_y)
 	{
 		x = 0;
-		printf("%s\n", map[y]);
 		while (map[y][x])
 		{
 			if (map[y][x] == 'v')
 				map[y][x] = '0';
+			else if (map[y][x] == '2')
+				map[y][x] = ' ';
 			x++;
 		}
+		printf("%s\n", map[y]);
 		y++;
 	}
 }
@@ -65,7 +67,7 @@ static int	fill2(t_map *data, size_t x, size_t y, size_t xmax)
 	return (0);
 }
 
-static int	fill(t_map *data, size_t x, size_t y, size_t xmax)
+int	fill(t_map *data, size_t x, size_t y, size_t xmax)
 {
 	size_t	ymax;
 
@@ -74,7 +76,7 @@ static int	fill(t_map *data, size_t x, size_t y, size_t xmax)
 		return (1);
 	if (data->map[y][x] == '1' || data->map[y][x] == 'v')
 		return (0);
-	if (data->map[y][x] == '2')
+	if (data->map[y][x] == '2' || data->map[y][x] == ' ')
 		return (1);
 	if (data->map[y][x] != '0' && !is_player(data->map[y][x]))
 		return (1);
@@ -94,7 +96,7 @@ static int	handle_spaces(t_map *data)
 	size_t	xmax;
 
 	y = 0;
-	while (y < (data->size_y - 1))
+	while (y < (data->size_y))
 	{
 		x = -1;
 		xmax = ft_strplen(data->map[y]);
@@ -119,7 +121,7 @@ int	wall_check(t_map *data)
 	size_t	xmax;
 
 	if (handle_spaces(data))
-		return (1);
+		return (write_err(ERROR_WALLS), 1);
 	y = 1;
 	while (y < (data->size_y - 1))
 	{
@@ -130,7 +132,7 @@ int	wall_check(t_map *data)
 			if (data->map[y][x] == '0')
 			{
 				if (fill(data, x, y, xmax))
-					return (1);
+					return (write_err(ERROR_WALLS), 1);
 			}
 		}
 		y++;
