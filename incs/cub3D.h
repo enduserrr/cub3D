@@ -54,14 +54,15 @@
 
 /* Map Errors */
 # define ERROR_MAP "invalid map"
-# define ERROR_WALLS "invalid map format \
-\nPLAY AREA MUST BE COVERED BY WALLS AND TO USE ONLY CONSIST OF\
+# define ERROR_WALLS "invalid map walls: \
+\nPLAY AREA MUST BE COVERED BY WALLS AND TO ONLY CONSIST OF\
  '1', '0', 'S', 'N', 'W' & 'E' CHARACTERS."
 # define ERROR_MAP_NAME "invalid map name"
 # define ERROR_MAP_CHAR "invalid map character(s)"
-# define ERROR_NO_MAP "No map detected"
+# define ERROR_NO_MAP "no map detected"
 # define ERROR_MAP_INFO "invalid map info"
-# define ERROR_PLAYER "invalid amount of players"
+# define ERROR_PLAYER "invalid players count"
+# define ERROR_COLOR "invalid color info"
 
 typedef struct s_map
 {
@@ -144,8 +145,9 @@ int					is_player(char c);
 void				set_player(t_game *game, char c, size_t x, size_t y);
 void				txtr_ptrs_init(t_txtr *t);
 int					wall_check(t_map *info);
-void				set_default(t_color *ptr);
+void				invalid_color(t_color *ptr);
 int					fill(t_map *data, size_t x, size_t y, size_t xmax);
+int					is_256(t_txtr *t);
 
 /* GAME*/
 void				screen(void *param);

@@ -29,7 +29,6 @@ static void	restore(char **map, size_t size_y)
 				map[y][x] = ' ';
 			x++;
 		}
-		printf("%s\n", map[y]);
 		y++;
 	}
 }

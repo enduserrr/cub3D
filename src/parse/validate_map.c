@@ -13,12 +13,9 @@
 #include "../../incs/cub3D.h"
 
 /**
- * @brief	Validates that the first and last rows of the map consist only of 1's.
+ * @brief	Validates that the first and last rows before calling wall_check.
  * @param	info  The map structure containing the map and its dimensions.
  * @return	1 for invalid first or last row, 0 otherwise.
- *
- * Checker to validate the first and last rows of the map and then rest by
- * calling `wall_coverage` function.
  */
 
 static int	first_and_last_row(t_map *data)
@@ -54,10 +51,6 @@ static int	first_and_last_row(t_map *data)
  * @param	game  The game structure to store map dimensions and player info.
  * @return	1 for incorrect characters or map format,
  *			0 otherwise.
- *
- * This function checks that the map contains only valid characters:
- * '0', '1', ' ' 'N', 'S', 'E', 'W'. Replaces spaces with '1'
- * and sets the player's initial position using `set_player`.
  */
 
 static int	validate_chars(char **s, t_game *game)
@@ -76,8 +69,6 @@ static int	validate_chars(char **s, t_game *game)
 				return (write_err(ERROR_MAP_CHAR), 1);
 			if (is_player(s[y][x]))
 				set_player(game, s[y][x], x, y);
-			// if (s[y][x] == ' ' && x != 0 && s[y][x - 1] == '0')
-			// 	s[y][x] = '0';
 			else if (s[y][x] == ' ')
 				s[y][x] = '2';
 			x++;
@@ -108,15 +99,17 @@ int	process_data(t_game *game)
 	game->textures = &txtr;
 	game->player = &p;
 	if (get_data(game) == 1)
-		return (write_err(ERROR_MAP_INFO), free_map(game), 1);
+		return (write_err(ERROR_MAP_INFO), out(game, NULL), 1);
 	if (!game || !game->textures || !game->textures->n_txtr
 		|| !game->textures->s_txtr || !game->textures->w_txtr
-		|| !game->textures->e_txtr || !game->textures->c)
-		return (write_err(ERROR_MAP_INFO), free_map(game), 1);
+		|| !game->textures->e_txtr)
+		return (out(game, ERROR_MAP_INFO), 1);
+	if (!game->textures->c || !game->textures->f || is_256(game->textures))
+		return (write_err(ERROR_COLOR), out(game, NULL), 1);
 	if (validate_chars(game->data->map, game))
-		return (free_arr(game->data->map), 1);
+		return (out(game, NULL), 1);
 	if (!game->player || game->player->is_set < 1 || game->player->is_set > 1)
-		return (write_err(ERROR_PLAYER), free_map(game), 1);
+		return (write_err(ERROR_PLAYER), out(game, NULL), 1);
 	if (gameplay(game))
 		return (1);
 	return (0);

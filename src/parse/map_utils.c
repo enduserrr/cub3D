@@ -22,63 +22,21 @@ int	is_player(char c)
 	return (0);
 }
 
-int	atoi_mod(const char *s)
+int	is_256(t_txtr *t)
 {
-	int	res;
-
-	res = 0;
-	if (!*s || *s == '\0')
-		return (-1);
-	while (*s == ' ')
-		s++;
-	if (*s < '0' || *s > '9')
-		return (-1);
-	while (*s)
-	{
-		if (*s >= '0' && *s <= '9')
-			res = res * 10 + *s - '0';
-		if (*s < '0' || *s > '9')
-			return (-1);
-		s++;
-	}
-	if (res > 255 || res < 0)
-		return (-1);
-	return (res);
+	if (!t || !t->c)
+		return (1);
+	if (t->c->r == 256 || t->c->g == 256 || t->c->b == 256
+		|| t->f->r == 256 || t->f->g == 256 || t->f->b == 256)
+		return (1);
+	return (0);
 }
 
-/**
- * @brief	Like strjoin with handling for empty strings.
- *			Accounts for 0 length.
- */
-char	*strjoin_modi(char *s1, char *s2)
+void	invalid_color(t_color *ptr)
 {
-	char	*result;
-	size_t	len1;
-	size_t	len2;
-
-	if (!s1 || !s2)
-		return (NULL);
-	len1 = ft_strplen(s1);
-	len2 = ft_strplen(s2);
-	if ((len1 + len2) < 1)
-		result = ft_calloc(len1 + len2, sizeof(char *));
-	result = ft_calloc(len1 + len2 + 1, sizeof(char *));
-	if (!result)
-	{
-		free(s1);
-		return ((void *)1);
-	}
-	ft_memcpy(result, s1, len1);
-	free(s1);
-	ft_memcpy(result + len1, s2, len2 + 1);
-	return (result);
-}
-
-void	set_default(t_color *ptr)
-{
-	ptr->r = 0;
-	ptr->g = 0;
-	ptr->b = 0;
+	ptr->r = 256;
+	ptr->g = 256;
+	ptr->b = 256;
 }
 
 void	txtr_ptrs_init(t_txtr *t)
