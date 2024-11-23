@@ -71,7 +71,6 @@ typedef struct s_color
 	unsigned int	b;
 	unsigned int	g;
 	unsigned int	r;
-	bool			flag;
 }					t_color;
 
 typedef struct s_txtr
@@ -83,8 +82,6 @@ typedef struct s_txtr
 	mlx_texture_t	*s_txtr;
 	mlx_texture_t	*w_txtr;
 	mlx_texture_t	*gun;
-	bool			c_flag;
-	bool			f_flag;
 }					t_txtr;
 
 typedef struct s_player
@@ -138,13 +135,13 @@ typedef struct s_game
 /* PARSE */
 int					get_map(char **av, t_game *game);
 int					process_data(t_game *game);
-int					get_info(t_game *game);
+int					get_data(t_game *game);
 void				set_player(t_game *game, char c, size_t x, size_t y);
 int					is_player(char c);
 void				set_player(t_game *game, char c, size_t x, size_t y);
 void				txtr_ptrs_init(t_txtr *t);
-int					wall_coverage(t_map *info);
-
+int					wall_check(t_map *info);
+void				set_default(t_color *ptr);
 
 /* GAME*/
 void				screen(void *param);

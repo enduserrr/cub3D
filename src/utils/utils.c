@@ -39,6 +39,8 @@ void	free_map(t_game *game)
 	size_t	i;
 
 	i = 0;
+	if (!game || !game->data || !game->data->map)
+		return ;
 	while (game->data->map[i] != NULL)
 	{
 		free(game->data->map[i]);

@@ -38,8 +38,10 @@ static uint32_t	rgb_to_hex(t_color *color)
 	unsigned char	green;
 	unsigned char	blue;
 
-	if (!color || color->r > 255 || color->g > 255 || color->b > 255)
-		return (0);
+	if (!color || !color->r || !color->g || !color->b)
+		return ((0 << 24) | (0 << 16) | (0 << 8) | 255);
+	else if (color->r > 255 || color->g > 255 || color->b > 255)
+		return ((0 << 24) | (0 << 16) | (0 << 8) | 255);
 	red = (unsigned char)color->r;
 	green = (unsigned char)color->g;
 	blue = (unsigned char)color->b;
