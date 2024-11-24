@@ -12,6 +12,9 @@
 
 #include "../../incs/cub3D.h"
 
+/**
+ * @brief	sets pointer to NULL.
+*/
 static void	txtr_ptrs_init(t_txtr *t)
 {
 	t->n_txtr = NULL;
@@ -83,7 +86,6 @@ static int	validate_chars(char **s, t_game *game)
 				s[y][x] = '2';
 			x++;
 		}
-		printf("%s\n", s[y]);
 		game->data->size_y++;
 	}
 	return (first_and_last_row(game->data));
@@ -94,9 +96,6 @@ static int	validate_chars(char **s, t_game *game)
  *         and validates the game map.
  * @param  game  The main game structure to store textures, player, and map info.
  * @return 1 if any validation or initialization fails, 0 otherwise.
- *
- * Initialises the textures and player structs, calls the proper functions to
- * get & validate game map and map info.
  */
 int	process_data(t_game *game)
 {
@@ -113,7 +112,7 @@ int	process_data(t_game *game)
 	if (!game || !game->textures || !game->textures->n_txtr
 		|| !game->textures->s_txtr || !game->textures->w_txtr
 		|| !game->textures->e_txtr)
-		return (out(game, ERROR_MAP_INFO), 1);
+		return (out(game, ERROR_MISSING_TXTR), 1);
 	if (!game->textures->c || !game->textures->f || is_256(game->textures))
 		return (write_err(ERROR_COLOR), out(game, NULL), 1);
 	if (validate_chars(game->data->map, game))
