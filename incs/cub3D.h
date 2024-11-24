@@ -57,6 +57,7 @@
 # define ERROR_WALLS "invalid map walls: \
 \nPLAY AREA MUST BE COVERED BY WALLS AND TO ONLY CONSIST OF\
  '1', '0', 'S', 'N', 'W' & 'E' CHARACTERS."
+# define ERROR_MISSING_TXTR "invalid or missing texture(s)"
 # define ERROR_MAP_NAME "invalid map name"
 # define ERROR_MAP_CHAR "invalid map character(s)"
 # define ERROR_NO_MAP "no map detected"
