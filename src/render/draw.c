@@ -14,7 +14,6 @@
 
 /**
  * @brief	Places a pixel on the screen, ensuring it is within the window.
- * @param	game The game structure.
  * @param 	x The x-coordinate of the pixel to place.
  * @param 	y The y-coordinate of the pixel to place.
  * @param 	color The color of the pixel to place.
@@ -29,8 +28,7 @@ void	pixel_safe(t_game *game, int x, int y, unsigned int color)
 /**
  * @brief 	Converts an RGBA color to its corresponding hexadecimal value.
  * @param 	color 	The color structure containing RGBA components.
- * @return 	The color in hexadecimal format as a uint32_t,
- *			or 0 if the input color is invalid.
+ * @return 	The color in hexadecimal format as a uint32_t.
  */
 static uint32_t	rgb_to_hex(t_color *color)
 {
@@ -49,7 +47,6 @@ static uint32_t	rgb_to_hex(t_color *color)
 /**
  * @brief 	Selects textures based on the ray's side and position,
  * 			and calculates texture mapping.
- * @param 	game The game structure containing the ray and player data.
  */
 void	textures(t_game *game)
 {
@@ -81,8 +78,6 @@ void	textures(t_game *game)
 
 /**
  * @brief 	Draws the background of the scene with sky and floor colors.
- * @param 	game The game structure containing the color data for the
- * 				sky and floor.
  * @param 	i The x-coordinate of the column currently being processed.
  */
 void	background(t_game *game, int i)
@@ -110,8 +105,6 @@ void	background(t_game *game, int i)
 
 /**
  * @brief 	Renders the vertical slice of the wall based on the raycasting result.
- * @param 	game The game structure containing ray data, textures,
- * 			and the screen context.
  * @param 	i The x-coordinate (column) of the pixel being processed.
  */
 void	draw(t_game *game, int i)

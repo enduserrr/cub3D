@@ -14,7 +14,7 @@
 
 /**
  * @brief	Handles the screen rendering for the game.
- * @param	param The game structure containing all the necessary information
+ * @param	param	The game structure containing all the necessary information
  * 					for rendering.
  *
  * This function updates the screen by creating a new image to be displayed,
@@ -22,7 +22,6 @@
  * If an error occurs during image creation or displaying, it calls the `out`
  * function to clean up resources and exits the program.
  */
-
 void	screen(void *param)
 {
 	t_game	*game;
@@ -41,7 +40,7 @@ void	screen(void *param)
 
 /**
  * @brief	Handles user input for movement and rotation in the game.
- * @param	param The game structure containing the player and movement data.
+ * @param	param	The game structure containing the player and movement data.
  *
  * This function checks the state of the keyboard and updates the player's
  * movement or rotation accordingly. The player can move forward, backward,
@@ -74,14 +73,13 @@ void	keys(void *param)
 
 /**
  * @brief 	Loads and displays the player's weapon texture in the game.
- * @param 	game The game structure containing the textures and weapon data.
+ * @param 	game	The game structure containing the textures and weapon data.
  *
  * This function loads the weapon texture from a PNG file, creates a new
  * image for the weapon, and displays it in the game window. If any errors
  * occur during this process (e.g., texture loading or image creation), it
  * cleans up the resources and exits the program.
  */
-
 void	get_weapon(t_game *game)
 {
 	game->textures->gun = mlx_load_png(GUN_PATH);
@@ -103,16 +101,15 @@ void	get_weapon(t_game *game)
  * @brief 	Initializes the game, loads resources, and starts the game loop.
  * @param 	game 	The game structure containing all the necessary data for
  * 					starting the game.
- * @return 	Returns 0 when the game ends successfully.
  *
- * This function initializes the game environment, including setting up the
- * window and loading the weapon texture. It then enters the main game loop,
+ * @return 	Returns 0 when the game ends successfully.
+ * Initializes the game environment, including setting up the
+ * window and loading the weapon texture, yhen enters the main game loop,
  * which handles rendering, input processing, and other game events.
- * The `mlx_loop_hook` functions are used to repeatedly call the `screen`
+ * The `mlx_loop_hook` is used to repeatedly call the `screen`
  * and `keys` functions during the game loop. If an error occurs during
  * initialization or the game loop, the program exits.
  */
-
 int	gameplay(t_game *game)
 {
 	game->mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, WIN_NAME, true);

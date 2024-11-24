@@ -12,6 +12,12 @@
 
 #include "../../incs/cub3D.h"
 
+/**
+ * @brief	Restores the map to its original state by replacing 'v' with '0'
+ *          and '2' with a space (' ').
+ * @param	map    The 2D map array.
+ * @param	size_y Number of rows in the map.
+ */
 static void	restore(char **map, size_t size_y)
 {
 	size_t	y;
@@ -34,44 +40,50 @@ static void	restore(char **map, size_t size_y)
 }
 
 /**
- * @brief	Checks any potential 2's found in the map and what they are
- *			surrounded with.
- * @return
+ * @brief	Checks any potential '2's in the map and determines if they are
+ *			surrounded by '0's. Updates '2' to '0' if inside the playable
+ *			area, or restores it to a space (' ') if outside.
+ * @return	1 if an invalid state is found, 0 otherwise.
  */
-static int	fill2(t_map *data, size_t x, size_t y, size_t xmax)
+static int	fill2(t_map *data, size_t x, size_t y, size_t x_max)
 {
-	size_t	ymax;
+	size_t	y_max;
 
-	ymax = data->size_y;
-	if (x >= xmax || y >= ymax || data->map[y][x] == '\0')
+	y_max = data->size_y;
+	if (x >= x_max || y >= y_max || data->map[y][x] == '\0')
 		return (1);
-	if (data->map[y][x] == 'v' || data->map[y][x] == '1' || data->map[y][x] == ' ')
+	if (data->map[y][x] == 'v' || data->map[y][x] == '1'
+		|| data->map[y][x] == ' ')
 		return (0);
 	if (data->map[y][x] == '2')
 	{
 		if ((y > 0 && data->map[y - 1][x] == '0') ||
-			(y + 1 < ymax && data->map[y + 1][x] == '0') ||
+			(y + 1 < y_max && data->map[y + 1][x] == '0') ||
 			(x > 0 && data->map[y][x - 1] == '0') ||
-			(x + 1 < xmax && data->map[y][x + 1] == '0'))
+			(x + 1 < x_max && data->map[y][x + 1] == '0'))
 		{
-			data->map[y][x] = '0';
 			return (1);
 		}
 		data->map[y][x] = ' ';
 	}
-	fill2(data, x + 1, y, xmax);
-	fill2(data, x - 1, y, xmax);
-	fill2(data, x, y + 1, xmax);
-	fill2(data, x, y - 1, xmax);
+	fill2(data, x + 1, y, x_max);
+	fill2(data, x - 1, y, x_max);
+	fill2(data, x, y + 1, x_max);
+	fill2(data, x, y - 1, x_max);
 	return (0);
 }
 
-int	fill(t_map *data, size_t x, size_t y, size_t xmax)
+/**
+ * @brief	Checks if a specific cell in the map and its neighbors are valid,
+ *			marking visited '0's with 'v' for wall validation.
+ * @return	1 if the map is invalid, 0 otherwise.
+ */
+static int	fill(t_map *data, size_t x, size_t y, size_t x_max)
 {
-	size_t	ymax;
+	size_t	y_max;
 
-	ymax = data->size_y;
-	if (x >= xmax || y >= ymax || x < 0 || y < 0 || data->map[y][x] == '\0')
+	y_max = data->size_y;
+	if (x >= x_max || y >= y_max || x < 0 || y < 0 || data->map[y][x] == '\0')
 		return (1);
 	if (data->map[y][x] == '1' || data->map[y][x] == 'v')
 		return (0);
@@ -81,29 +93,34 @@ int	fill(t_map *data, size_t x, size_t y, size_t xmax)
 		return (1);
 	if (data->map[y][x] == '0')
 		data->map[y][x] = 'v';
-	fill(data, x + 1, y, xmax);
-	fill(data, x - 1, y, xmax);
-	fill(data, x, y + 1, xmax);
-	fill(data, x, y - 1, xmax);
+	fill(data, x + 1, y, x_max);
+	fill(data, x - 1, y, x_max);
+	fill(data, x, y + 1, x_max);
+	fill(data, x, y - 1, x_max);
 	return (0);
 }
 
+/**
+ * @brief	Processes spaces ('2') in the map to determine if they are part
+ *			of the playable area or outside.
+ * @return	1 if spaces are improperly handled, 0 otherwise.
+ */
 static int	handle_spaces(t_map *data)
 {
 	size_t	y;
 	size_t	x;
-	size_t	xmax;
+	size_t	x_max;
 
 	y = 0;
 	while (y < (data->size_y))
 	{
 		x = -1;
-		xmax = ft_strplen(data->map[y]);
-		while (++x < (xmax - 1))
+		x_max = ft_strplen(data->map[y]);
+		while (++x < (x_max - 1))
 		{
 			if (data->map[y][x] == '2')
 			{
-				if (fill2(data, x, y, xmax))
+				if (fill2(data, x, y, x_max))
 					return (1);
 			}
 		}
@@ -112,12 +129,16 @@ static int	handle_spaces(t_map *data)
 	return (0);
 }
 
-/**/
+/**
+ * @brief	Full wall validation on the map by checking both spaces
+ *			and '0's to ensure they are enclosed by walls.
+ * @return	1 if the map is invalid, 0 otherwise.
+ */
 int	wall_check(t_map *data)
 {
 	size_t	y;
 	size_t	x;
-	size_t	xmax;
+	size_t	x_max;
 
 	if (handle_spaces(data))
 		return (write_err(ERROR_WALLS), 1);
@@ -125,12 +146,12 @@ int	wall_check(t_map *data)
 	while (y < (data->size_y - 1))
 	{
 		x = -1;
-		xmax = ft_strplen(data->map[y]);
-		while (++x < (xmax - 1))
+		x_max = ft_strplen(data->map[y]);
+		while (++x < (x_max - 1))
 		{
 			if (data->map[y][x] == '0')
 			{
-				if (fill(data, x, y, xmax))
+				if (fill(data, x, y, x_max))
 					return (write_err(ERROR_WALLS), 1);
 			}
 		}

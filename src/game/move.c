@@ -18,7 +18,6 @@
  * 					view direction.
  * @param 	dir 	Rotation dir: -1 for counter & 1 for clockwise.
  */
-
 void	rotate(t_game *game, int dir)
 {
 	double	speed;
@@ -41,10 +40,10 @@ void	rotate(t_game *game, int dir)
 
 /**
  * @brief 	Moves the player forward in the direction they are facing.
- * @param 	game The game structure containing the player's position
+ * @param 	game	The game structure containing the player's position
  * 					and direction.
- * @param 	speed The speed of the player's movement (frame time based).
- * @param 	bumber An additional factor used to adjust movement precision
+ * @param 	speed	The speed of the player's movement (frame time based).
+ * @param 	bumber	An additional factor used to adjust movement precision
  * 					and collision detection.
  */
 void	move_up(t_game *game, double speed, double bumber)
@@ -64,11 +63,11 @@ void	move_up(t_game *game, double speed, double bumber)
 
 /**
  * @brief 	Moves the player backwards in the direction they are facing.
- * @param 	game The game structure containing the player's position
- * 			and direction.
- * @param 	speed The speed of the player's movement, based on the frame time.
- * @param 	bumber An additional factor used to adjust movement precision
- * 			and collision detection.
+ * @param 	game	The game structure containing the player's position
+ * 					and direction.
+ * @param 	speed	The speed of the player's movement, based on the frame time.
+ * @param 	bumber	An additional factor used to adjust movement precision
+ * 					and collision detection.
  */
 void	move_down(t_game *game, double speed, double bumber)
 {
@@ -87,11 +86,11 @@ void	move_down(t_game *game, double speed, double bumber)
 
 /**
  * @brief 	Moves the player sideways in the direction they are facing.
- * @param 	game The game structure containing the player's position
+ * @param 	game 	The game structure containing the player's position
  * 					and direction.
- * @param 	speed The speed of the player's movement, based on the frame time.
- * @param 	bumber An additional factor used to adjust movement precision
- * 			and collision detection.
+ * @param 	speed 	The speed of the player's movement, based on the frame time.
+ * @param 	bumber 	An additional factor used to adjust movement precision
+ * 					and collision detection.
  */
 void	move_left(t_game *game, double speed, double bumber)
 {
@@ -110,10 +109,10 @@ void	move_left(t_game *game, double speed, double bumber)
 
 /**
  * @brief 	Moves the player sideways in the direction they are facing.
- * @param 	game The game structure containing the player's position
- * 			and direction.
- * @param 	speed The speed of the player's movement, based on the frame time.
- * @param 	bumber An additional factor used to adjust movement precision
+ * @param 	game 	The game structure containing the player's position
+ * 					and direction.
+ * @param 	speed	The speed of the player's movement, based on the frame time.
+ * @param 	bumber	An additional factor used to adjust movement precision
  * 					and collision detection.
  */
 void	move_right(t_game *game, double speed, double bumber)

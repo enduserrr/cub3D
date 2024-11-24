@@ -14,7 +14,6 @@
 
 /**
  * @brief 	Sets the player's direction vector.
- * @param 	game 	The game structure containing the player's state.
  * @param 	pax 	The X component of the direction vector (movement dir).
  * @param 	pay 	The Y component of the direction vector (movement dir).
  *
@@ -30,7 +29,6 @@ void	set_direction(t_game *game, double pax, double pay)
 
 /**
  * @brief 	Sets the player's camera plane vector.
- * @param	game 	The game structure containing the player's state.
  * @param	plane_x 	The X component of the camera plane vector.
  * @param	plane_y 	The Y component of the camera plane vector.
  *
@@ -46,7 +44,6 @@ void	set_planes(t_game *game, double plane_x, double plane_y)
 
 /**
  * @brief	Sets the player's initial direction.
- * @param	game 	The game structure containing the player's state.
  * @param	c 	The orientation character: 'N' 'S' 'W' 'E'.
  */
 void	set_orientation(t_game *game, char c)
@@ -75,13 +72,11 @@ void	set_orientation(t_game *game, char c)
 
 /**
  * @brief	Sets the player's initial position and orientation on the map.
- * @param	game The game structure containing the player's state.
  * @param	c The orientation character ('N', 'S', 'W', 'E')
  *			representing the player's initial direction.
  * @param	x The X coordinate of the player's position on the map.
  * @param	y The Y coordinate of the player's position on the map.
  */
-
 void	set_player(t_game *game, char c, size_t x, size_t y)
 {
 	if (game->player->is_set >= 1)

@@ -94,7 +94,7 @@ static mlx_texture_t	*put_png(mlx_texture_t *ptr, char *png, t_game *game)
 }
 
 /**
- * @brief   Parses texture and color information from a line.
+ * @brief   Parses texture and color data from a line.
  * @param   game    Pointer to the t_game struct.
  * @param   line    String where the texture & color info are extracted from
  * @return  Pointer to the unprocessed part of the line if parsing fails,
@@ -134,7 +134,6 @@ static char	*parse_info(t_game *game, char *line)
 
 /**
  * @brief	Processes and removes texture and color info from the map array.
- * @param   game Pointer to the t_game struct.
  * @return  0 on success, or an error code if processing fails.
  */
 int	get_data(t_game *game)
