@@ -12,9 +12,6 @@
 
 #include "../../incs/cub3D.h"
 
-/**
- * @brief	Valid player position & starting orientation characters.
- */
 int	is_player(char c)
 {
 	if (c == 'N' || c == 'E' || c == 'S' || c == 'W')
@@ -37,17 +34,4 @@ void	invalid_color(t_color *ptr)
 	ptr->r = 256;
 	ptr->g = 256;
 	ptr->b = 256;
-}
-
-void	txtr_ptrs_init(t_txtr *t)
-{
-	t->n_txtr = NULL;
-	t->s_txtr = NULL;
-	t->e_txtr = NULL;
-	t->w_txtr = NULL;
-	t->gun = NULL;
-	t->n_txtr = NULL;
-	t->s_txtr = NULL;
-	t->e_txtr = NULL;
-	t->w_txtr = NULL;
 }

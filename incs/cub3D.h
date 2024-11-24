@@ -138,15 +138,12 @@ typedef struct s_game
 
 /* PARSE */
 int					get_map(char **av, t_game *game);
-int					process_data(t_game *game);
 int					get_data(t_game *game);
+int					process_data(t_game *game);
 void				set_player(t_game *game, char c, size_t x, size_t y);
 int					is_player(char c);
-void				set_player(t_game *game, char c, size_t x, size_t y);
-void				txtr_ptrs_init(t_txtr *t);
 int					wall_check(t_map *info);
 void				invalid_color(t_color *ptr);
-int					fill(t_map *data, size_t x, size_t y, size_t xmax);
 int					is_256(t_txtr *t);
 
 /* GAME*/
@@ -176,5 +173,6 @@ void				free_arr(char **arr);
 char				*gnl_mod(int fd);
 char				*strjoin_modi(char *s1, char *s2);
 int					atoi_mod(const char *s);
+void				out(t_game *game, char *error);
 
 #endif

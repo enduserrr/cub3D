@@ -6,13 +6,13 @@
 /*   By: eleppala <eleppala@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 14:08:13 by eleppala          #+#    #+#             */
-/*   Updated: 2024/11/06 14:08:15 by eleppala         ###   ########.fr       */
+/*   Updated: 2024/11/24 10:57:08 by asalo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/cub3D.h"
 
-void	delete_textures(t_game *game)
+static void	delete_textures(t_game *game)
 {
 	if (game->textures->f)
 		free(game->textures->f);
@@ -30,7 +30,7 @@ void	delete_textures(t_game *game)
 		mlx_delete_texture(game->textures->e_txtr);
 }
 
-void	delete_images(t_game *game)
+static void	delete_images(t_game *game)
 {
 	if (game->gun)
 	{

@@ -12,12 +12,25 @@
 
 #include "../../incs/cub3D.h"
 
-/**
- * @brief	Validates that the first and last rows before calling wall_check.
- * @param	info  The map structure containing the map and its dimensions.
- * @return	1 for invalid first or last row, 0 otherwise.
- */
+static void	txtr_ptrs_init(t_txtr *t)
+{
+	t->n_txtr = NULL;
+	t->s_txtr = NULL;
+	t->e_txtr = NULL;
+	t->w_txtr = NULL;
+	t->gun = NULL;
+	t->n_txtr = NULL;
+	t->s_txtr = NULL;
+	t->e_txtr = NULL;
+	t->w_txtr = NULL;
+}
 
+/**
+ * @brief	Validates that the first and last rows of the map contain only
+ *			valid characters ('1', ' ', '2') before performing a full wall
+ *			check.
+ * @return	1 if the first or last row is invalid, 0 otherwise.
+ */
 static int	first_and_last_row(t_map *data)
 {
 	int	x;
@@ -46,13 +59,10 @@ static int	first_and_last_row(t_map *data)
 }
 
 /**
- * @brief	Validates map characters and initialises the player's position.
- * @param	s     The cmptr_rowsmap array containing rows of the map as strings.
- * @param	game  The game structure to store map dimensions and player info.
- * @return	1 for incorrect characters or map format,
- *			0 otherwise.
+ * @brief	Basic char validation for the map & player position initialisation.
+ *			Also converts spaces (' ') into '2's for processing.
+ * @return	1 if incorrect characters or invalid map format are found, 0 otherwise.
  */
-
 static int	validate_chars(char **s, t_game *game)
 {
 	size_t	x;
@@ -73,6 +83,7 @@ static int	validate_chars(char **s, t_game *game)
 				s[y][x] = '2';
 			x++;
 		}
+		printf("%s\n", s[y]);
 		game->data->size_y++;
 	}
 	return (first_and_last_row(game->data));
@@ -87,7 +98,6 @@ static int	validate_chars(char **s, t_game *game)
  * Initialises the textures and player structs, calls the proper functions to
  * get & validate game map and map info.
  */
-
 int	process_data(t_game *game)
 {
 	t_txtr		txtr;
