@@ -103,7 +103,7 @@ char	*gnl_mod(int fd)
 		return (NULL);
 	strlcpy_modi(stash, &stash[eof + 1], 4095 + 1);
 	line = gnl_extract(line, stash, fd);
-	if (line == (void *)1 || line[0] == '\0')
+	if (!line || line[0] == '\0')
 	{
 		free(line);
 		return (NULL);
