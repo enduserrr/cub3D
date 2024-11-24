@@ -61,7 +61,7 @@ static int	first_and_last_row(t_map *data)
 /**
  * @brief	Basic char validation for the map & player position initialisation.
  *			Also converts spaces (' ') into '2's for processing.
- * @return	1 if incorrect characters or invalid map format are found, 0 otherwise.
+ * @return	1 if incorrect chars or invalid map, 0 otherwise.
  */
 static int	validate_chars(char **s, t_game *game)
 {
