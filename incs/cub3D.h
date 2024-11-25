@@ -54,9 +54,7 @@
 
 /* Map Errors */
 # define ERROR_MAP "invalid map"
-# define ERROR_WALLS "invalid map walls: \
-\nPLAY AREA MUST BE COVERED BY WALLS AND TO ONLY CONSIST OF\
- '1', '0', 'S', 'N', 'W' & 'E' CHARACTERS."
+# define ERROR_WALLS "invalid map play area"
 # define ERROR_MISSING_TXTR "invalid or missing texture(s)"
 # define ERROR_MAP_NAME "invalid map name"
 # define ERROR_MAP_CHAR "invalid map character(s)"
@@ -137,17 +135,32 @@ typedef struct s_game
 	t_ray			*ray;
 }					t_game;
 
-/* PARSE */
+/* EXTRACT MAP */
 int					get_map(char **av, t_game *game);
+char				*read_fd(char **av);
+/* VALIDATE MAP */
 int					get_data(t_game *game);
+char				*parse_info(t_game *game, char *line);
+mlx_texture_t		*put_png(mlx_texture_t *ptr, char *png, t_game *game);
+char				*colors(t_game *game, char *line);
+void				str_to_color(t_color *ptr, char *line);
+/* MAP INFO */
 int					process_data(t_game *game);
+int					validate_chars(char **s, t_game *game);
 void				set_player(t_game *game, char c, size_t x, size_t y);
-int					is_player(char c);
+int					first_and_last_row(t_map *data);
+/* CHECK WALLS */
 int					wall_check(t_map *info);
+int					handle_spaces(t_map *data);
+int					fill(t_map *data, size_t x, size_t y, size_t x_max);
+int					fill2(t_map *data, size_t x, size_t y, size_t x_max);
+void				restore(char **map, size_t size_y);
+/* MAP UTILS */
+int					validate_file(char *name);
+int					is_player(char c);
 void				invalid_color(t_color *ptr);
 int					is_256(t_txtr *t);
-
-/* GAME*/
+/* GAME */
 void				screen(void *param);
 void				keys(void *param);
 void				get_weapon(t_game *game);
@@ -159,14 +172,12 @@ void				move_left(t_game *game, double speed, double bumber);
 void				move_right(t_game *game, double speed, double bumber);
 void				rotate(t_game *game, int dir);
 void				out(t_game *game, char *error);
-
 /* RENDER */
 void				raycast(t_game *game);
 void				draw(t_game *game, int i);
 void				pixel_safe(t_game *game, int x, int y, unsigned int color);
 unsigned int		get_color(unsigned char *pixels, int tex_x, int tex_y);
 unsigned char		*get_texture_pixels(t_game *game, int i);
-
 /* UTILS */
 void				write_err(char *s);
 void				free_map(t_game *game);

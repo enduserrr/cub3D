@@ -15,7 +15,7 @@
 /**
  * @brief	Read an fd and copy it's contents to a new string.
  */
-static char	*read_fd(char **av)
+char	*read_fd(char **av)
 {
 	char	*new;
 	int		fd;

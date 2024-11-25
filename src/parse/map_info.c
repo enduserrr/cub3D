@@ -17,7 +17,7 @@
  * @param	ptr     Pointer to the t_color struct where the values are stored.
  * @param	line    Comma-separated string representing the color values.
  */
-static void	str_to_color(t_color *ptr, char *line)
+void	str_to_color(t_color *ptr, char *line)
 {
 	char	**colors;
 	int		tmp;
@@ -53,7 +53,7 @@ static void	str_to_color(t_color *ptr, char *line)
  * @return	Pointer to the remaining part of the line if not processed,
  *			or NULL otherwise.
  */
-static char	*colors(t_game *game, char *line)
+char	*colors(t_game *game, char *line)
 {
 	while (ft_isspace(*line))
 		line++;
@@ -82,7 +82,7 @@ static char	*colors(t_game *game, char *line)
 	return (NULL);
 }
 
-static mlx_texture_t	*put_png(mlx_texture_t *ptr, char *png, t_game *game)
+mlx_texture_t	*put_png(mlx_texture_t *ptr, char *png, t_game *game)
 {
 	ptr = mlx_load_png(png);
 	if (ptr == NULL)
@@ -103,7 +103,7 @@ static mlx_texture_t	*put_png(mlx_texture_t *ptr, char *png, t_game *game)
  * Identifies texture paths (NO, SO, WE, EA) and assigns them to
  * texture fields.
  */
-static char	*parse_info(t_game *game, char *line)
+char	*parse_info(t_game *game, char *line)
 {
 	int		i;
 	char	*new;

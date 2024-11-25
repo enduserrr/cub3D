@@ -1,11 +1,11 @@
-NO ./textures//tile174.png
+NO ./textures/tile174.png
 SO ./textures/tile193.png
 WE ./textures/tile232.png
 EA ./textures/tile175.png
 
 
-F 0, 135, 206
-C 25, 87, 51
+F 72, 60, 50
+C 9, 53, 74
 
 111111111111
 100001000001

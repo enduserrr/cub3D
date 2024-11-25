@@ -114,7 +114,7 @@ int	gameplay(t_game *game)
 {
 	game->mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, WIN_NAME, true);
 	if (!game->mlx)
-		exit(1);
+		out(game, ERROR_INIT);
 	get_weapon(game);
 	mlx_loop_hook(game->mlx, screen, game);
 	mlx_loop_hook(game->mlx, keys, game);

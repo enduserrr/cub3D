@@ -13,28 +13,12 @@
 #include "../../incs/cub3D.h"
 
 /**
- * @brief	sets pointer to NULL.
-*/
-static void	txtr_ptrs_init(t_txtr *t)
-{
-	t->n_txtr = NULL;
-	t->s_txtr = NULL;
-	t->e_txtr = NULL;
-	t->w_txtr = NULL;
-	t->gun = NULL;
-	t->n_txtr = NULL;
-	t->s_txtr = NULL;
-	t->e_txtr = NULL;
-	t->w_txtr = NULL;
-}
-
-/**
  * @brief	Validates that the first and last rows of the map contain only
  *			valid characters ('1', ' ', '2') before performing a full wall
  *			check.
  * @return	1 if the first or last row is invalid, 0 otherwise.
  */
-static int	first_and_last_row(t_map *data)
+int	first_and_last_row(t_map *data)
 {
 	int	x;
 	int	y;
@@ -66,7 +50,7 @@ static int	first_and_last_row(t_map *data)
  *			Also converts spaces (' ') into '2's for processing.
  * @return	1 if incorrect chars or invalid map, 0 otherwise.
  */
-static int	validate_chars(char **s, t_game *game)
+int	validate_chars(char **s, t_game *game)
 {
 	size_t	x;
 	size_t	y;
@@ -89,6 +73,19 @@ static int	validate_chars(char **s, t_game *game)
 		game->data->size_y++;
 	}
 	return (first_and_last_row(game->data));
+}
+
+static void	txtr_ptrs_init(t_txtr *t)
+{
+	t->n_txtr = NULL;
+	t->s_txtr = NULL;
+	t->e_txtr = NULL;
+	t->w_txtr = NULL;
+	t->gun = NULL;
+	t->n_txtr = NULL;
+	t->s_txtr = NULL;
+	t->e_txtr = NULL;
+	t->w_txtr = NULL;
 }
 
 /**

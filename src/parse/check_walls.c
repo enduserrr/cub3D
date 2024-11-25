@@ -18,7 +18,7 @@
  * @param	map    The 2D map array.
  * @param	size_y Number of rows in the map.
  */
-static void	restore(char **map, size_t size_y)
+void	restore(char **map, size_t size_y)
 {
 	size_t	y;
 	size_t	x;
@@ -45,7 +45,7 @@ static void	restore(char **map, size_t size_y)
  *			area, or restores it to a space (' ') if outside.
  * @return	1 if an invalid state is found, 0 otherwise.
  */
-static int	fill2(t_map *data, size_t x, size_t y, size_t x_max)
+int	fill2(t_map *data, size_t x, size_t y, size_t x_max)
 {
 	size_t	y_max;
 
@@ -78,7 +78,7 @@ static int	fill2(t_map *data, size_t x, size_t y, size_t x_max)
  *			marking visited '0's with 'v' for wall validation.
  * @return	1 if the map is invalid, 0 otherwise.
  */
-static int	fill(t_map *data, size_t x, size_t y, size_t x_max)
+int	fill(t_map *data, size_t x, size_t y, size_t x_max)
 {
 	size_t	y_max;
 
@@ -105,7 +105,7 @@ static int	fill(t_map *data, size_t x, size_t y, size_t x_max)
  *			of the playable area or outside.
  * @return	1 if spaces are improperly handled, 0 otherwise.
  */
-static int	handle_spaces(t_map *data)
+int	handle_spaces(t_map *data)
 {
 	size_t	y;
 	size_t	x;
