@@ -61,6 +61,8 @@ int	validate_chars(char **s, t_game *game)
 		x = 0;
 		while (s[y][x])
 		{
+			if ((x == 0 && s[y][x] == '0') || s[y][ft_strplen(s[y]) - 1] == '0')
+				return (write_err(ERROR_MAP_CHAR), 1);
 			if (!is_player(s[y][x]) && s[y][x] != ' ' && s[y][x] != '0'
 				&& s[y][x] != '1')
 				return (write_err(ERROR_MAP_CHAR), 1);
@@ -86,6 +88,7 @@ static void	txtr_ptrs_init(t_txtr *t)
 	t->s_txtr = NULL;
 	t->e_txtr = NULL;
 	t->w_txtr = NULL;
+	t->dup = false;
 }
 
 /**
@@ -108,7 +111,7 @@ int	process_data(t_game *game)
 		return (write_err(ERROR_MAP_INFO), out(game, NULL), 1);
 	if (!game || !game->textures || !game->textures->n_txtr
 		|| !game->textures->s_txtr || !game->textures->w_txtr
-		|| !game->textures->e_txtr)
+		|| !game->textures->e_txtr || game->textures->dup == true)
 		return (out(game, ERROR_MISSING_TXTR), 1);
 	if (!game->textures->c || !game->textures->f || is_256(game->textures))
 		return (write_err(ERROR_COLOR), out(game, NULL), 1);

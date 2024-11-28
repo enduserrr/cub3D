@@ -67,7 +67,7 @@ char	*strjoin_modi(char *s1, char *s2)
 void	write_err(char *s)
 {
 	write(2, RB, ft_strlen(RB));
-	write(2, "Error: ", ft_strlen("Error: "));
+	write(2, "Error:\n", ft_strlen("Error:\n"));
 	write(2, W, ft_strlen(W));
 	write(2, s, ft_strlen(s));
 	write(2, "\n", 1);

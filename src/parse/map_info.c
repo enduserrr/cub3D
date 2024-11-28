@@ -31,6 +31,16 @@ void	str_to_color(t_color *ptr, char *line)
 		return ;
 	}
 	i = -1;
+	while (colors[++i])
+	{
+		if (i == 3)
+		{
+			invalid_color(ptr);
+			free_arr(colors);
+			return ;
+		}
+	}
+	i = -1;
 	while (++i < 3)
 	{
 		tmp = atoi_mod(colors[i]);
@@ -126,6 +136,8 @@ char	*parse_info(t_game *game, char *line)
 			game->textures->w_txtr = put_png(game->textures->w_txtr, new, game);
 		else if (ft_strncmp(line, "EA ", 3) == 0 && !game->textures->e_txtr)
 			game->textures->e_txtr = put_png(game->textures->e_txtr, new, game);
+		else
+			game->textures->dup = true;
 	}
 	else if (colors(game, line) != NULL)
 		return (line);
