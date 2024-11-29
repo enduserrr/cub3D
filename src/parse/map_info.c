@@ -92,6 +92,7 @@ char	*colors(t_game *game, char *line)
 	return (NULL);
 }
 
+
 mlx_texture_t	*put_png(mlx_texture_t *ptr, char *png, t_game *game)
 {
 	ptr = mlx_load_png(png);
@@ -100,6 +101,7 @@ mlx_texture_t	*put_png(mlx_texture_t *ptr, char *png, t_game *game)
 		out(game, ERROR_PNG);
 		return (NULL);
 	}
+	game->textures->txtr_count++;
 	return (ptr);
 }
 
@@ -148,6 +150,106 @@ char	*parse_info(t_game *game, char *line)
  * @brief	Processes and removes texture and color info from the map array.
  * @return  0 on success, or an error code if processing fails.
  */
+// char	*colors(t_game *game, char *line, int start, int end)
+// {
+// 	while (ft_isspace(*line))
+// 		line++;
+// 	if (ft_strncmp(line, "F ", 2) == 0 && !game->textures->f)
+// 	{
+// 		line += 2;
+// 		while (ft_isspace(*line))
+// 			line++;
+// 		game->textures->f = malloc(sizeof(t_color));
+// 		if (!game->textures->f)
+// 			return (line);
+// 		str_to_color(game->textures->f, line);
+// 	}
+// 	else if (ft_strncmp(line, "C ", 2) == 0 && !game->textures->c)
+// 	{
+// 		line += 2;
+// 		while (ft_isspace(*line))
+// 			line++;
+// 		game->textures->c = malloc(sizeof(t_color));
+// 		if (!game->textures->c)
+// 			return (line);
+// 		str_to_color(game->textures->c, line);
+// 	}
+// 	else
+// 		return (line);
+// 	game->textures->color_count++;// add
+// 	return (NULL);
+// }
+
+// mlx_texture_t	*put_png(mlx_texture_t *ptr, char *png, t_game *game)
+// {
+// 	ptr = mlx_load_png(png);
+// 	if (ptr == NULL)
+// 	{
+// 		free(png);// add
+// 		out(game, ERROR_PNG);
+// 		return (NULL);
+// 	}
+// 	game->textures->txtr_count++;
+// 	free(png);// add
+// 	return (ptr);
+// }
+
+// void	*put_data(t_game *game, char *s, int start, int end)
+// {
+// 	char	*new;
+
+// 	new = NULL;
+// 	new = ft_substr(s, (size_t)start, (size_t)(end - start));
+// 	if (!new)
+// 		return (NULL);
+// 	if (ft_strncmp(s, "NO ", 3) == 0 && !game->textures->n_txtr)
+// 		return (game->textures->n_txtr = put_png(game->textures->n_txtr, new, game));
+// 	else if (ft_strncmp(s, "SO ", 3) == 0 && !game->textures->s_txtr)
+// 		return (game->textures->s_txtr = put_png(game->textures->s_txtr, new, game));
+// 	else if (ft_strncmp(s, "WE ", 3) == 0 && !game->textures->w_txtr)
+// 		return (game->textures->w_txtr = put_png(game->textures->w_txtr, new, game));
+// 	else if (ft_strncmp(s, "EA ", 3) == 0 && !game->textures->e_txtr)
+// 		return (game->textures->e_txtr = put_png(game->textures->e_txtr, new, game));
+// 	else
+// 		return (NULL);
+// }
+
+// int fetch_data(t_game *game, char *s)
+// {
+// 	int	i;
+// 	int	start;
+// 	int	end;
+
+// 	i = 0;
+// 	if (!s || !*s)
+// 		return (1);
+// 	while (s[i])
+// 	{
+// 		if (game->textures->txtr_count == 4
+// 			&& game->textures->color_count == 2)
+// 			break ;
+// 		start = 0;
+// 		end = 0;
+// 		if (ft_isspace(s[i]))
+// 			i++;
+// 		if (ft_strncmp(s[i], "NO ", 3) == 0 || ft_strncmp(s[i], "SO ", 3) == 0
+// 		|| ft_strncmp(s[i], "WE ", 3) == 0 || ft_strncmp(s[i], "EA ", 3) == 0)
+// 		{
+// 			start = i + 3;
+// 			while (ft_isspace(s[start]))
+// 				start++;
+// 			end = start;
+// 			while (!ft_isspace(s[end]))
+// 				end++;
+// 			put_data(game, s, start, end);
+// 		}
+// 		else if (ft_strncmp(s[i], "F ", 2) || ft_strncmp(s[i], "C ", 2))
+// 			colors(game, s, start, end);
+// 		i++;
+// 	}
+// }
+
+
 int	get_data(t_game *game)
 {
 	int		i;
