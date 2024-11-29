@@ -12,38 +12,179 @@
 
 #include "../../incs/cub3D.h"
 
+// /**
+//  * @brief	Validates that the first and last rows of the map contain only
+//  *			valid characters ('1', ' ', '2') before performing a full wall
+//  *			check.
+//  * @return	1 if the first or last row is invalid, 0 otherwise.
+//  */
+// int	first_and_last_row(t_map *data)
+// {
+// 	int	x;
+// 	int	y;
+
+// 	if (!data->map || !data->map[0])
+// 		return (write_err(ERROR_MAP), 1);
+// 	x = -1;
+// 	while (data->map[0][++x])
+// 	{
+// 		if (data->map[0][x] != '1' && data->map[0][x] != ' '
+// 			&& data->map[0][x] != '2')
+// 			return (write_err(ERROR_MAP), 1);
+// 	}
+// 	y = data->size_y - 1;
+// 	x = -1;
+// 	while (data->map[y][++x])
+// 	{
+// 		if (data->map[y][x] != '1' && data->map[y][x] != ' '
+// 			&& data->map[y][x] != '2')
+// 			return (write_err(ERROR_MAP), 1);
+// 	}
+// 	if (wall_check(data))
+// 		return (1);
+// 	return (0);
+// }
+
+
 /**
- * @brief	Validates that the first and last rows of the map contain only
- *			valid characters ('1', ' ', '2') before performing a full wall
- *			check.
- * @return	1 if the first or last row is invalid, 0 otherwise.
+ * @brief  Compares the len of two rows and checks if the longer row is
+ *         filled with walls ('1') in the excess positions.
+ * @param  shorter  The length of the shorter row.
+ * @param  longer   The length of the longer row.
+ * @param  long_row The longer row string to validate.
+ * @return 1 if the longer row has non-wall characters in excess positions,
+ *         0 otherwise.
+ */
+int	cmpr_rows(size_t shorter, size_t longer, char *long_row)
+{
+	size_t	x;
+
+	if (!long_row)
+		return (1);
+	x = shorter;
+	while (x < longer)
+	{
+		if (long_row[x] != '1')
+			return (1);
+		x++;
+	}
+	return (0);
+}
+
+/**
+ * @brief  Determines whether all valid map areas are enclosed by walls ('1').
+ * @param  info  The map structure containing the map and its dimensions.
+ * @return 1 if the map is not fully enclosed by walls, 0 otherwise.
+ *
+ * This function iterates through each row of the map, comparing it with
+ * the rows above and below to ensure proper wall coverage. It uses the
+ * `cmpr_rows` function to validate areas where row lengths differ.
+ */
+int	wall_coverage(t_map *data)
+{
+	size_t	y;
+	size_t	below;
+	size_t	curr;
+	size_t	above;
+
+	y = 1;
+	while (y < (data->size_y - 1))
+	{
+		below = ft_strlen(data->map[y - 1]);
+		curr = ft_strlen(data->map[y]);
+		above = ft_strlen(data->map[y + 1]);
+		if (!data->map[y] || !data->map[y - 1] || !data->map[y + 1])
+			return (1);
+		if (curr > below && cmpr_rows(below, curr, data->map[y]))
+			return (1);
+		else if (curr < below && cmpr_rows(curr, below, data->map[y - 1]))
+			return (1);
+		if (curr > above && cmpr_rows(above, curr, data->map[y]))
+			return (1);
+		else if (curr < above && cmpr_rows(curr, above, data->map[y + 1]))
+			return (1);
+		y++;
+	}
+	return (0);
+}
+
+/**
+ * @brief	Validates that the first and last rows of the map consist only of 1's.
+ * @param	info  The map structure containing the map and its dimensions.
+ * @return	1 for invalid first or last row, 0 otherwise.
+ *
+ * Checker to validate the first and last rows of the map and then rest by
+ * calling `wall_coverage` function.
  */
 int	first_and_last_row(t_map *data)
 {
 	int	x;
 	int	y;
 
+	x = 0;
 	if (!data->map || !data->map[0])
 		return (write_err(ERROR_MAP), 1);
-	x = -1;
-	while (data->map[0][++x])
+	while (data->map[0][x])
 	{
-		if (data->map[0][x] != '1' && data->map[0][x] != ' '
-			&& data->map[0][x] != '2')
+		if (data->map[0][x] != '1')
 			return (write_err(ERROR_MAP), 1);
+		x++;
 	}
 	y = data->size_y - 1;
-	x = -1;
-	while (data->map[y][++x])
+	if (y < 0 || !data->map[y])
+		return (write_err(ERROR_MAP), 1);
+	x = 0;
+	while (data->map[y][x])
 	{
-		if (data->map[y][x] != '1' && data->map[y][x] != ' '
-			&& data->map[y][x] != '2')
+		if (data->map[y][x] != '1')
 			return (write_err(ERROR_MAP), 1);
+		x++;
 	}
-	if (wall_check(data))
-		return (1);
+	if (wall_coverage(data))
+		return (write_err(ERROR_MAP), 1);
 	return (0);
 }
+
+// /**
+//  * @brief	Validates map characters and initialises the player's position.
+//  * @param	s     The map array containing rows of the map as strings.
+//  * @param	game  The game structure to store map dimensions and player info.
+//  * @return	1 for incorrect characters or map format,
+//  *			0 otherwise.
+//  *
+//  * This function checks that the map contains only valid characters:
+//  * '0', '1', ' ' 'N', 'S', 'E', 'W'. Replaces spaces with '1'
+//  * and sets the player's initial position using `set_player`.
+//  */
+/*// int	validate_chars(char **s, t_game *game)
+// {
+// 	size_t	x;
+// 	size_t	y;
+
+// 	y = -1;
+// 	game->data->size_y = 0;
+// 	while (s[++y])
+// 	{
+// 		x = -1;
+// 		while (s[y][++x])
+// 		{
+// 			if (!is_player(s[y][x]) && s[y][x] != ' ' && s[y][x] != '0'
+// 				&& s[y][x] != '1')
+// 				return (write_err(ERROR_MAP_CHAR), 1);
+// 			if (is_player(s[y][x]))
+// 				set_player(game, s[y][x], x, y);
+// 			if (s[y][x] == ' ')
+// 				s[y][x] = '1';
+// 		}
+// 		if (s[y][x - 1] != '1')
+// 			return (write_err(ERROR_MAP), 1);
+// 		printf("%s\n", s[y]);
+// 		game->data->size_y++;
+// 	}
+// 	if (first_and_last_row(game->data))
+// 		return (1);
+// 	return (0);
+// }*/
 
 /**
  * @brief	Basic char validation for the map & player position initialisation.
@@ -59,6 +200,10 @@ int	validate_chars(char **s, t_game *game)
 	while (s[++y])
 	{
 		x = 0;
+		while (s[y][x] == ' ')
+			x++;
+		if (s[y][x] != '1')
+			return (write_err(ERROR_MAP_CHAR), 1);
 		while (s[y][x])
 		{
 			if ((x == 0 && s[y][x] == '0') || s[y][ft_strplen(s[y]) - 1] == '0')
@@ -69,9 +214,12 @@ int	validate_chars(char **s, t_game *game)
 			if (is_player(s[y][x]))
 				set_player(game, s[y][x], x, y);
 			else if (s[y][x] == ' ')
-				s[y][x] = '2';
+				s[y][x] = '1';
 			x++;
 		}
+		// if (s[y][x] != '1')
+		// 	return (write_err(ERROR_MAP_CHAR), 1);
+		printf("%s\n", s[y]);
 		game->data->size_y++;
 	}
 	return (first_and_last_row(game->data));
