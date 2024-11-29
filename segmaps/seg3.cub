@@ -1,0 +1,14 @@
+
+
+SO ./textures/tile193.png
+NO ./textures/tile174.png
+WE ./textures/tile232.png
+EA ./textures/tile193.png
+
+F 50, 50, 60
+C 44, 44, 74
+
+111111111111
+1000000000011
+1000000000E 1
+1111111111111
