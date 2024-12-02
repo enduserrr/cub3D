@@ -64,7 +64,7 @@ int	cmpr_rows(size_t shorter, size_t longer, char *long_row)
 	x = shorter;
 	while (x < longer)
 	{
-		if (long_row[x] != '1')
+		if (long_row[x] != '1' || long_row[x] != ' ' || long_row[x] != '2')
 			return (1);
 		x++;
 	}
@@ -94,15 +94,15 @@ int	wall_coverage(t_map *data)
 		curr = ft_strlen(data->map[y]);
 		above = ft_strlen(data->map[y + 1]);
 		if (!data->map[y] || !data->map[y - 1] || !data->map[y + 1])
-			return (1);
+			return (write_err("1 "), 1);
 		if (curr > below && cmpr_rows(below, curr, data->map[y]))
-			return (1);
+			return (write_err("2 "), 1);
 		else if (curr < below && cmpr_rows(curr, below, data->map[y - 1]))
 			return (1);
 		if (curr > above && cmpr_rows(above, curr, data->map[y]))
-			return (1);
+			return (write_err("3 "), 1);
 		else if (curr < above && cmpr_rows(curr, above, data->map[y + 1]))
-			return (1);
+			return (write_err("4 "), 1);
 		y++;
 	}
 	return (0);
@@ -123,26 +123,26 @@ int	first_and_last_row(t_map *data)
 
 	x = 0;
 	if (!data->map || !data->map[0])
-		return (write_err(ERROR_MAP), 1);
+		return (write_err("row_err1"), 1);
 	while (data->map[0][x])
 	{
-		if (data->map[0][x] != '1')
-			return (write_err(ERROR_MAP), 1);
+		if (data->map[0][x] == '0')
+			return (write_err("row_err2"), 1);
 		x++;
 	}
 	y = data->size_y - 1;
 	if (y < 0 || !data->map[y])
-		return (write_err(ERROR_MAP), 1);
+		return (write_err("row_err3"), 1);
 	x = 0;
 	while (data->map[y][x])
 	{
-		if (data->map[y][x] != '1')
-			return (write_err(ERROR_MAP), 1);
+		if (data->map[y][x] == '0')
+			return (write_err("row_err4"), 1);
 		x++;
 	}
 	if (wall_coverage(data))
-		return (write_err(ERROR_MAP), 1);
-	return (0);
+		return (write_err("row_err5"), 1);
+	return (wall_check(data));
 }
 
 // /**
@@ -201,7 +201,7 @@ int	validate_chars(char **s, t_game *game)
 	{
 		x = 0;
 		while (s[y][x] == ' ')
-			x++;
+			s[y][x++] = '1';
 		if (s[y][x] != '1')
 			return (write_err(ERROR_MAP_CHAR), 1);
 		while (s[y][x])
@@ -213,13 +213,13 @@ int	validate_chars(char **s, t_game *game)
 				return (write_err(ERROR_MAP_CHAR), 1);
 			if (is_player(s[y][x]))
 				set_player(game, s[y][x], x, y);
+			// if (x > 0 && s[y][x] == ' ' && s[y][x - 1] == '0')
+			// 	s[y][x] = ' ';
 			else if (s[y][x] == ' ')
-				s[y][x] = '1';
+				s[y][x] = '2';
 			x++;
 		}
-		// if (s[y][x] != '1')
-		// 	return (write_err(ERROR_MAP_CHAR), 1);
-		printf("%s\n", s[y]);
+		// printf("%s\n", s[y]);
 		game->data->size_y++;
 	}
 	return (first_and_last_row(game->data));

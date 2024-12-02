@@ -153,11 +153,12 @@ int					validate_chars(char **s, t_game *game);
 void				set_player(t_game *game, char c, size_t x, size_t y);
 int					first_and_last_row(t_map *data);
 /* CHECK WALLS */
-// int					wall_check(t_map *info);
-// int					handle_spaces(t_map *data);
-// int					fill(t_map *data, size_t x, size_t y, size_t x_max);
-// int					fill2(t_map *data, size_t x, size_t y, size_t x_max);
-// void				restore(char **map, size_t size_y);
+int					wall_check(t_map *data);
+int					handle_spaces(t_map *data);
+int					fill(t_map *data, size_t x, size_t y, size_t x_max);
+int					fill2(t_map *data, size_t x, size_t y, size_t x_max);
+int					edge_rows(t_map *data, size_t x, size_t y);
+void				restore(char **map, size_t size_y);
 /* MAP UTILS */
 int					validate_file(char *name);
 int					is_player(char c);
