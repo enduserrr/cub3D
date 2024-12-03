@@ -55,21 +55,21 @@
  * @return 1 if the longer row has non-wall characters in excess positions,
  *         0 otherwise.
  */
-/*// int	cmpr_rows(size_t shorter, size_t longer, char *long_row)
-// {
-// 	size_t	x;
+int	cmpr_rows(size_t shorter, size_t longer, char *long_row)
+{
+	size_t	x;
 
-// 	if (!long_row)
-// 		return (1);
-// 	x = shorter;
-// 	while (x < longer)
-// 	{
-// 		if (long_row[x] != '1' && long_row[x] != ' ' && long_row[x] != '2')
-// 			return (1);
-// 		x++;
-// 	}
-// 	return (0);
-// }*/
+	if (!long_row)
+		return (1);
+	x = shorter;
+	while (x < longer)
+	{
+		if (long_row[x] != '1' && long_row[x] != ' ' && long_row[x] != '2')
+			return (1);
+		x++;
+	}
+	return (0);
+}
 
 /**
  * @brief  Determines whether all valid map areas are enclosed by walls ('1').
@@ -80,35 +80,21 @@
  * the rows above and below to ensure proper wall coverage. It uses the
  * `cmpr_rows` function to validate areas where row lengths differ.
  */
-/*// int	wall_coverage(t_map *data)
-// {
-// 	size_t	y;
-// 	size_t	below;
-// 	size_t	curr;
-// 	size_t	above;
+int	wall_coverage(t_map *data, int row, int i)
+{
+	size_t	curr;
+	size_t	cmpr;
 
-// 	y = 1;
-// 	while (y < (data->size_y - 1))
-// 	{
-// 		below = ft_strlen(data->map[y - 1]);
-// 		curr = ft_strlen(data->map[y]);
-// 		above = ft_strlen(data->map[y + 1]);
-// 		printf("row: %zu\n", y);
-// 		printf("%s\n", data->map[y]);
-// 		if (!data->map[y] || !data->map[y - 1] || !data->map[y + 1])
-// 			return (write_err("1"), 1);
-// 		if (curr > below && cmpr_rows(below, curr, data->map[y]))
-// 			return (write_err("2"), 1);
-// 		else if (curr < below && cmpr_rows(curr, below, data->map[y - 1]))
-// 			return (1);
-// 		if (curr > above && cmpr_rows(above, curr, data->map[y]))
-// 			return (write_err("3"), 1);
-// 		else if (curr < above && cmpr_rows(curr, above, data->map[y + 1]))
-// 			return (write_err("4"), 1);
-// 		y++;
-// 	}
-// 	return (0);
-// }*/
+	curr = ft_strlen(data->map[row]);
+	cmpr = ft_strlen(data->map[row + i]);
+	if (!data->map[row])
+		return (on_row(row), 1);
+	if (curr < cmpr && cmpr_rows(curr, cmpr, data->map[row + i]))
+		return (on_row(row), 1);
+	if (curr > cmpr && cmpr_rows(cmpr, curr, data->map[row + 1]))
+		return (on_row(row), 1);
+	return (0);
+}
 
 /**
  * @brief	Validates that the first and last rows of the map consist only of 1's.
@@ -125,7 +111,9 @@ int	first_and_last_row(t_map *data)
 
 	x = 0;
 	if (!data->map || !data->map[0])
-		return (write_err("row_err1"), 1);
+		return (write_err("row_err0"), 1);
+	if (wall_coverage(data, 0, 1) || wall_coverage(data, (int)data->size_y - 1, -1))
+		return (write_err("re_err1"), 1);
 	while (data->map[0][x])
 	{
 		if (data->map[0][x] == '0')
@@ -219,7 +207,7 @@ int	validate_chars(char **s, t_game *game)
 				s[y][x] = '2';
 			x++;
 		}
-		show_row((int)y);
+		// on_row((int)y);
 		game->data->size_y++;
 	}
 	return (first_and_last_row(game->data));

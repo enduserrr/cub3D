@@ -29,7 +29,6 @@ void	restore(char **map, size_t size_y)
 		x = 0;
 		while (map[y][x])
 		{
-            // printf("%s\n", map[y]);
 			if (map[y][x] == 'v')
 				map[y][x] = '0';
 			else if (map[y][x] == '2')
@@ -136,7 +135,7 @@ int	handle_spaces(t_map *data)
 			if (data->map[y][x] == '2')
 			{
 				if (fill2(data, x, y, x_max))
-					return (1);
+					return (on_row((int)y), 1);
 			}
             x++;
 		}
@@ -168,7 +167,7 @@ int	wall_check(t_map *data)
 			if (data->map[y][x] == '0')
 			{
 				if (fill(data, x, y, x_max))
-					return (write_err(ERROR_WALLS), 1);
+					return (on_row((int)y), write_err(ERROR_WALLS), 1);
 			}
             x++;
 		}
