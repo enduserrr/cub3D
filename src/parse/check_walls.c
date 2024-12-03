@@ -135,7 +135,7 @@ int	handle_spaces(t_map *data)
 			if (data->map[y][x] == '2')
 			{
 				if (fill2(data, x, y, x_max))
-					return (on_row((int)y), 1);
+					return (1);
 			}
             x++;
 		}
@@ -167,7 +167,7 @@ int	wall_check(t_map *data)
 			if (data->map[y][x] == '0')
 			{
 				if (fill(data, x, y, x_max))
-					return (on_row((int)y), write_err(ERROR_WALLS), 1);
+					return (write_err(ERROR_WALLS), 1);
 			}
             x++;
 		}
