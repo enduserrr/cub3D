@@ -42,17 +42,6 @@ void	restore(char **map, size_t size_y)
 
 int edge_rows(t_map *data, size_t x, size_t y)
 {
-    printf("Hello\n");
-    // if (edge == 0)
-    // {
-    //     if (data->map[y][x] == '0' || data->map[y][x + 1] == '0')
-    //         return (1);
-    // }
-    // if (edge == 1)
-    // {
-    //     if (data->map[y][x] == '0' || data->map[y - 1][x] == '0')
-    //         return (1);
-    // }
     if (data->map[y][x] == '0' || data->map[y - 1][x] == '0')
             return (1);
     data->map[y][x] = ' ';
@@ -151,7 +140,6 @@ int	handle_spaces(t_map *data)
 			}
             x++;
 		}
-        printf("%s\n", data->map[y]);
 		y++;
 	}
 	return (0);

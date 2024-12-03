@@ -22,6 +22,8 @@
 # define W "\033[0;37m"
 # define RB "\033[1;91m"
 # define ORANGE "\033[1;93m"
+# define GREEN "\33[92m"
+# define WB	"\33[1;97m"
 # define RES "\033[0m"
 
 # define WIN_WIDTH 960
@@ -164,6 +166,7 @@ int					validate_file(char *name);
 int					is_player(char c);
 void				invalid_color(t_color *ptr);
 int					is_256(t_txtr *t);
+void				show_row(int y);
 /* GAME */
 void				screen(void *param);
 void				keys(void *param);
