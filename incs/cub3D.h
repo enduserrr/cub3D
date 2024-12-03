@@ -167,7 +167,6 @@ int					validate_file(char *name);
 int					is_player(char c);
 void				invalid_color(t_color *ptr);
 int					is_256(t_txtr *t);
-void				on_row(int y);
 /* GAME */
 void				screen(void *param);
 void				keys(void *param);

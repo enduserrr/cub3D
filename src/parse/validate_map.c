@@ -13,40 +13,6 @@
 #include "../../incs/cub3D.h"
 
 /**
- * @brief	Validates that the first and last rows of the map contain only
- *			valid characters ('1', ' ', '2') before performing a full wall
- *			check.
- * @return	1 if the first or last row is invalid, 0 otherwise.
- */
-/*// int	first_and_last_row(t_map *data)
-// {
-// 	int	x;
-// 	int	y;
-
-// 	if (!data->map || !data->map[0])
-// 		return (write_err(ERROR_MAP), 1);
-// 	x = -1;
-// 	while (data->map[0][++x])
-// 	{
-// 		if (data->map[0][x] != '1' && data->map[0][x] != ' '
-// 			&& data->map[0][x] != '2')
-// 			return (write_err(ERROR_MAP), 1);
-// 	}
-// 	y = data->size_y - 1;
-// 	x = -1;
-// 	while (data->map[y][++x])
-// 	{
-// 		if (data->map[y][x] != '1' && data->map[y][x] != ' '
-// 			&& data->map[y][x] != '2')
-// 			return (write_err(ERROR_MAP), 1);
-// 	}
-// 	if (wall_check(data))
-// 		return (1);
-// 	return (0);
-// }*/
-
-
-/**
  * @brief  Compares the len of two rows and checks if the longer row is
  *         filled with walls ('1') in the excess positions.
  * @param  shorter  The length of the shorter row.
@@ -80,7 +46,7 @@ int	cmpr_rows(size_t shorter, size_t longer, char *long_row)
  * the rows above and below to ensure proper wall coverage. It uses the
  * `cmpr_rows` function to validate areas where row lengths differ.
  */
-int	wall_coverage(t_map *data, int row, int i)
+int	edgerows(t_map *data, int row, int i)
 {
 	size_t	curr;
 	size_t	cmpr;
@@ -88,11 +54,11 @@ int	wall_coverage(t_map *data, int row, int i)
 	curr = ft_strlen(data->map[row]);
 	cmpr = ft_strlen(data->map[row + i]);
 	if (!data->map[row])
-		return (on_row(row), 1);
+		return (1);
 	if (curr < cmpr && cmpr_rows(curr, cmpr, data->map[row + i]))
-		return (on_row(row), 1);
+		return (1);
 	if (curr > cmpr && cmpr_rows(cmpr, curr, data->map[row + 1]))
-		return (on_row(row), 1);
+		return (1);
 	return (0);
 }
 
@@ -102,7 +68,7 @@ int	wall_coverage(t_map *data, int row, int i)
  * @return	1 for invalid first or last row, 0 otherwise.
  *
  * Checker to validate the first and last rows of the map and then rest by
- * calling `wall_coverage` function.
+ * calling `edgerows` function.
  */
 int	first_and_last_row(t_map *data)
 {
@@ -112,26 +78,24 @@ int	first_and_last_row(t_map *data)
 	x = 0;
 	if (!data->map || !data->map[0])
 		return (write_err("row_err0"), 1);
-	if (wall_coverage(data, 0, 1) || wall_coverage(data, (int)data->size_y - 1, -1))
-		return (write_err("re_err1"), 1);
+	if (edgerows(data, 0, 1) || edgerows(data, (int)data->size_y - 1, -1))
+		return (write_err("faulty top or bottom row"), 1);
 	while (data->map[0][x])
 	{
-		if (data->map[0][x] == '0')
-			return (write_err("row_err2"), 1);
+		if (data->map[0][x] == '0' || is_player(data->map[0][x]))
+			return (write_err("faulty top or bottom row"), 1);
 		x++;
 	}
 	y = data->size_y - 1;
 	if (y < 0 || !data->map[y])
-		return (write_err("row_err3"), 1);
+		return (write_err("faulty top or bottom row"), 1);
 	x = 0;
 	while (data->map[y][x])
 	{
-		if (data->map[y][x] == '0')
-			return (write_err("row_err4"), 1);
+		if (data->map[y][x] == '0' || is_player(data->map[y][x]))
+			return (write_err("faulty top or bottom row"), 1);
 		x++;
 	}
-	// if (wall_coverage(data))
-	// 	return (write_err("row_err5"), 1);
 	return (wall_check(data));
 }
 
@@ -146,41 +110,6 @@ int	first_and_last_row(t_map *data)
  * '0', '1', ' ' 'N', 'S', 'E', 'W'. Replaces spaces with '1'
  * and sets the player's initial position using `set_player`.
  */
-/*// int	validate_chars(char **s, t_game *game)
-// {
-// 	size_t	x;
-// 	size_t	y;
-
-// 	y = -1;
-// 	game->data->size_y = 0;
-// 	while (s[++y])
-// 	{
-// 		x = -1;
-// 		while (s[y][++x])
-// 		{
-// 			if (!is_player(s[y][x]) && s[y][x] != ' ' && s[y][x] != '0'
-// 				&& s[y][x] != '1')
-// 				return (write_err(ERROR_MAP_CHAR), 1);
-// 			if (is_player(s[y][x]))
-// 				set_player(game, s[y][x], x, y);
-// 			if (s[y][x] == ' ')
-// 				s[y][x] = '1';
-// 		}
-// 		if (s[y][x - 1] != '1')
-// 			return (write_err(ERROR_MAP), 1);
-// 		printf("%s\n", s[y]);
-// 		game->data->size_y++;
-// 	}
-// 	if (first_and_last_row(game->data))
-// 		return (1);
-// 	return (0);
-// }*/
-
-/**
- * @brief	Basic char validation for the map & player position initialisation.
- *			Also converts spaces (' ') into '2's for processing.
- * @return	1 if incorrect chars or invalid map, 0 otherwise.
- */
 int	validate_chars(char **s, t_game *game)
 {
 	size_t	x;
@@ -192,7 +121,7 @@ int	validate_chars(char **s, t_game *game)
 		x = 0;
 		while (s[y][x] == ' ')
 			x++;
-		if (s[y][x] != '1')
+		if (s[y][x] != '1' || s[y][ft_strplen(s[y]) - 1] != '1')
 			return (write_err(ERROR_MAP_CHAR), 1);
 		while (s[y][x])
 		{
@@ -207,9 +136,10 @@ int	validate_chars(char **s, t_game *game)
 				s[y][x] = '2';
 			x++;
 		}
-		// on_row((int)y);
 		game->data->size_y++;
 	}
+	if (game->data->size_y < 3 || game->data->size_y > 200)
+		return (write_err("not enough map rows"), 1);
 	return (first_and_last_row(game->data));
 }
 
