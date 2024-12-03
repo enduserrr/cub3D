@@ -52,3 +52,17 @@ void	invalid_color(t_color *ptr)
 	ptr->g = 256;
 	ptr->b = 256;
 }
+
+void	show_row(int y)
+{
+	write(1, "Row: ", ft_strlen("row: "));
+	ft_putnbr_fd(y, 1);
+	write(1, WB, ft_strlen(WB));
+	write(1, " [", 2);
+	write(1, GREEN, ft_strlen(GREEN));
+	write(1, "OK", 2);
+	write(1, WB, ft_strlen(WB));
+	write(1, "]", 1);
+	write(1, "\n", 1);
+	write(1, RES, ft_strlen(RES));
+}

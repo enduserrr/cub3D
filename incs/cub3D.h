@@ -22,6 +22,8 @@
 # define W "\033[0;37m"
 # define RB "\033[1;91m"
 # define ORANGE "\033[1;93m"
+# define GREEN "\33[92m"
+# define WB	"\33[1;97m"
 # define RES "\033[0m"
 
 # define WIN_WIDTH 960
@@ -153,16 +155,18 @@ int					validate_chars(char **s, t_game *game);
 void				set_player(t_game *game, char c, size_t x, size_t y);
 int					first_and_last_row(t_map *data);
 /* CHECK WALLS */
-// int					wall_check(t_map *info);
-// int					handle_spaces(t_map *data);
-// int					fill(t_map *data, size_t x, size_t y, size_t x_max);
-// int					fill2(t_map *data, size_t x, size_t y, size_t x_max);
-// void				restore(char **map, size_t size_y);
+int					wall_check(t_map *data);
+int					handle_spaces(t_map *data);
+int					fill(t_map *data, size_t x, size_t y, size_t x_max);
+int					fill2(t_map *data, size_t x, size_t y, size_t x_max);
+int					edge_rows(t_map *data, size_t x, size_t y);
+void				restore(char **map, size_t size_y);
 /* MAP UTILS */
 int					validate_file(char *name);
 int					is_player(char c);
 void				invalid_color(t_color *ptr);
 int					is_256(t_txtr *t);
+void				show_row(int y);
 /* GAME */
 void				screen(void *param);
 void				keys(void *param);
