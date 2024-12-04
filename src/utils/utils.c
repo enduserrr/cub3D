@@ -64,6 +64,22 @@ char	*strjoin_modi(char *s1, char *s2)
 	return (result);
 }
 
+void	strlcpy_modi(char *dst, const char *src, size_t dstsize)
+{
+	size_t	i;
+
+	i = 0;
+	if (dstsize > 0)
+	{
+		while (src[i] && i < dstsize - 1)
+		{
+			dst[i] = src[i];
+			i++;
+		}
+		dst[i] = '\0';
+	}
+}
+
 void	write_err(char *s)
 {
 	write(2, RB, ft_strlen(RB));
@@ -72,32 +88,4 @@ void	write_err(char *s)
 	write(2, s, ft_strlen(s));
 	write(2, "\n", 1);
 	write(2, RES, ft_strlen(RES));
-}
-
-void	free_arr(char **arr)
-{
-	int	i;
-
-	i = 0;
-	if (arr == NULL || *arr == NULL)
-		return ;
-	while (arr[i])
-		free(arr[i++]);
-	free(arr);
-}
-
-void	free_map(t_game *game)
-{
-	size_t	i;
-
-	i = 0;
-	if (!game || !game->data || !game->data->map)
-		return ;
-	while (game->data->map[i] != NULL)
-	{
-		free(game->data->map[i]);
-		i++;
-	}
-	free(game->data->map);
-	game->data->map = NULL;
 }

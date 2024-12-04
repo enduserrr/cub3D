@@ -51,7 +51,7 @@
 
 /* General Errors */
 # define ERROR_CUB "unable to open the .cub file"
-# define ERROR_GNL "failed while using get next line"
+# define ERROR_GNL "failed to extract a valid map"
 # define ERROR_OPEN "failed to open file"
 # define ERROR_ARG "invalid argument count"
 
@@ -165,8 +165,8 @@ void				restore(char **map, size_t size_y);
 /* MAP UTILS */
 int					validate_file(char *name);
 int					is_player(char c);
-void				invalid_color(t_color *ptr);
-int					is_256(t_txtr *t);
+void				set_inval_color(t_color *ptr);
+int					inval_color(t_txtr *t);
 /* GAME */
 void				screen(void *param);
 void				keys(void *param);
@@ -193,5 +193,6 @@ char				*gnl_mod(int fd);
 char				*strjoin_modi(char *s1, char *s2);
 int					atoi_mod(const char *s);
 void				out(t_game *game, char *error);
+void				strlcpy_modi(char *dst, const char *src, size_t dstsize);
 
 #endif
