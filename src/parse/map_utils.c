@@ -53,6 +53,16 @@ void	invalid_color(t_color *ptr)
 	ptr->b = 256;
 }
 
+int 	arrlen(char **s)
+{
+	int len;
+
+	len = 0;
+	while(s[len])
+		len ++;
+	return len;
+}
+
 // void	on_row(int y)
 // {
 // 	write(1, WB, ft_strlen(WB));

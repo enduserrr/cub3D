@@ -43,28 +43,31 @@
 # define GUN_PATH "./textures/gun.png"
 
 /* MLX Errors */
-# define ERROR_PNG "failed to load .png"
-# define ERROR_IMG "failed to create mlx image"
-# define ERROR_TXTR "failed to add texture to image"
-# define ERROR_WINDOW "failed to put mlx image to window\n"
-# define ERROR_INIT "failed to initialize mlx"
+# define ERROR_PNG "Failed to load .png"
+# define ERROR_IMG "Failed to create mlx image"
+# define ERROR_TXTR "Failed to add texture to image"
+# define ERROR_WINDOW "Failed to put mlx image to window\n"
+# define ERROR_INIT "Failed to initialize mlx"
 
 /* General Errors */
-# define ERROR_CUB "unable to open the .cub file"
-# define ERROR_GNL "failed while using get next line"
-# define ERROR_OPEN "failed to open file"
-# define ERROR_ARG "invalid argument count"
+# define ERROR_CUB "Unable to open the .cub file"
+# define ERROR_GNL "Failed while using get next line"
+# define ERROR_OPEN "Failed to open file"
+# define ERROR_ARG "Invalid argument count"
 
 /* Map Errors */
-# define ERROR_MAP "invalid map"
-# define ERROR_WALLS "invalid map play area"
-# define ERROR_MISSING_TXTR "invalid or missing texture(s)"
-# define ERROR_MAP_NAME "invalid map name"
-# define ERROR_MAP_CHAR "invalid map character(s)"
-# define ERROR_NO_MAP "no map detected"
-# define ERROR_MAP_INFO "invalid map info"
-# define ERROR_PLAYER "invalid players count"
-# define ERROR_COLOR "invalid color info"
+# define ERROR_MAP "Invalid map"
+# define ERROR_WALLS "Invalid map play area"
+# define ERROR_MISSING_TXTR "Invalid or missing texture(s)"
+# define ERROR_MAP_NAME "Invalid map name"
+# define ERROR_MAP_CHAR "Invalid map character(s)"
+# define ERROR_NO_MAP "No map detected"
+# define ERROR_MAP_INFO "Invalid map info"
+# define ERROR_PLAYER "Invalid players count"
+# define ERROR_COLOR "Invalid color info"
+# define ERROR_SPACE "Space inside of playing area"
+# define ERROR_PLAYER_POS "Invalid player position"
+
 
 typedef struct s_map
 {
@@ -145,16 +148,17 @@ typedef struct s_game
 int					get_map(char **av, t_game *game);
 char				*read_fd(char **av);
 /* VALIDATE MAP */
-int					get_data(t_game *game);
-char				*parse_info(t_game *game, char *line);
-mlx_texture_t		*put_png(mlx_texture_t *ptr, char *png, t_game *game);
-char				*colors(t_game *game, char *line);
-void				str_to_color(t_color *ptr, char *line);
-/* MAP INFO */
 int					process_data(t_game *game);
+int					get_data(t_game *game);
 int					validate_chars(char **s, t_game *game);
+int 				check_paths(char **s);
+int 				invalid_player_pos(char **s, int x, int y);
+char				*parse_info(t_game *game, char *line);
+char				*colors(t_game *game, char *line);
+void 				flood_fill(char **s, int x, int y);
+void				str_to_color(t_color *ptr, char *line);
 void				set_player(t_game *game, char c, size_t x, size_t y);
-int					first_and_last_row(t_map *data);
+mlx_texture_t		*put_png(mlx_texture_t *ptr, char *png, t_game *game);
 /* CHECK WALLS */
 int					wall_check(t_map *data);
 int					handle_spaces(t_map *data);
@@ -168,10 +172,10 @@ int					is_player(char c);
 void				invalid_color(t_color *ptr);
 int					is_256(t_txtr *t);
 /* GAME */
+int					gameplay(t_game *game);
 void				screen(void *param);
 void				keys(void *param);
 void				get_weapon(t_game *game);
-int					gameplay(t_game *game);
 void				rotate(t_game *game, int dir);
 void				move_up(t_game *game, double speed, double bumber);
 void				move_down(t_game *game, double speed, double bumber);
@@ -180,6 +184,7 @@ void				move_right(t_game *game, double speed, double bumber);
 void				rotate(t_game *game, int dir);
 void				out(t_game *game, char *error);
 /* RENDER */
+void				txtr_ptrs_init(t_txtr *t);
 void				raycast(t_game *game);
 void				draw(t_game *game, int i);
 void				pixel_safe(t_game *game, int x, int y, unsigned int color);
@@ -193,5 +198,6 @@ char				*gnl_mod(int fd);
 char				*strjoin_modi(char *s1, char *s2);
 int					atoi_mod(const char *s);
 void				out(t_game *game, char *error);
+int 				arrlen(char **s);
 
 #endif

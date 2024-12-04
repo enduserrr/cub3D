@@ -48,3 +48,17 @@ unsigned int	get_color(unsigned char *pixels, int text_x, int text_y)
 	rgba = pixels + (tex_y * TXTR_SIZE + tex_x) * BYTES_P;
 	return ((rgba[0] << 24) | (rgba[1] << 16) | (rgba[2] << 8) | rgba[3]);
 }
+
+void	txtr_ptrs_init(t_txtr *t)
+{
+	t->n_txtr = NULL;
+	t->s_txtr = NULL;
+	t->e_txtr = NULL;
+	t->w_txtr = NULL;
+	t->gun = NULL;
+	t->n_txtr = NULL;
+	t->s_txtr = NULL;
+	t->e_txtr = NULL;
+	t->w_txtr = NULL;
+	t->dup = false;
+}
