@@ -137,6 +137,7 @@ int	validate_chars(char **s, t_game *game)
 			x++;
 		}
 		game->data->size_y++;
+		printf("%s\n", s[y]);
 	}
 	if (game->data->size_y < 3 || game->data->size_y > 200)
 		return (write_err("not enough map rows"), 1);
@@ -179,7 +180,7 @@ int	process_data(t_game *game)
 		|| !game->textures->s_txtr || !game->textures->w_txtr
 		|| !game->textures->e_txtr || game->textures->dup == true)
 		return (out(game, ERROR_MISSING_TXTR), 1);
-	if (!game->textures->c || !game->textures->f || is_256(game->textures))
+	if (!game->textures->c || !game->textures->f || inval_color(game->textures))
 		return (write_err(ERROR_COLOR), out(game, NULL), 1);
 	if (validate_chars(game->data->map, game))
 		return (out(game, NULL), 1);

@@ -51,7 +51,7 @@ int	get_map(char **av, t_game *game)
 	temp_line = read_fd(av);
 	arr = ft_split(temp_line, '\n');
 	if (!arr)
-		return (free(data), free(temp_line), write_err(ERROR_NO_MAP), 1);
+		return (free(data), free(temp_line), 1);
 	game->data->map = arr;
 	free(temp_line);
 	temp_line = NULL;

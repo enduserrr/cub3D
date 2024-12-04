@@ -12,22 +12,6 @@
 
 #include "../../incs/cub3D.h"
 
-static void	strlcpy_modi(char *dst, const char *src, size_t dstsize)
-{
-	size_t	i;
-
-	i = 0;
-	if (dstsize > 0)
-	{
-		while (src[i] && i < dstsize - 1)
-		{
-			dst[i] = src[i];
-			i++;
-		}
-		dst[i] = '\0';
-	}
-}
-
 static char	*init_gnl(char *stash)
 {
 	size_t	i;
@@ -61,31 +45,36 @@ static size_t	find_end(char *line)
 	return (i);
 }
 
+static char	*handle_read(char *line, char *stash, char *buffer, size_t read_check)
+{
+	strlcpy_modi(stash, &buffer[find_end(buffer)], 4095 + 1);
+	buffer[read_check] = '\0';
+	line = strjoin_modi(line, buffer);
+	return (line);
+}
+
 static char	*gnl_extract(char *line, char *stash, int fd)
 {
 	char	buffer[4095 + 1];
 	ssize_t	read_check;
+	size_t	total_read;
 
-	read_check = 0;
-	while (read_check < 4095)
+	total_read = ft_strlen(line);
+	while (total_read < 4096)
 	{
-		ft_bzero(buffer, (4095 + 1));
+		ft_bzero(buffer, 4095 + 1);
 		read_check = read(fd, buffer, 4095);
-		if (read_check == -1 || read_check > 4095)
-		{
-			free(line);
-			ft_bzero(stash, (4095 + 1));
-			return (NULL);
-		}
-		strlcpy_modi(stash, &buffer[find_end(buffer)], (4095 + 1));
-		buffer[find_end(buffer)] = '\0';
-		line = strjoin_modi(line, buffer);
+		if (read_check == -1)
+			return (free(line), ft_bzero(stash, 4095 + 1), NULL);
+		if (total_read + read_check > 4096)
+			read_check = 4096 - total_read;
+		line = handle_read(line, stash, buffer, read_check);
+		total_read += read_check;
 		if (read_check == 0)
-		{
-			ft_bzero(stash, 4095 + 1);
 			break ;
-		}
 	}
+	if (total_read >= 4096)
+		return (free(line), ft_bzero(stash, 4095 + 1), NULL);
 	return (line);
 }
 
@@ -93,17 +82,15 @@ char	*gnl_mod(int fd)
 {
 	static char	stash[4095];
 	char		*line;
-	static int	eof;
 
 	if (fd < 0)
 		return (NULL);
-	eof = -1;
 	line = init_gnl(stash);
 	if (!line)
 		return (NULL);
-	strlcpy_modi(stash, &stash[eof + 1], 4095 + 1);
+	strlcpy_modi(stash, &stash[1], 4095 + 1);
 	line = gnl_extract(line, stash, fd);
-	if (!line || line[0] == '\0')
+	if (!line || line[0] == '\0' || ft_strlen(line) > 4096)
 	{
 		free(line);
 		return (NULL);

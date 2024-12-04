@@ -43,6 +43,34 @@ static void	delete_images(t_game *game)
 	}
 }
 
+void	free_arr(char **arr)
+{
+	int	i;
+
+	i = 0;
+	if (arr == NULL || *arr == NULL)
+		return ;
+	while (arr[i])
+		free(arr[i++]);
+	free(arr);
+}
+
+void	free_map(t_game *game)
+{
+	size_t	i;
+
+	i = 0;
+	if (!game || !game->data || !game->data->map)
+		return ;
+	while (game->data->map[i] != NULL)
+	{
+		free(game->data->map[i]);
+		i++;
+	}
+	free(game->data->map);
+	game->data->map = NULL;
+}
+
 void	out(t_game *game, char *error)
 {
 	if (game->textures)
