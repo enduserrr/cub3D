@@ -154,6 +154,7 @@ void				str_to_color(t_color *ptr, char *line);
 int					process_data(t_game *game);
 int					validate_chars(char **s, t_game *game);
 void				set_player(t_game *game, char c, size_t x, size_t y);
+int					check_player(t_game *game, size_t x, size_t y);
 int					first_and_last_row(t_map *data);
 /* CHECK WALLS */
 int					wall_check(t_map *data);
@@ -167,6 +168,7 @@ int					validate_file(char *name);
 int					is_player(char c);
 void				set_inval_color(t_color *ptr);
 int					inval_color(t_txtr *t);
+void				txtr_ptrs_init(t_txtr *t);
 /* GAME */
 void				screen(void *param);
 void				keys(void *param);
