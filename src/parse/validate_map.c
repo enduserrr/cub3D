@@ -99,6 +99,17 @@ int	first_and_last_row(t_map *data)
 	return (wall_check(data));
 }
 
+static int	check_player(t_game *game, size_t x, size_t y)
+{
+	if (x == 0 || x == ft_strplen(game->data->map[y])
+		|| y == 0 || y == game->data->size_y - 1)
+		return (1);
+	if (ft_strplen(game->data->map[y]) > ft_strplen(game->data->map[y - 1])
+		|| ft_strplen(game->data->map[y]) > ft_strplen(game->data->map[y + 1]))
+		return (1);
+	return (0);
+}
+
 /**
  * @brief	Validates map characters and initialises the player's position.
  * @param	s     The map array containing rows of the map as strings.
@@ -130,7 +141,7 @@ int	validate_chars(char **s, t_game *game)
 			if (!is_player(s[y][x]) && s[y][x] != ' ' && s[y][x] != '0'
 				&& s[y][x] != '1')
 				return (write_err(ERROR_MAP_CHAR), 1);
-			if (is_player(s[y][x]))
+			if (is_player(s[y][x]) && !check_player(game, x, y))
 				set_player(game, s[y][x], x, y);
 			else if (s[y][x] == ' ')
 				s[y][x] = '2';

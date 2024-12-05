@@ -63,7 +63,7 @@
 # define ERROR_MAP_CHAR "invalid map character(s)"
 # define ERROR_NO_MAP "no map detected"
 # define ERROR_MAP_INFO "invalid map info"
-# define ERROR_PLAYER "invalid players count"
+# define ERROR_PLAYER "invalid player count or position"
 # define ERROR_COLOR "invalid color info"
 
 typedef struct s_map
