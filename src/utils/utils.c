@@ -27,6 +27,11 @@ int	atoi_mod(const char *s)
 	{
 		if (*s >= '0' && *s <= '9')
 			res = res * 10 + *s - '0';
+		if (*s == ' ')
+		{
+			s++;
+			continue ;
+		}
 		if (*s < '0' || *s > '9')
 			return (-1);
 		s++;

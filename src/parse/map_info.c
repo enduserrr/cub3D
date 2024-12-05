@@ -12,45 +12,13 @@
 
 #include "../../incs/cub3D.h"
 
-// mlx_texture_t	*put_png(mlx_texture_t *ptr, char *png, t_game *game)
-// {
-// 	int	i;
-// 	size_t	k;
-// 	char *new;
-
-// 	i = 0;
-// 	new = NULL;
-// 	k = ft_strplen(png) - 1;
-// 	if (png[k] != 'g')
-// 	{
-// 		while (png[k] != 'g')
-// 			k--;
-// 	}
-// 	ft_strlcpy(new, png, k);
-// 	// while (!ft_isspace(png[i]))
-// 	// 	i++;
-// 	// new = ft_substr(png, 0, (size_t)i);
-// 	// free(png);
-// 	if (!new)
-// 		return (NULL);
-// 	ptr = mlx_load_png(new);
-// 	// free(png);
-// 	if (ptr == NULL)
-// 	{
-// 		out(game, ERROR_PNG);
-// 		return (NULL);
-// 	}
-// 	game->textures->txtr_count++;
-// 	return (ptr);
-// }
-
 mlx_texture_t	*put_png(mlx_texture_t *ptr, char *png, t_game *game)
 {
 	size_t	k;
 	char	*new;
 
 	k = ft_strplen(png) - 1;
-	while (k > 0 && png[k] != 'g')
+	while (k > 0 && (png[k] == ' ' || png[k] == '\t'))
 		k--;
 	new = ft_substr(png, 0, k + 1);
 	if (!new)
