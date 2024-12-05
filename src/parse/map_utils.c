@@ -52,3 +52,17 @@ void	set_inval_color(t_color *ptr)
 	ptr->g = 256;
 	ptr->b = 256;
 }
+
+void	txtr_ptrs_init(t_txtr *t)
+{
+	t->n_txtr = NULL;
+	t->s_txtr = NULL;
+	t->e_txtr = NULL;
+	t->w_txtr = NULL;
+	t->gun = NULL;
+	t->n_txtr = NULL;
+	t->s_txtr = NULL;
+	t->e_txtr = NULL;
+	t->w_txtr = NULL;
+	t->dup = false;
+}

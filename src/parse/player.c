@@ -70,6 +70,16 @@ void	set_orientation(t_game *game, char c)
 	}
 }
 
+int	check_player(t_game *game, size_t x, size_t y)
+{
+	if (x == 0 || x == ft_strplen(game->data->map[y])
+		|| y == 0 || y == game->data->size_y - 1)
+		return (1);
+	if (x >= ft_strplen(game->data->map[y + 1]) || x >= ft_strplen(game->data->map[y - 1]))
+		return (1);
+	return (0);
+}
+
 /**
  * @brief	Sets the player's initial position and orientation on the map.
  * @param	c The orientation character ('N', 'S', 'W', 'E')

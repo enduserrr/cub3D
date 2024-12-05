@@ -37,22 +37,13 @@ int	cmpr_rows(size_t shorter, size_t longer, char *long_row)
 	return (0);
 }
 
-/**
- * @brief  Determines whether all valid map areas are enclosed by walls ('1').
- * @param  info  The map structure containing the map and its dimensions.
- * @return 1 if the map is not fully enclosed by walls, 0 otherwise.
- *
- * This function iterates through each row of the map, comparing it with
- * the rows above and below to ensure proper wall coverage. It uses the
- * `cmpr_rows` function to validate areas where row lengths differ.
- */
 int	edgerows(t_map *data, int row, int i)
 {
 	size_t	curr;
 	size_t	cmpr;
 
-	curr = ft_strlen(data->map[row]);
-	cmpr = ft_strlen(data->map[row + i]);
+	curr = ft_strplen(data->map[row]);
+	cmpr = ft_strplen(data->map[row + i]);
 	if (!data->map[row])
 		return (1);
 	if (curr < cmpr && cmpr_rows(curr, cmpr, data->map[row + i]))
@@ -99,17 +90,6 @@ int	first_and_last_row(t_map *data)
 	return (wall_check(data));
 }
 
-static int	check_player(t_game *game, size_t x, size_t y)
-{
-	if (x == 0 || x == ft_strplen(game->data->map[y])
-		|| y == 0 || y == game->data->size_y - 1)
-		return (1);
-	if (ft_strplen(game->data->map[y]) > ft_strplen(game->data->map[y - 1])
-		|| ft_strplen(game->data->map[y]) > ft_strplen(game->data->map[y + 1]))
-		return (1);
-	return (0);
-}
-
 /**
  * @brief	Validates map characters and initialises the player's position.
  * @param	s     The map array containing rows of the map as strings.
@@ -136,8 +116,8 @@ int	validate_chars(char **s, t_game *game)
 			return (write_err(ERROR_MAP_CHAR), 1);
 		while (s[y][x])
 		{
-			if ((x == 0 && s[y][x] == '0') || s[y][ft_strplen(s[y]) - 1] == '0')
-				return (write_err(ERROR_MAP_CHAR), 1);
+			// if ((x == 0 && s[y][x] == '0') || s[y][ft_strplen(s[y]) - 1] == '0')
+			// 	return (write_err(ERROR_MAP_CHAR), 1);
 			if (!is_player(s[y][x]) && s[y][x] != ' ' && s[y][x] != '0'
 				&& s[y][x] != '1')
 				return (write_err(ERROR_MAP_CHAR), 1);
@@ -148,25 +128,11 @@ int	validate_chars(char **s, t_game *game)
 			x++;
 		}
 		game->data->size_y++;
-		printf("%s\n", s[y]);
+		// printf("%s\n", s[y]);
 	}
 	if (game->data->size_y < 3 || game->data->size_y > 200)
-		return (write_err("not enough map rows"), 1);
+		return (write_err("invalid map row count"), 1);
 	return (first_and_last_row(game->data));
-}
-
-static void	txtr_ptrs_init(t_txtr *t)
-{
-	t->n_txtr = NULL;
-	t->s_txtr = NULL;
-	t->e_txtr = NULL;
-	t->w_txtr = NULL;
-	t->gun = NULL;
-	t->n_txtr = NULL;
-	t->s_txtr = NULL;
-	t->e_txtr = NULL;
-	t->w_txtr = NULL;
-	t->dup = false;
 }
 
 /**
