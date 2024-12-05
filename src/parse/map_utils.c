@@ -18,7 +18,7 @@ int	validate_file(char *name)
 
 	if (!name || ft_strlen(name) < 4 || ft_strcmp(name + (ft_strlen(name) - 4),
 			".cub"))
-		return (write_err(ERROR_MAP_NAME), -1);
+		return (write_err("invalid file"), -1);
 	fd = open(name, O_RDONLY);
 	if (fd < 0)
 	{

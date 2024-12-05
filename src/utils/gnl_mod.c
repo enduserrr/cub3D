@@ -45,7 +45,8 @@ static size_t	find_end(char *line)
 	return (i);
 }
 
-static char	*handle_read(char *line, char *stash, char *buffer, size_t read_check)
+static char	*handle_read(char *line, char *stash, char *buffer,
+		size_t read_check)
 {
 	strlcpy_modi(stash, &buffer[find_end(buffer)], 4095 + 1);
 	buffer[read_check] = '\0';

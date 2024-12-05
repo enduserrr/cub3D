@@ -56,7 +56,7 @@ int	get_map(char **av, t_game *game)
 	free(temp_line);
 	temp_line = NULL;
 	if (game->data->map == NULL)
-		return (write_err(ERROR_NO_MAP), 1);
+		return (write_err(ERROR_MAP), 1);
 	i = process_data(game);
 	return (free(data), i);
 }

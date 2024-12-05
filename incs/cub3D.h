@@ -56,15 +56,7 @@
 # define ERROR_ARG "invalid argument count"
 
 /* Map Errors */
-# define ERROR_MAP "invalid map"
-# define ERROR_WALLS "invalid map play area"
-# define ERROR_MISSING_TXTR "invalid or missing texture(s)"
-# define ERROR_MAP_NAME "invalid map name"
-# define ERROR_MAP_CHAR "invalid map character(s)"
-# define ERROR_NO_MAP "no map detected"
-# define ERROR_MAP_INFO "invalid map info"
-# define ERROR_PLAYER "invalid player count or position"
-# define ERROR_COLOR "invalid color info"
+# define ERROR_MAP "invalid map and/or info"
 
 typedef struct s_map
 {
@@ -146,22 +138,21 @@ int					get_map(char **av, t_game *game);
 char				*read_fd(char **av);
 /* VALIDATE MAP */
 int					get_data(t_game *game);
-char				*parse_info(t_game *game, char *line);
+char				*parse_info(t_game *game, char *line, int i);
 mlx_texture_t		*put_png(mlx_texture_t *ptr, char *png, t_game *game);
-char				*colors(t_game *game, char *line);
-void				str_to_color(t_color *ptr, char *line);
+
 /* MAP INFO */
 int					process_data(t_game *game);
-int					validate_chars(char **s, t_game *game);
+int					validate_chars(char **s, t_game *game, int x, int y);
 void				set_player(t_game *game, char c, size_t x, size_t y);
 int					check_player(t_game *game, size_t x, size_t y);
 int					first_and_last_row(t_map *data);
 /* CHECK WALLS */
 int					wall_check(t_map *data);
-int					handle_spaces(t_map *data);
+// int					handle_spaces(t_map *data);
 int					fill(t_map *data, size_t x, size_t y, size_t x_max);
 int					fill2(t_map *data, size_t x, size_t y, size_t x_max);
-int					edge_rows(t_map *data, size_t x, size_t y);
+// int					edge_rows(t_map *data, size_t x, size_t y);
 void				restore(char **map, size_t size_y);
 /* MAP UTILS */
 int					validate_file(char *name);
@@ -169,6 +160,12 @@ int					is_player(char c);
 void				set_inval_color(t_color *ptr);
 int					inval_color(t_txtr *t);
 void				txtr_ptrs_init(t_txtr *t);
+
+/* MAP COLOR */
+void				set_color(t_color *ptr, char **colors);
+void				str_to_color(t_color *ptr, char *line);
+char				*colors(t_game *game, char *line);
+
 /* GAME */
 void				screen(void *param);
 void				keys(void *param);

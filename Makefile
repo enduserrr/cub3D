@@ -5,7 +5,7 @@ LIBFT	=	incs/libft/libft.a
 MLX		=	incs/MLX42/build/libmlx42.a
 
 SRCS	=	$(addprefix $(SRC_DIR)/game/, gameplay.c move.c) \
-			$(addprefix $(SRC_DIR)/parse/, extract_map.c map_info.c map_utils.c player.c validate_map.c check_walls.c) \
+			$(addprefix $(SRC_DIR)/parse/, extract_map.c map_info.c map_utils.c player.c map_color.c validate_map.c fills.c check_walls.c) \
 			$(addprefix $(SRC_DIR)/render/, draw.c raycasting.c render_utils.c) \
 			$(addprefix $(SRC_DIR)/utils/, clean_exit.c gnl_mod.c utils.c) \
 			$(addprefix $(SRC_DIR)/, main.c)
