@@ -21,7 +21,7 @@
  * @return 1 if the longer row has non-wall characters in excess positions,
  *         0 otherwise.
  */
-int	cmpr_rows(size_t shorter, size_t longer, char *long_row)
+static int	cmpr_rows(size_t shorter, size_t longer, char *long_row)
 {
 	size_t	x;
 
@@ -37,19 +37,25 @@ int	cmpr_rows(size_t shorter, size_t longer, char *long_row)
 	return (0);
 }
 
-int	edgerows(t_map *data, int row, int i)
+static int	edgerows(t_map *data, int row, int i)
 {
 	size_t	curr;
 	size_t	cmpr;
 
 	curr = ft_strplen(data->map[row]);
 	cmpr = ft_strplen(data->map[row + i]);
-	if (!data->map[row])
+	if (!data->map[row] || !data->map[row + i])
 		return (1);
-	if (curr < cmpr && cmpr_rows(curr, cmpr, data->map[row + i]))
-		return (1);
-	if (curr > cmpr && cmpr_rows(cmpr, curr, data->map[row + 1]))
-		return (1);
+	if (curr < cmpr)
+	{
+		if (cmpr_rows(curr, cmpr, data->map[row + i]))
+			return (1);
+	}
+	if (curr > cmpr)
+	{
+		if (cmpr_rows(cmpr, curr, data->map[row]))
+			return (1);
+	}
 	return (0);
 }
 
@@ -68,9 +74,9 @@ int	first_and_last_row(t_map *data)
 
 	x = 0;
 	if (!data->map || !data->map[0])
-		return (write_err("ERROR_MAP"), 1);
+		return (write_err("1"), 1);
 	if (edgerows(data, 0, 1) || edgerows(data, (int)data->size_y - 1, -1))
-		return (write_err("ERROR_MAP"), 1);
+		return (write_err("2"), 1);
 	while (data->map[0][x])
 	{
 		if (data->map[0][x] == '0' || is_player(data->map[0][x]))
@@ -79,12 +85,12 @@ int	first_and_last_row(t_map *data)
 	}
 	y = data->size_y - 1;
 	if (y < 0 || !data->map[y])
-		return (write_err("ERROR_MAP"), 1);
+		return (write_err("4"), 1);
 	x = 0;
 	while (data->map[y][x])
 	{
 		if (data->map[y][x] == '0' || is_player(data->map[y][x]))
-			return (write_err("ERROR_MAP"), 1);
+			return (write_err("5"), 1);
 		x++;
 	}
 	return (wall_check(data));
