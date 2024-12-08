@@ -76,21 +76,21 @@ int	first_and_last_row(t_map *data)
 	if (!data->map || !data->map[0])
 		return (write_err("1"), 1);
 	if (edgerows(data, 0, 1) || edgerows(data, (int)data->size_y - 1, -1))
-		return (write_err("ERROR_MAP"), 1);
+		return (write_err(ERROR_MAP), 1);
 	while (data->map[0][x])
 	{
 		if (data->map[0][x] == '0' || is_player(data->map[0][x]))
-			return (write_err("ERROR_MAP"), 1);
+			return (write_err(ERROR_MAP), 1);
 		x++;
 	}
 	y = data->size_y - 1;
 	if (y < 0 || !data->map[y])
-		return (write_err("ERROR_MAP"), 1);
+		return (write_err(ERROR_MAP), 1);
 	x = 0;
 	while (data->map[y][x])
 	{
 		if (data->map[y][x] == '0' || is_player(data->map[y][x]))
-			return (write_err("ERROR_MAP"), 1);
+			return (write_err(ERROR_MAP), 1);
 		x++;
 	}
 	return (wall_check(data));
