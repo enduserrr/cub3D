@@ -71,7 +71,7 @@ void	free_map(t_game *game)
 	game->data->map = NULL;
 }
 
-void	out(t_game *game, char *error)
+void	out(t_game *game)
 {
 	if (game->textures)
 		delete_textures(game);
@@ -86,9 +86,4 @@ void	out(t_game *game, char *error)
 	game->textures = NULL;
 	game->screen = NULL;
 	game = NULL;
-	if (error)
-	{
-		write_err(error);
-		exit(1);
-	}
 }

@@ -65,9 +65,7 @@ void	str_to_color(t_color *ptr, char *line)
 }
 
 /**
- * @brief	Extracts floor & ceiling color information from a line.
- * @param	game    Pointer to the t_game struct containing texture data.
- * @param	line    Input string to parse for color information.
+ * @brief	Extracts floor & ceiling color information.
  * @return	Pointer to the remaining part of the line if not processed,
  *			or NULL otherwise.
  */

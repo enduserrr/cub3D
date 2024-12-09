@@ -22,10 +22,8 @@ static int	edge_rows(t_map *data, size_t x, size_t y)
 }
 
 /**
- * @brief	Checks any potential '2's in the map and determines if they are
- *			surrounded by '0's. Updates '2' to '0' if inside the playable
- *			area, or restores it to a space (' ') if outside.
- * @return	1 if an invalid state is found, 0 otherwise.
+ * @brief	Checks if any spaces are found inside the playable map area.
+ * @return	1 for an error, 0 otherwise.
  */
 int	fill2(t_map *data, size_t x, size_t y, size_t x_max)
 {

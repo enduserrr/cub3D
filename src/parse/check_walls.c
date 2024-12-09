@@ -40,9 +40,9 @@ void	restore(char **map, size_t size_y)
 }
 
 /**
- * @brief	Processes spaces ('2') in the map to determine if they are part
- *			of the playable area or outside.
- * @return	1 if spaces are improperly handled, 0 otherwise.
+ * @brief	Checks for spaces and if they're found within the map
+ *			area or outside of it.
+ * @return	1 if spaces are incorrect position, 0 otherwise.
  */
 static int	handle_spaces(t_map *data)
 {
@@ -70,7 +70,7 @@ static int	handle_spaces(t_map *data)
 }
 
 /**
- * @brief	Full wall validation on the map by checking both spaces
+ * @brief	Wall validation on the map by checking both spaces
  *			and '0's to ensure they are enclosed by walls.
  * @return	1 if the map is invalid, 0 otherwise.
  */

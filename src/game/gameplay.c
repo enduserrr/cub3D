@@ -30,10 +30,7 @@ void	screen(void *param)
 	if (game->screen)
 		mlx_delete_image(game->mlx, game->screen);
 	game->screen = mlx_new_image(game->mlx, WIN_WIDTH, WIN_HEIGHT);
-	if (!game->screen)
-		out(game, ERROR_IMG);
-	if (mlx_image_to_window(game->mlx, game->screen, 0, 0) == -1)
-		out(game, ERROR_WINDOW);
+	mlx_image_to_window(game->mlx, game->screen, 0, 0);
 	raycast(game);
 	game->screen->instances[0].z = 0;
 }
@@ -80,21 +77,22 @@ void	keys(void *param)
  * occur during this process (e.g., texture loading or image creation), it
  * cleans up the resources and exits the program.
  */
-void	get_weapon(t_game *game)
+int	get_weapon(t_game *game)
 {
 	game->textures->gun = mlx_load_png(GUN_PATH);
 	if (!game->textures->gun)
-		out(game, ERROR_PNG);
+		return (write_err(ERROR_PNG), 1);
 	game->gun = mlx_new_image(game->mlx, WEAPON_W, WEAPON_H);
 	if (!game->gun)
-		out(game, ERROR_IMG);
+		return (write_err(ERROR_IMG), 1);
 	game->gun = mlx_texture_to_image(game->mlx, game->textures->gun);
 	if (!game->gun)
-		out(game, ERROR_TXTR);
+		return (write_err(ERROR_TXTR), 1);
 	if (mlx_image_to_window(game->mlx, game->gun, WIN_WIDTH / 3, (WIN_HEIGHT
 				- WEAPON_H)) == -1)
-		out(game, ERROR_WINDOW);
+		return (write_err(ERROR_WINDOW), 1);
 	game->gun->instances[0].z = 1;
+	return (0);
 }
 
 /**
@@ -112,13 +110,21 @@ void	get_weapon(t_game *game)
  */
 int	gameplay(t_game *game)
 {
+	bool	t;
+
+	t = false;
 	game->mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, WIN_NAME, true);
 	if (!game->mlx)
-		out(game, ERROR_INIT);
-	get_weapon(game);
-	mlx_loop_hook(game->mlx, screen, game);
-	mlx_loop_hook(game->mlx, keys, game);
+		return (write_err(ERROR_INIT), 1);
+	if (get_weapon(game))
+		return (1);
+	t = mlx_loop_hook(game->mlx, screen, game);
+	if (t != true)
+		return (write_err(ERROR_IMG), 1);
+	t = mlx_loop_hook(game->mlx, keys, game);
+	if (t != true)
+		return (write_err(ERROR_IMG), 1);
 	mlx_loop(game->mlx);
-	out(game, NULL);
+	out(game);
 	return (0);
 }

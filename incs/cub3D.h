@@ -81,6 +81,7 @@ typedef struct s_txtr
 	mlx_texture_t	*w_txtr;
 	mlx_texture_t	*gun;
 	bool			dup;
+	int				err;
 }					t_txtr;
 
 typedef struct s_player
@@ -134,6 +135,7 @@ typedef struct s_game
 /* EXTRACT MAP */
 int					get_map(char **av, t_game *game);
 char				*read_fd(char **av);
+
 /* VALIDATE MAP */
 int					get_data(t_game *game);
 char				*parse_info(t_game *game, char *line, int i);
@@ -144,12 +146,18 @@ int					process_data(t_game *game);
 int					validate_chars(char **s, t_game *game, int x, int y);
 void				set_player(t_game *game, char c, size_t x, size_t y);
 int					check_player(t_game *game, size_t x, size_t y);
+void				set_orientation(t_game *game, char c);
+void				set_planes(t_game *game, double plane_x, double plane_y);
+void				set_direction(t_game *game, double pax, double pay);
 int					first_and_last_row(t_map *data);
+mlx_texture_t		*put_png(mlx_texture_t *ptr, char *png, t_game *game);
+
 /* CHECK WALLS */
 int					wall_check(t_map *data);
 int					fill(t_map *data, size_t x, size_t y, size_t x_max);
 int					fill2(t_map *data, size_t x, size_t y, size_t x_max);
 void				restore(char **map, size_t size_y);
+
 /* MAP UTILS */
 int					validate_file(char *name);
 int					is_player(char c);
@@ -165,7 +173,7 @@ char				*colors(t_game *game, char *line);
 /* GAME */
 void				screen(void *param);
 void				keys(void *param);
-void				get_weapon(t_game *game);
+int					get_weapon(t_game *game);
 int					gameplay(t_game *game);
 void				rotate(t_game *game, int dir);
 void				move_up(t_game *game, double speed, double bumber);
@@ -173,21 +181,25 @@ void				move_down(t_game *game, double speed, double bumber);
 void				move_left(t_game *game, double speed, double bumber);
 void				move_right(t_game *game, double speed, double bumber);
 void				rotate(t_game *game, int dir);
-void				out(t_game *game, char *error);
+
 /* RENDER */
 void				raycast(t_game *game);
 void				draw(t_game *game, int i);
 void				pixel_safe(t_game *game, int x, int y, unsigned int color);
 unsigned int		get_color(unsigned char *pixels, int tex_x, int tex_y);
 unsigned char		*get_texture_pixels(t_game *game, int i);
+
 /* UTILS */
 void				write_err(char *s);
-void				free_map(t_game *game);
-void				free_arr(char **arr);
-char				*gnl_mod(int fd);
 char				*strjoin_modi(char *s1, char *s2);
 int					atoi_mod(const char *s);
-void				out(t_game *game, char *error);
 void				strlcpy_modi(char *dst, const char *src, size_t dstsize);
+
+/* CLEAN & EXIT */
+void				free_map(t_game *game);
+void				free_arr(char **arr);
+void				out(t_game *game);
+
+char				*gnl_mod(int fd);
 
 #endif

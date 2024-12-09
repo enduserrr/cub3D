@@ -17,17 +17,22 @@ mlx_texture_t	*put_png(mlx_texture_t *ptr, char *png, t_game *game)
 	size_t	k;
 	char	*new;
 
-	(void)game;
 	k = ft_strplen(png) - 1;
 	while (k > 0 && (png[k] == ' ' || png[k] == '\t'))
 		k--;
 	new = ft_substr(png, 0, k + 1);
 	if (!new)
+	{
+		game->textures->err++;
 		return (NULL);
+	}
 	ptr = mlx_load_png(new);
 	free(new);
 	if (ptr == NULL)
+	{
+		game->textures->err++;
 		return (NULL);
+	}
 	return (ptr);
 }
 
@@ -94,5 +99,7 @@ int	get_data(t_game *game)
 		tmp[i++] = tmp[k++];
 	tmp[i] = NULL;
 	game->data->map = tmp;
+	if (game->textures->err != 0)
+		return (1);
 	return (0);
 }

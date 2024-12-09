@@ -150,19 +150,20 @@ int	process_data(t_game *game)
 	p = (t_player){0};
 	game->textures = &txtr;
 	game->player = &p;
+	game->textures->err = 0;
 	if (get_data(game) == 1)
-		return (write_err(ERROR_MAP), out(game, NULL), 1);
+		return (write_err(ERROR_MAP), out(game), 1);
 	if (!game || !game->textures || !game->textures->n_txtr
 		|| !game->textures->s_txtr || !game->textures->w_txtr
 		|| !game->textures->e_txtr || game->textures->dup == true)
-		return (out(game, ERROR_MAP), 1);
+		return (write_err(ERROR_MAP), out(game), 1);
 	if (!game->textures->c || !game->textures->f || inval_color(game->textures))
-		return (write_err(ERROR_MAP), out(game, NULL), 1);
+		return (write_err(ERROR_MAP), out(game), 1);
 	if (validate_chars(game->data->map, game, 0, -1))
-		return (out(game, NULL), 1);
+		return (out(game), 1);
 	if (!game->player || game->player->is_set < 1 || game->player->is_set > 1)
-		return (write_err(ERROR_MAP), out(game, NULL), 1);
+		return (write_err(ERROR_MAP), out(game), 1);
 	if (gameplay(game))
-		return (1);
+		return (out(game), 1);
 	return (0);
 }
