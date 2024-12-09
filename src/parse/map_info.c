@@ -17,6 +17,7 @@ mlx_texture_t	*put_png(mlx_texture_t *ptr, char *png, t_game *game)
 	size_t	k;
 	char	*new;
 
+	(void)game;
 	k = ft_strplen(png) - 1;
 	while (k > 0 && (png[k] == ' ' || png[k] == '\t'))
 		k--;
@@ -27,7 +28,6 @@ mlx_texture_t	*put_png(mlx_texture_t *ptr, char *png, t_game *game)
 	free(new);
 	if (ptr == NULL)
 		return (NULL);
-	game->textures->txtr_count++;
 	return (ptr);
 }
 
