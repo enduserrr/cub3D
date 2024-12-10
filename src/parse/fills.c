@@ -39,13 +39,11 @@ int	fill2(t_map *data, size_t x, size_t y, size_t x_max)
 	{
 		if (y == data->size_y - 1)
 			return (edge_rows(data, x, y));
-		if ((y > 0 && (data->map[y - 1][x] == '0' || is_player(data->map[y
-						- 1][x]))) || (y + 1 < y_max && (data->map[y
-					+ 1][x] == '0' || is_player(data->map[y + 1][x]))) || (x > 0
-				&& (data->map[y][x - 1] == '0' || is_player(data->map[y][x
-						- 1]))) || (x + 1 < x_max && (data->map[y][x + 1] == '0'
-					|| is_player(data->map[y][x + 1]))))
+		if ((y > 0 && (data->map[y - 1][x] == '0' || is_player(data->map[y - 1][x]))) || (y + 1 < y_max && (data->map[y + 1][x] == '0' || is_player(data->map[y + 1][x])))
+		|| (x > 0 && (data->map[y][x - 1] == '0' || is_player(data->map[y][x - 1]))) || (x + 1 < x_max && (data->map[y][x + 1] == '0'
+		|| is_player(data->map[y][x + 1]))))
 		{
+			printf("%zu %zu: %c\n", y, x, data->map[y][x]);
 			return (1);
 		}
 		data->map[y][x] = ' ';
@@ -70,9 +68,11 @@ int	fill(t_map *data, size_t x, size_t y, size_t x_max)
 	{
 		if (y == data->size_y - 1 || y == 0)
 			return (1);
-		if (ft_strplen(data->map[y - 1]) < ft_strplen(data->map[y]) && (data->map[y - 1][x] != '0' && !is_player(data->map[y - 1][x]) && data->map[y - 1][x] != '1' && data->map[y - 1][x] != 'v'))
+		if (ft_strplen(data->map[y - 1]) < x || ft_strplen(data->map[y + 1]) < x)
 			return (1);
-		if (ft_strplen(data->map[y + 1]) < ft_strplen(data->map[y]) && (data->map[y + 1][x] != '0' && !is_player(data->map[y + 1][x]) && data->map[y + 1][x] != '1' && data->map[y + 1][x] != 'v'))
+		if ((data->map[y - 1][x] != '0' && !is_player(data->map[y - 1][x]) && data->map[y - 1][x] != '1' && data->map[y - 1][x] != 'v'))
+			return (1);
+		if ((data->map[y + 1][x] != '0' && !is_player(data->map[y + 1][x]) && data->map[y + 1][x] != '1' && data->map[y + 1][x] != 'v'))
 			return (1);
 		if ((ft_strplen(data->map[y]) == x + 1) || (data->map[y][x + 1] != '0' && data->map[y][x + 1] != '1' && !is_player(data->map[y][x + 1]) && data->map[y][x + 1] != 'v'))
 			return (1);
