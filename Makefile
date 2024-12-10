@@ -33,7 +33,7 @@ $(OBJ_DIR)/%.o :	$(SRC_DIR)/%.c
 					@echo "[$(GREEN)OK$(RES)]$(GREY): $< -> $@$(RES)"
 
 all:		build $(NAME)
-
+cub3D:		all
 $(NAME):	$(OBJ)
 			@make -C incs/libft -s
 			@$(MAKE) -C incs/MLX42 build
@@ -62,4 +62,6 @@ fclean:		clean
 
 re:			fclean all
 
-.PHONY:	all clean fclean re
+.PHONY:		all clean fclean re cub3D build
+
+
