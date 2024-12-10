@@ -53,15 +53,13 @@ char	*strjoin_modi(char *s1, char *s2)
 
 	if (!s1 || !s2)
 		return (NULL);
-	len1 = ft_strplen(s1);
-	len2 = ft_strplen(s2);
-	if ((len1 + len2) < 1)
-		result = ft_calloc(len1 + len2, sizeof(char *));
-	result = ft_calloc(len1 + len2 + 1, sizeof(char *));
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	result = (char *)malloc(sizeof(char) * (len1 + len2 + 1));
 	if (!result)
 	{
 		free(s1);
-		return ((void *)1);
+		return (NULL);
 	}
 	ft_memcpy(result, s1, len1);
 	free(s1);

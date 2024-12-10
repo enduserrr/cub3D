@@ -115,7 +115,10 @@ int	validate_chars(char **s, t_game *game, int x, int y)
 		while (s[y][x] == ' ')
 			x++;
 		if (s[y][x] != '1' || s[y][ft_strplen(s[y]) - 1] != '1')
-			return (write_err(ERROR_MAP), 1);
+		{
+			// printf("%i %i: %c\n", y, x, game->data->map[y][x]);
+			return (write_err("ERROR_MAP"), 1);
+		}
 		while (s[y][x])
 		{
 			if (!is_player(s[y][x]) && s[y][x] != ' ' && s[y][x] != '0'
@@ -127,6 +130,7 @@ int	validate_chars(char **s, t_game *game, int x, int y)
 				s[y][x] = '2';
 			x++;
 		}
+		printf("%s\n", s[y]);
 		game->data->size_y++;
 	}
 	if (game->data->size_y < 3 || game->data->size_y > 200)
