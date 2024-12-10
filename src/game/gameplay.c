@@ -30,7 +30,18 @@ void	screen(void *param)
 	if (game->screen)
 		mlx_delete_image(game->mlx, game->screen);
 	game->screen = mlx_new_image(game->mlx, WIN_WIDTH, WIN_HEIGHT);
-	mlx_image_to_window(game->mlx, game->screen, 0, 0);
+	if (!game->screen)
+	{
+		write_err(ERROR_IMG);
+		out(game);
+		exit(1);
+	}
+	if (mlx_image_to_window(game->mlx, game->screen, 0, 0) == -1)
+	{
+		write_err(ERROR_WINDOW);
+		out(game);
+		exit(1);
+	}
 	raycast(game);
 	game->screen->instances[0].z = 0;
 }
@@ -110,20 +121,13 @@ int	get_weapon(t_game *game)
  */
 int	gameplay(t_game *game)
 {
-	bool	t;
-
-	t = false;
 	game->mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, WIN_NAME, true);
 	if (!game->mlx)
 		return (write_err(ERROR_INIT), 1);
 	if (get_weapon(game))
 		return (1);
-	t = mlx_loop_hook(game->mlx, screen, game);
-	if (t != true)
-		return (write_err(ERROR_IMG), 1);
-	t = mlx_loop_hook(game->mlx, keys, game);
-	if (t != true)
-		return (write_err(ERROR_IMG), 1);
+	mlx_loop_hook(game->mlx, screen, game);
+	mlx_loop_hook(game->mlx, keys, game);
 	mlx_loop(game->mlx);
 	out(game);
 	return (0);
