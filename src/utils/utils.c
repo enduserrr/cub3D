@@ -92,3 +92,16 @@ void	write_err(char *s)
 	write(2, "\n", 1);
 	write(2, RES, ft_strlen(RES));
 }
+
+// int	is_whitespace(char *s)
+// {
+// 	int	i;
+
+// 	i = -1;
+// 	while (s[++i])
+// 	{
+// 		if (s[i] != '\n' || s[i] != ' ' || s[i] != '\t')
+// 			return (1);
+// 	}
+// 	return (0);
+// }

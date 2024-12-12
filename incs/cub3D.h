@@ -194,6 +194,7 @@ void				write_err(char *s);
 char				*strjoin_modi(char *s1, char *s2);
 int					atoi_mod(const char *s);
 void				strlcpy_modi(char *dst, const char *src, size_t dstsize);
+char				**splitter(const char *s, char c);
 
 /* CLEAN & EXIT */
 void				free_map(t_game *game);

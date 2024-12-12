@@ -49,9 +49,11 @@ int	get_map(char **av, t_game *game)
 	game->data = data;
 	temp_line = NULL;
 	temp_line = read_fd(av);
-	arr = ft_split(temp_line, '\n');
+	arr = splitter(temp_line, '\n');
 	if (!arr)
 		return (free(data), free(temp_line), 1);
+	for (int i = 0; arr[i] != NULL;)
+		printf("%s\n", arr[i++]);
 	game->data->map = arr;
 	free(temp_line);
 	temp_line = NULL;

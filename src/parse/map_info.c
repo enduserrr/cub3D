@@ -75,6 +75,20 @@ char	*parse_info(t_game *game, char *line, int i)
 	return (free(new), NULL);
 }
 
+static int	is_whitespace(const char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] != ' ' && s[i] != '\t' && s[i] != '\n')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 int	get_data(t_game *game)
 {
 	int		i;
@@ -87,9 +101,21 @@ int	get_data(t_game *game)
 	k = 0;
 	while (tmp[k])
 	{
+		while (is_whitespace(tmp[k]))
+		{
+			free(tmp[k]);
+			tmp[k] = NULL;
+			k++;
+		}
 		line = parse_info(game, tmp[k], 3);
 		if (line != NULL)
 			break ;
+		free(tmp[k]);
+		tmp[k] = NULL;
+		k++;
+	}
+	while (tmp[k] && is_whitespace(tmp[k]))
+	{
 		free(tmp[k]);
 		tmp[k] = NULL;
 		k++;

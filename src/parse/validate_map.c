@@ -111,6 +111,7 @@ int	validate_chars(char **s, t_game *game, int x, int y)
 {
 	while (s[++y])
 	{
+		// printf("%s\n", s[y]);
 		x = 0;
 		while (s[y][x] == ' ')
 			x++;
@@ -158,7 +159,7 @@ int	process_data(t_game *game)
 		|| !game->textures->e_txtr || game->textures->dup == true)
 		return (write_err(ERROR_MAP), out(game), 1);
 	if (!game->textures->c || !game->textures->f || inval_color(game->textures))
-		return (write_err(ERROR_MAP), out(game), 1);
+		return (write_err("color issue"), out(game), 1);
 	if (validate_chars(game->data->map, game, 0, -1))
 		return (out(game), 1);
 	if (!game->player || game->player->is_set < 1 || game->player->is_set > 1)
