@@ -112,4 +112,3 @@ char	**splitter(const char *s, char c)
 	}
 	return (new);
 }
-

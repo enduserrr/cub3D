@@ -154,13 +154,13 @@ mlx_texture_t		*put_png(mlx_texture_t *ptr, char *png, t_game *game);
 
 /* CHECK WALLS */
 int					wall_check(t_map *data);
-int					fill(t_map *data, size_t x, size_t y, size_t x_max);
+int					fill(t_map *data, size_t x, size_t y);
 int					fill2(t_map *data, size_t x, size_t y, size_t x_max);
 void				restore(char **map, size_t size_y);
 
 /* MAP UTILS */
 int					validate_file(char *name);
-int					is_player(char c);
+int					_plr(char c);
 void				set_inval_color(t_color *ptr);
 int					inval_color(t_txtr *t);
 void				txtr_ptrs_init(t_txtr *t);

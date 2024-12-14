@@ -29,7 +29,7 @@ int	validate_file(char *name)
 	return (fd);
 }
 
-int	is_player(char c)
+int	_plr(char c)
 {
 	if (c == 'N' || c == 'E' || c == 'S' || c == 'W')
 		return (1);

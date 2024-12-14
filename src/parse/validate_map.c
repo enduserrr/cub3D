@@ -79,7 +79,7 @@ int	first_and_last_row(t_map *data)
 		return (write_err(ERROR_MAP), 1);
 	while (data->map[0][x])
 	{
-		if (data->map[0][x] == '0' || is_player(data->map[0][x]))
+		if (data->map[0][x] == '0' || _plr(data->map[0][x]))
 			return (write_err(ERROR_MAP), 1);
 		x++;
 	}
@@ -89,7 +89,7 @@ int	first_and_last_row(t_map *data)
 	x = 0;
 	while (data->map[y][x])
 	{
-		if (data->map[y][x] == '0' || is_player(data->map[y][x]))
+		if (data->map[y][x] == '0' || _plr(data->map[y][x]))
 			return (write_err(ERROR_MAP), 1);
 		x++;
 	}
@@ -111,7 +111,6 @@ int	validate_chars(char **s, t_game *game, int x, int y)
 {
 	while (s[++y])
 	{
-		// printf("%s\n", s[y]);
 		x = 0;
 		while (s[y][x] == ' ')
 			x++;
@@ -119,10 +118,10 @@ int	validate_chars(char **s, t_game *game, int x, int y)
 			return (write_err(ERROR_MAP), 1);
 		while (s[y][x])
 		{
-			if (!is_player(s[y][x]) && s[y][x] != ' ' && s[y][x] != '0'
+			if (!_plr(s[y][x]) && s[y][x] != ' ' && s[y][x] != '0'
 				&& s[y][x] != '1')
 				return (write_err(ERROR_MAP), 1);
-			if (is_player(s[y][x]) && !check_player(game, x, y))
+			if (_plr(s[y][x]) && !check_player(game, x, y))
 				set_player(game, s[y][x], x, y);
 			else if (s[y][x] == ' ')
 				s[y][x] = '2';

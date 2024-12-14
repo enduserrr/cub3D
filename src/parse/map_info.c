@@ -89,6 +89,17 @@ static int	is_whitespace(const char *s)
 	return (1);
 }
 
+static int	skip_whitespace_lines(char **arr, int k)
+{
+	while (arr[k] && is_whitespace(arr[k]))
+	{
+		free(arr[k]);
+		arr[k] = NULL;
+		k++;
+	}
+	return (k);
+}
+
 int	get_data(t_game *game)
 {
 	int		i;
@@ -96,36 +107,22 @@ int	get_data(t_game *game)
 	char	**tmp;
 	char	*line;
 
-	line = NULL;
 	tmp = game->data->map;
-	k = 0;
+	k = skip_whitespace_lines(tmp, 0);
 	while (tmp[k])
 	{
-		while (is_whitespace(tmp[k]))
-		{
-			free(tmp[k]);
-			tmp[k] = NULL;
-			k++;
-		}
 		line = parse_info(game, tmp[k], 3);
 		if (line != NULL)
 			break ;
 		free(tmp[k]);
 		tmp[k] = NULL;
-		k++;
+		k = skip_whitespace_lines(tmp, k + 1);
 	}
-	while (tmp[k] && is_whitespace(tmp[k]))
-	{
-		free(tmp[k]);
-		tmp[k] = NULL;
-		k++;
-	}
+	k = skip_whitespace_lines(tmp, k);
 	i = 0;
 	while (tmp[k])
 		tmp[i++] = tmp[k++];
 	tmp[i] = NULL;
 	game->data->map = tmp;
-	if (game->textures->err != 0)
-		return (1);
-	return (0);
+	return (game->textures->err != 0);
 }

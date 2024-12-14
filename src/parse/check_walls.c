@@ -91,7 +91,7 @@ int	wall_check(t_map *data)
 		{
 			if (data->map[y][x] == '0')
 			{
-				if (fill(data, x, y, x_max))
+				if (fill(data, x, y))
 					return (write_err(ERROR_MAP), 1);
 			}
 			x++;

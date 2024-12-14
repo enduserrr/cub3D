@@ -12,10 +12,17 @@
 
 #include "../../incs/cub3D.h"
 
+static int	no(char c)
+{
+	if (c != '0' && !_plr(c) && c != '1' && c != 'v')
+		return (1);
+	return (0);
+}
+
 static int	edge_rows(t_map *data, size_t x, size_t y)
 {
 	if (data->map[y][x] == '0' || data->map[y - 1][x] == '0'
-		|| is_player(data->map[y][x]) || is_player(data->map[y - 1][x]))
+		|| _plr(data->map[y][x]) || _plr(data->map[y - 1][x]))
 		return (1);
 	data->map[y][x] = ' ';
 	return (0);
@@ -39,9 +46,12 @@ int	fill2(t_map *data, size_t x, size_t y, size_t x_max)
 	{
 		if (y == data->size_y - 1)
 			return (edge_rows(data, x, y));
-		if ((y > 0 && (data->map[y - 1][x] == '0' || is_player(data->map[y - 1][x]))) || (y + 1 < y_max && (data->map[y + 1][x] == '0' || is_player(data->map[y + 1][x])))
-		|| (x > 0 && (data->map[y][x - 1] == '0' || is_player(data->map[y][x - 1]))) || (x + 1 < x_max && (data->map[y][x + 1] == '0'
-		|| is_player(data->map[y][x + 1]))))
+		if ((y > 0 && (data->map[y - 1][x] == '0' || _plr(data->map[y - 1][x])))
+		|| (y + 1 < y_max && (data->map[y + 1][x] == '0'
+		|| _plr(data->map[y + 1][x])))
+		|| (x > 0 && (data->map[y][x - 1] == '0' || _plr(data->map[y][x - 1])))
+		|| (x + 1 < x_max && (data->map[y][x + 1] == '0'
+		|| _plr(data->map[y][x + 1]))))
 		{
 			printf("%zu %zu: %c\n", y, x, data->map[y][x]);
 			return (1);
@@ -54,29 +64,30 @@ int	fill2(t_map *data, size_t x, size_t y, size_t x_max)
 /**
  * @brief	Checks if a specific cell in the map and its neighbors are valid,
  *			marking visited '0's with 'v' for wall validation.
- * @return	1 if the map is invalid, 0 otherwise.
+ * @return	1 if the map is noid, 0 otherwise.
  */
-int	fill(t_map *data, size_t x, size_t y, size_t x_max)
+int	fill(t_map *data, size_t x, size_t y)
 {
 	size_t	y_max;
 
 	y_max = data->size_y;
-	(void)x_max;//poista tama
-	if (data->map[y][x] != '0' && !is_player(data->map[y][x]))
+	if (data->map[y][x] != '0' && !_plr(data->map[y][x]))
 		return (1);
 	if (data->map[y][x] == '0')
 	{
 		if (y == data->size_y - 1 || y == 0)
 			return (1);
-		if (ft_strplen(data->map[y - 1]) < x || ft_strplen(data->map[y + 1]) < x)
+		if (ft_strplen(data->map[y - 1]) < x
+			|| ft_strplen(data->map[y + 1]) < x)
 			return (1);
-		if ((data->map[y - 1][x] != '0' && !is_player(data->map[y - 1][x]) && data->map[y - 1][x] != '1' && data->map[y - 1][x] != 'v'))
+		if (no(data->map[y - 1][x]))
 			return (1);
-		if ((data->map[y + 1][x] != '0' && !is_player(data->map[y + 1][x]) && data->map[y + 1][x] != '1' && data->map[y + 1][x] != 'v'))
+		if (no(data->map[y + 1][x]))
 			return (1);
-		if ((ft_strplen(data->map[y]) == x + 1) || (data->map[y][x + 1] != '0' && data->map[y][x + 1] != '1' && !is_player(data->map[y][x + 1]) && data->map[y][x + 1] != 'v'))
+		if ((ft_strplen(data->map[y]) == x + 1)
+			|| no(data->map[y][x + 1]))
 			return (1);
-		if (x == 0 || (data->map[y][x - 1] != '0' && data->map[y][x - 1] != '1' && !is_player(data->map[y][x - 1]) && data->map[y][x - 1] != 'v'))
+		if (x == 0 || no(data->map[y][x + 1]))
 			return (1);
 		else
 			data->map[y][x] = 'v';
