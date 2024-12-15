@@ -78,9 +78,6 @@ int	check_player(t_game *game, size_t x, size_t y)
 	if (x >= ft_strplen(game->data->map[y + 1])
 		|| x >= ft_strplen(game->data->map[y - 1]))
 		return (1);
-	if (game->data->map[y][x + 1] == '1' && game->data->map[y][x - 1] == '1'
-		&& game->data->map[y + 1][x] == '1' && game->data->map[y - 1][x] == '1')
-		return (1);
 	return (0);
 }
 

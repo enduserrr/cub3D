@@ -107,6 +107,7 @@ int	first_and_last_row(t_map *data)
  * '0', '1', ' ' 'N', 'S', 'E', 'W'. Replaces spaces with '1'
  * and sets the player's initial position using `set_player`.
  */
+
 int	validate_chars(char **s, t_game *game, int x, int y)
 {
 	while (s[++y])
@@ -129,6 +130,8 @@ int	validate_chars(char **s, t_game *game, int x, int y)
 		}
 		game->data->size_y++;
 	}
+	if (island(game, (int)game->player->ppy, (int)game->player->ppx))
+		return (1);
 	if (game->data->size_y < 3 || game->data->size_y > 200)
 		return (write_err("invalid map row count"), 1);
 	return (first_and_last_row(game->data));

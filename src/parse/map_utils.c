@@ -12,22 +12,17 @@
 
 #include "../../incs/cub3D.h"
 
-int	validate_file(char *name)
+int	island(t_game *game, int y, int x)
 {
-	int	fd;
-
-	if (!name || ft_strlen(name) < 4 || ft_strcmp(name + (ft_strlen(name) - 4),
-			".cub"))
-		return (write_err("invalid file"), -1);
-	fd = open(name, O_RDONLY);
-	if (fd < 0)
-	{
-		close(fd);
-		return (write_err(ERROR_OPEN), -1);
-	}
-	close(fd);
-	return (fd);
+	if (game->data->map[y][x + 1] == '1'
+		&& game->data->map[y][x - 1] == '1'
+		&& game->data->map[y + 1][x] == '1'
+		&& game->data->map[y - 1][x] == '1')
+		return (write_err("it's an island"), 1);
+	return (0);
 }
+
+
 
 int	_plr(char c)
 {

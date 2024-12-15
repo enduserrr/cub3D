@@ -23,6 +23,23 @@ static void	game_ptrs_init(t_game *game)
 	game->textures = NULL;
 }
 
+static int	validate_file(char *name)
+{
+	int	fd;
+
+	if (!name || ft_strlen(name) < 4 || ft_strcmp(name + (ft_strlen(name) - 4),
+			".cub"))
+		return (write_err("invalid file"), -1);
+	fd = open(name, O_RDONLY);
+	if (fd < 0)
+	{
+		close(fd);
+		return (write_err(ERROR_OPEN), -1);
+	}
+	close(fd);
+	return (fd);
+}
+
 int	main(int ac, char **av)
 {
 	static t_game	game;
