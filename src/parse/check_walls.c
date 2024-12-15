@@ -15,8 +15,6 @@
 /**
  * @brief	Restores the map to its original state by replacing 'v' with '0'
  *          and '2' with a space (' ').
- * @param	map    The 2D map array.
- * @param	size_y Number of rows in the map.
  */
 void	restore(char **map, size_t size_y)
 {

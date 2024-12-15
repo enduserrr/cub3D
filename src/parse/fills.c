@@ -12,7 +12,7 @@
 
 #include "../../incs/cub3D.h"
 
-static int	no(char c)
+static int	nope(char c)
 {
 	if (c != '0' && !_plr(c) && c != '1' && c != 'v')
 		return (1);
@@ -39,8 +39,7 @@ int	fill2(t_map *data, size_t x, size_t y, size_t x_max)
 	y_max = data->size_y;
 	if (x >= x_max || y >= y_max || data->map[y][x] == '\0')
 		return (1);
-	if (data->map[y][x] == 'v' || data->map[y][x] == '1'
-		|| data->map[y][x] == ' ')
+	if (!nope(data->map[y][x]))
 		return (0);
 	if (data->map[y][x] == '2')
 	{
@@ -53,7 +52,6 @@ int	fill2(t_map *data, size_t x, size_t y, size_t x_max)
 		|| (x + 1 < x_max && (data->map[y][x + 1] == '0'
 		|| _plr(data->map[y][x + 1]))))
 		{
-			printf("%zu %zu: %c\n", y, x, data->map[y][x]);
 			return (1);
 		}
 		data->map[y][x] = ' ';
@@ -64,7 +62,7 @@ int	fill2(t_map *data, size_t x, size_t y, size_t x_max)
 /**
  * @brief	Checks if a specific cell in the map and its neighbors are valid,
  *			marking visited '0's with 'v' for wall validation.
- * @return	1 if the map is noid, 0 otherwise.
+ * @return	1 if the map is nopeid, 0 otherwise.
  */
 int	fill(t_map *data, size_t x, size_t y)
 {
@@ -80,14 +78,14 @@ int	fill(t_map *data, size_t x, size_t y)
 		if (ft_strplen(data->map[y - 1]) < x
 			|| ft_strplen(data->map[y + 1]) < x)
 			return (1);
-		if (no(data->map[y - 1][x]))
+		if (nope(data->map[y - 1][x]))
 			return (1);
-		if (no(data->map[y + 1][x]))
+		if (nope(data->map[y + 1][x]))
 			return (1);
 		if ((ft_strplen(data->map[y]) == x + 1)
-			|| no(data->map[y][x + 1]))
+			|| nope(data->map[y][x + 1]))
 			return (1);
-		if (x == 0 || no(data->map[y][x + 1]))
+		if (x == 0 || nope(data->map[y][x + 1]))
 			return (1);
 		else
 			data->map[y][x] = 'v';
