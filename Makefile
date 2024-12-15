@@ -32,9 +32,10 @@ $(OBJ_DIR)/%.o :	$(SRC_DIR)/%.c
 					@$(CC) $(FLAGS) $(INCS) -c $< -o $@
 					@echo "[$(GREEN)OK$(RES)]$(GREY): $< -> $@$(RES)"
 
-all:		build $(NAME)
-cub3D:		all
+all:		$(NAME)
+
 $(NAME):	$(OBJ)
+			@cd incs/MLX42 && cmake -B build && cmake --build build -j4
 			@make -C incs/libft -s
 			@$(MAKE) -C incs/MLX42 build
 			@$(CC) $(OBJ) $(LIBFT) $(MLX) -o $(NAME) $(INCS) $(LIBS)
@@ -44,9 +45,6 @@ $(NAME):	$(OBJ)
 			"\nF 11, 70, 111\nC 255, 180, 166\n\n1111\n10N1\n1111$(RES)" \
 			"\n$(WB_OVER)You can play it. Enjoy!$(RES)" \
 			"\n$(GREY)Execute:\t./cub3d maps/*.cub\nControls:\tWASD & ←↑→↓\nQuit:\t\tESC$(GREY)"
-
-build:
-			@cd incs/MLX42 && cmake -B build && cmake --build build -j4
 
 clean:
 			@cd incs/MLX42/build && make clean
