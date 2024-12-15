@@ -12,6 +12,13 @@
 
 #include "../../incs/cub3D.h"
 
+static int	nope2(char c)
+{
+	if (c == '0' || _plr(c))
+		return (1);
+	return (0);
+}
+
 static int	nope(char c)
 {
 	if (c != '0' && !_plr(c) && c != '1' && c != 'v')
@@ -45,15 +52,20 @@ int	fill2(t_map *data, size_t x, size_t y, size_t x_max)
 	{
 		if (y == data->size_y - 1)
 			return (edge_rows(data, x, y));
-		if ((y > 0 && (data->map[y - 1][x] == '0' || _plr(data->map[y - 1][x])))
-		|| (y + 1 < y_max && (data->map[y + 1][x] == '0'
-		|| _plr(data->map[y + 1][x])))
-		|| (x > 0 && (data->map[y][x - 1] == '0' || _plr(data->map[y][x - 1])))
-		|| (x + 1 < x_max && (data->map[y][x + 1] == '0'
-		|| _plr(data->map[y][x + 1]))))
-		{
+		if (y == data->size_y - 1 || y == 0)
 			return (1);
-		}
+		if (ft_strplen(data->map[y - 1]) < x
+			|| ft_strplen(data->map[y + 1]) < x)
+			return (1);
+		if (nope2(data->map[y - 1][x]))
+			return (1);
+		if (nope2(data->map[y + 1][x]))
+			return (1);
+		if ((ft_strplen(data->map[y]) == x + 1)
+			|| nope2(data->map[y][x + 1]))
+			return (1);
+		if (x == 0 || nope2(data->map[y][x + 1]))
+			return (1);
 		data->map[y][x] = ' ';
 	}
 	return (0);
