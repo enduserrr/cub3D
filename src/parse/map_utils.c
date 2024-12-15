@@ -22,8 +22,6 @@ int	island(t_game *game, int y, int x)
 	return (0);
 }
 
-
-
 int	_plr(char c)
 {
 	if (c == 'N' || c == 'E' || c == 'S' || c == 'W')
