@@ -12,10 +12,12 @@
 
 #include "../../incs/cub3D.h"
 
-static int	nope2(char c)
+static int	edge_rows(t_map *data, size_t x, size_t y)
 {
-	if (c == '0' || _plr(c))
+	if (data->map[y][x] == '0' || data->map[y - 1][x] == '0'
+		|| _plr(data->map[y][x]) || _plr(data->map[y - 1][x]))
 		return (1);
+	data->map[y][x] = ' ';
 	return (0);
 }
 
@@ -26,12 +28,10 @@ static int	nope(char c)
 	return (0);
 }
 
-static int	edge_rows(t_map *data, size_t x, size_t y)
+static int	nope2(char c)
 {
-	if (data->map[y][x] == '0' || data->map[y - 1][x] == '0'
-		|| _plr(data->map[y][x]) || _plr(data->map[y - 1][x]))
+	if (c == '0' || _plr(c))
 		return (1);
-	data->map[y][x] = ' ';
 	return (0);
 }
 
@@ -46,7 +46,7 @@ int	fill2(t_map *data, size_t x, size_t y, size_t x_max)
 	y_max = data->size_y;
 	if (x >= x_max || y >= y_max || data->map[y][x] == '\0')
 		return (1);
-	if (!nope(data->map[y][x]))
+	if (nope(data->map[y][x]))
 		return (0);
 	if (data->map[y][x] == '2')
 	{
@@ -57,12 +57,9 @@ int	fill2(t_map *data, size_t x, size_t y, size_t x_max)
 		if (ft_strplen(data->map[y - 1]) < x
 			|| ft_strplen(data->map[y + 1]) < x)
 			return (1);
-		if (nope2(data->map[y - 1][x]))
+		if (nope2(data->map[y - 1][x]) || nope2(data->map[y + 1][x]))
 			return (1);
-		if (nope2(data->map[y + 1][x]))
-			return (1);
-		if ((ft_strplen(data->map[y]) == x + 1)
-			|| nope2(data->map[y][x + 1]))
+		if ((ft_strplen(data->map[y]) == x + 1) || nope2(data->map[y][x + 1]))
 			return (1);
 		if (x == 0 || nope2(data->map[y][x + 1]))
 			return (1);

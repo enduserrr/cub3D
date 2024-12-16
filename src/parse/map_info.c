@@ -23,14 +23,14 @@ mlx_texture_t	*put_png(mlx_texture_t *ptr, char *png, t_game *game)
 	new = ft_substr(png, 0, k + 1);
 	if (!new)
 	{
-		game->textures->err++;
+		game->textures->txtr_err++;
 		return (NULL);
 	}
 	ptr = mlx_load_png(new);
 	free(new);
 	if (ptr == NULL)
 	{
-		game->textures->err++;
+		game->textures->txtr_err++;
 		return (NULL);
 	}
 	return (ptr);
@@ -75,24 +75,19 @@ char	*parse_info(t_game *game, char *line, int i)
 	return (free(new), NULL);
 }
 
-static int	is_whitespace(const char *s)
+static int	skip_whitespace_lines(char **arr, int k)
 {
 	int	i;
 
-	i = 0;
-	while (s[i])
+	while (arr[k])
 	{
-		if (s[i] != ' ' && s[i] != '\t' && s[i] != '\n')
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-static int	skip_whitespace_lines(char **arr, int k)
-{
-	while (arr[k] && is_whitespace(arr[k]))
-	{
+		i = 0;
+		while (arr[k][i])
+		{
+			if (!ft_isspace(arr[k][i]))
+				return (k);
+			i++;
+		}
 		free(arr[k]);
 		arr[k] = NULL;
 		k++;
@@ -124,5 +119,5 @@ int	get_data(t_game *game)
 		tmp[i++] = tmp[k++];
 	tmp[i] = NULL;
 	game->data->map = tmp;
-	return (game->textures->err != 0);
+	return (game->textures->txtr_err != 0);
 }

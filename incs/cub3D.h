@@ -81,7 +81,7 @@ typedef struct s_txtr
 	mlx_texture_t	*w_txtr;
 	mlx_texture_t	*gun;
 	bool			dup;
-	int				err;
+	int				txtr_err;
 }					t_txtr;
 
 typedef struct s_player
