@@ -74,18 +74,18 @@ int	first_and_last_row(t_map *data)
 
 	x = 0;
 	if (!data->map || !data->map[0])
-		return (write_err("no map"), 1);
+		return (write_err(ERROR_MAP), 1);
 	if (edgerows(data, 0, 1) || edgerows(data, (int)data->size_y - 1, -1))
-		return (write_err("inval edge rows"), 1);
+		return (write_err(ERROR_MAP), 1);
 	while (data->map[0][x])
 	{
 		if (data->map[0][x] == '0' || _plr(data->map[0][x]))
-			return (write_err("map issue"), 1);
+			return (write_err(ERROR_MAP), 1);
 		x++;
 	}
 	y = data->size_y - 1;
 	if (y < 0 || !data->map[y])
-		return (write_err("what1"), 1);
+		return (write_err(ERROR_MAP), 1);
 	x = 0;
 	while (data->map[y][x])
 	{
@@ -116,12 +116,12 @@ int	validate_chars(char **s, t_game *game, int x, int y)
 		while (s[y][x] == ' ')
 			x++;
 		if (s[y][x] != '1' || s[y][ft_strplen(s[y]) - 1] != '1')
-			return (write_err("inval first or last row"), 1);
+			return (write_err(ERROR_MAP), 1);
 		while (s[y][x])
 		{
 			if (!_plr(s[y][x]) && s[y][x] != ' ' && s[y][x] != '0'
 				&& s[y][x] != '1')
-				return (write_err("inval map char"), 1);
+				return (write_err(ERROR_MAP), 1);
 			if (_plr(s[y][x]) && !check_player(game, x, y))
 				set_player(game, s[y][x], x, y);
 			else if (s[y][x] == ' ')
@@ -130,7 +130,7 @@ int	validate_chars(char **s, t_game *game, int x, int y)
 		}
 		game->data->size_y++;
 	}
-	if (island(game, (int)game->player->ppy, (int)game->player->ppx))
+	if (surroundings(game, (int)game->player->ppy, (int)game->player->ppx))
 		return (1);
 	if (game->data->size_y < 3 || game->data->size_y > 200)
 		return (write_err("invalid map row count"), 1);

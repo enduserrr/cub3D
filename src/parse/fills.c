@@ -15,7 +15,8 @@
 static int	edge_rows(t_map *data, size_t x, size_t y)
 {
 	if (data->map[y][x] == '0' || data->map[y - 1][x] == '0'
-		|| _plr(data->map[y][x]) || _plr(data->map[y - 1][x]))
+		|| _plr(data->map[y][x]) || _plr(data->map[y - 1][x])
+		|| data->map[y][x] == ' ' || data->map[y][x] == '2')
 		return (1);
 	data->map[y][x] = ' ';
 	return (0);
@@ -30,7 +31,7 @@ static int	nope(char c)
 
 static int	nope2(char c)
 {
-	if (c == '0' || _plr(c))
+	if (c == '0' || _plr(c) || c == ' ' || c == '2')
 		return (1);
 	return (0);
 }
@@ -61,7 +62,7 @@ int	fill2(t_map *data, size_t x, size_t y, size_t x_max)
 			return (1);
 		if ((ft_strplen(data->map[y]) == x + 1) || nope2(data->map[y][x + 1]))
 			return (1);
-		if (x == 0 || nope2(data->map[y][x + 1]))
+		if (x == 0 || nope2(data->map[y][x + 1]) || nope2(data->map[y][x - 1]))
 			return (1);
 		data->map[y][x] = ' ';
 	}

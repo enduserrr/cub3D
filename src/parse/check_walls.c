@@ -79,7 +79,7 @@ int	wall_check(t_map *data)
 	size_t	x_max;
 
 	if (handle_spaces(data))
-		return (write_err("space issue"), 1);
+		return (write_err(ERROR_MAP), 1);
 	y = 0;
 	while (y < (data->size_y - 1))
 	{
@@ -90,7 +90,7 @@ int	wall_check(t_map *data)
 			if (data->map[y][x] == '0')
 			{
 				if (fill(data, x, y))
-					return (write_err("play area issue"), 1);
+					return (write_err(ERROR_MAP), 1);
 			}
 			x++;
 		}
