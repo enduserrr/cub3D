@@ -19,7 +19,7 @@ Cub3D is a team project where we created a 3D-looking 2D game using a technique 
 
 The project consists of two main parts: parsing and processing the map from a file provided as an argument, and rendering the game according to the parsed map and its information.
 
-This project has been archived in the state it was in at the time of evaluation.
+This project has been archived in the state it was in at the time of evaluation which was passed on 18.12.2024.
 
 ## Play
 The program takes a map file as an argument. Valid and invalid maps can be found in the maps directory. Maps in the invalid directory won't work due to incorrectly formatted map files.
