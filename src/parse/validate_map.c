@@ -90,7 +90,7 @@ int	first_and_last_row(t_map *data)
 	while (data->map[y][x])
 	{
 		if (data->map[y][x] == '0' || _plr(data->map[y][x]))
-			return (write_err("inval last row"), 1);
+			return (write_err(ERROR_MAP), 1);
 		x++;
 	}
 	return (wall_check(data));
@@ -159,13 +159,13 @@ int	process_data(t_game *game)
 	if (!game || !game->textures || !game->textures->n_txtr
 		|| !game->textures->s_txtr || !game->textures->w_txtr
 		|| !game->textures->e_txtr || game->textures->dup == true)
-		return (write_err("no valid texture(s)"), out(game), 1);
+		return (write_err(ERROR_MAP), out(game), 1);
 	if (!game->textures->c || !game->textures->f || inval_color(game->textures))
-		return (write_err("invalid color info"), out(game), 1);
+		return (write_err(ERROR_MAP), out(game), 1);
 	if (validate_chars(game->data->map, game, 0, -1))
 		return (out(game), 1);
 	if (!game->player || game->player->is_set < 1 || game->player->is_set > 1)
-		return (write_err("invalid player info"), out(game), 1);
+		return (write_err(ERROR_MAP), out(game), 1);
 	if (gameplay(game))
 		return (out(game), 1);
 	return (0);

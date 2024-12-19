@@ -14,6 +14,8 @@
 
 int	surroundings(t_game *game, int y, int x)
 {
+	if (game->player->is_set != 1)
+		return (write_err(ERROR_MAP), 1);
 	if ((game->data->map[y][x + 1] == '1' && game->data->map[y][x - 1] == '1'
 		&& game->data->map[y + 1][x] == '1'
 		&& game->data->map[y - 1][x] == '1')
@@ -21,13 +23,13 @@ int	surroundings(t_game *game, int y, int x)
 		|| game->data->map[y][x - 1] == '2'
 		|| game->data->map[y + 1][x] == '2'
 		|| game->data->map[y - 1][x] == '2'))
-		return (write_err("player issue"), 1);
+		return (write_err(ERROR_MAP), 1);
 	if (y == 0 || ((y == 1 || (size_t)y == game->data->size_y - 2)
 			&& (game->data->map[y + 1][x] == ' '
 			|| game->data->map[y + 1][x] == '2'
 		|| game->data->map[y - 1][x] == ' '
 		|| game->data->map[y - 1][x] == '2')))
-		return (write_err("player issue"), 1);
+		return (write_err(ERROR_MAP), 1);
 	return (0);
 }
 

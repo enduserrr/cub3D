@@ -27,8 +27,8 @@
 # define GREY "\33[90m"
 # define RES "\033[0m"
 
-# define WIN_WIDTH 960
-# define WIN_HEIGHT 720
+# define WIN_WIDTH 1280
+# define WIN_HEIGHT 960
 # define WIN_NAME "cub3D"
 # define FOV 0.66
 # define TILE 64
