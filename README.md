@@ -1,6 +1,5 @@
 # Cub3D
-![picture](incs/pics/game2.png)
-![picture](incs/pics/game1.png)
+![gif](incs/gif/play.gif)
 
 * [Overview](#overview)
 * [How To Play](#play)
@@ -21,7 +20,10 @@ The project consists of two main parts: parsing and processing the map from a fi
 
 This project has been archived in the state it was in at the time of evaluation which was passed on 18.12.2024.
 
+![gif](incs/gif/make.gif)
 ## Play
+### Note: The project was built on ubuntu linux and may not compile correctly on macOS, Windows, or other operating systems.
+
 The program takes a map file as an argument. Valid and invalid maps can be found in the maps directory. Maps in the invalid directory won't work due to incorrectly formatted map files.
 * To make and/or clean the program use: `make` `make clean` `make fclean` `make re`
 * To run: ./cub3D maps/<some_map.cub>
