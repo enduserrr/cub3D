@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        ::::::::            */
-/*   mlx_put_pixel.c                                    :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: W2Wizard <main@w2wizard.dev>                 +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2021/12/28 03:30:13 by W2Wizard      #+#    #+#                 */
-/*   Updated: 2022/06/29 16:00:30 by lde-la-h      ########   odam.nl         */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "MLX42/MLX42_Int.h"
 
 // BUG: Linux may experience a red hue instead due to endianness
